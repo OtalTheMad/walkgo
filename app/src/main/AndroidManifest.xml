@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WalkGo">
         <activity
-            android:name=".MainActivity"
+            android:name=".activity_login"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

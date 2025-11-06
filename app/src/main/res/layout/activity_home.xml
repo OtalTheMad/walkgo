@@ -1,128 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/green_50">
+    android:background="#F5F5F5">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
+        android:orientation="vertical"
+        android:padding="16dp">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/homeToolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:title="Inicio"
-            android:background="@color/green_600"
-            android:titleTextColor="@color/white" />
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:padding="20dp">
-
+        <!-- Usuario -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center_horizontal">
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingBottom="16dp">
 
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
+            <ImageView
+                android:id="@+id/imgUsuario"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:src="@drawable/ic_user"
+                android:contentDescription="Imagen de usuario"
+                android:background="@drawable/circle_background"
+                android:padding="4dp"/>
+
+            <TextView
+                android:id="@+id/txtNombreUsuario"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                app:cardCornerRadius="16dp"
-                app:cardUseCompatPadding="true"
-                app:strokeColor="@color/green_200"
-                app:strokeWidth="1dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-
-                    <TextView
-                        android:id="@+id/tvWelcome"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Bienvenido"
-                        android:textSize="22sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/green_800" />
-
-                    <TextView
-                        android:id="@+id/tvSubtitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="Usuario"
-                        android:textColor="@color/green_700" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:weightSum="2">
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnAccion1"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:text="Acción 1"
-                    android:textAllCaps="false"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
-                    android:background="@drawable/btn_primary" />
-
-                <Space
-                    android:layout_width="12dp"
-                    android:layout_height="wrap_content" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnAccion2"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:text="Acción 2"
-                    android:textAllCaps="false"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
-                    android:background="@drawable/btn_primary" />
-            </LinearLayout>
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:cardCornerRadius="16dp"
-                app:cardUseCompatPadding="true"
-                app:strokeColor="@color/green_200"
-                app:strokeWidth="1dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-
-                    <TextView
-                        android:id="@+id/tvHint"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Hola Usuario"
-                        android:textColor="@color/green_700" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+                android:text="Nombre de usuario"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#1E88E5"
+                android:paddingStart="16dp"/>
         </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        <!-- Distancia semanal -->
+        <TextView
+            android:id="@+id/txtDistanciaSemana"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Distancia recorrida esta semana: 0 km"
+            android:textSize="16sp"
+            android:textColor="#212121"
+            android:paddingBottom="16dp"/>
+
+        <!-- Estadísticas semanales -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Estadísticas semanales"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#1E88E5"
+            android:paddingBottom="8dp"/>
+
+        <LinearLayout
+            android:id="@+id/layoutEstadisticas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#FFFFFF"
+            android:padding="8dp"
+            android:layout_marginBottom="24dp"
+            android:elevation="2dp">
+            <!-- Aquí se agregarán dinámicamente las estadísticas -->
+        </LinearLayout>
+
+        <!-- Primera fila de botones -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginBottom="16dp"
+            android:weightSum="3">
+
+            <Button
+                android:id="@+id/btnPerfil"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Perfil"
+                android:background="#1E88E5"
+                android:textColor="#FFFFFF"/>
+
+            <Button
+                android:id="@+id/btnRanking"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Ranking"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="#1E88E5"
+                android:textColor="#FFFFFF"/>
+
+            <Button
+                android:id="@+id/btnAmigos"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Amigos"
+                android:background="#1E88E5"
+                android:textColor="#FFFFFF"/>
+        </LinearLayout>
+
+        <!-- Segunda fila de botones -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:weightSum="2">
+
+            <Button
+                android:id="@+id/btnContadorPasos"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Contador de pasos"
+                android:background="#FFEB3B"
+                android:textColor="#212121"/>
+
+            <Button
+                android:id="@+id/btnEstadisticas"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Estadísticas"
+                android:layout_marginStart="8dp"
+                android:background="#FFEB3B"
+                android:textColor="#212121"/>
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

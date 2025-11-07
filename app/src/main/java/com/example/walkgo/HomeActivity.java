@@ -33,14 +33,15 @@ public class HomeActivity extends AppCompatActivity {
         Button btnAmigos = findViewById(R.id.btnAmigos);
         Button btnContador = findViewById(R.id.btnContadorPasos);
         Button btnEstadisticas = findViewById(R.id.btnEstadisticas);
+        Button btnConfig = findViewById(R.id.btnConfig); // Botón Configuración
 
-        // Ejemplo: mostrar nombre de usuario
+        // Mostrar datos de ejemplo
         txtNombreUsuario.setText("¡Hola, Juan!");
         txtDistanciaSemana.setText("Distancia recorrida esta semana: 12 km");
 
-        // Ejemplo: estadísticas semanales (puedes poner gráfica o lista)
+        // Estadísticas semanales
         String[] dias = {"Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"};
-        int[] distancias = {2, 3, 1, 4, 2, 5, 3}; // km recorridos
+        int[] distancias = {2, 3, 1, 4, 2, 5, 3};
         for (int i = 0; i < dias.length; i++) {
             TextView tv = new TextView(this);
             tv.setText(dias[i] + ": " + distancias[i] + " km");
@@ -49,12 +50,18 @@ public class HomeActivity extends AppCompatActivity {
             layoutEstadisticas.addView(tv);
         }
 
-        // Configurar navegación a otras actividades
-       // btnPerfil.setOnClickListener(v -> startActivity(new Intent(this, PerfilActivity.class)));
+        // Navegación a otras actividades (descomentar cuando existan)
+        // btnPerfil.setOnClickListener(v -> startActivity(new Intent(this, PerfilActivity.class)));
         // btnRanking.setOnClickListener(v -> startActivity(new Intent(this, RankingActivity.class)));
-        //btnAmigos.setOnClickListener(v -> startActivity(new Intent(this, AmigosActivity.class)));
-        //btnContador.setOnClickListener(v -> startActivity(new Intent(this, ContadorPasosActivity.class)));
-        //btnEstadisticas.setOnClickListener(v -> startActivity(new Intent(this, EstadisticasActivity.class)));
+        // btnAmigos.setOnClickListener(v -> startActivity(new Intent(this, AmigosActivity.class)));
+        // btnContador.setOnClickListener(v -> startActivity(new Intent(this, ContadorPasosActivity.class)));
+        // btnEstadisticas.setOnClickListener(v -> startActivity(new Intent(this, EstadisticasActivity.class)));
+
+        // Navegación al SettingsActivity
+        btnConfig.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, SettingsActivity.class);
+            startActivity(intent);
+        });
 
         // Configurar cierre de sesión por inactividad
         cerrarSesionRunnable = this::cerrarSesion;
@@ -70,7 +77,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     public void onUserInteraction() {
         super.onUserInteraction();
-        reiniciarContadorInactividad(); // reinicia temporizador con cada interacción
+        reiniciarContadorInactividad();
     }
 
     private void cerrarSesion() {

@@ -1,141 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5">
+    android:orientation="vertical"
+    android:background="#F5F5F5"
+    android:padding="24dp"
+    tools:context=".HomeActivity">
 
+    <!-- Barra azul superior -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="#1976D2"
+        android:gravity="center_vertical"
+        android:paddingStart="20dp"
+        android:text="🏃‍♂️ WalkGo"
+        android:textColor="@android:color/white"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <!-- Saludo y distancia -->
+    <TextView
+        android:id="@+id/txtNombreUsuario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="¡Hola, Juan!"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#212121"
+        android:layout_marginTop="16dp" />
+
+    <TextView
+        android:id="@+id/txtDistanciaSemana"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Distancia recorrida esta semana: 0 km"
+        android:textSize="16sp"
+        android:textColor="#212121"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Botones principales -->
+    <Button
+        android:id="@+id/btnPerfil"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Perfil"
+        android:backgroundTint="@color/green_700"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="8dp"
+        android:padding="12dp" />
+
+    <Button
+        android:id="@+id/btnRanking"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Ranking"
+        android:backgroundTint="@color/green_700"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="8dp"
+        android:padding="12dp" />
+
+    <Button
+        android:id="@+id/btnAmigos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Amigos"
+        android:backgroundTint="@color/green_700"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="8dp"
+        android:padding="12dp" />
+
+    <Button
+        android:id="@+id/btnContadorPasos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Contador de pasos"
+        android:backgroundTint="@color/green_700"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="8dp"
+        android:padding="12dp" />
+
+    <Button
+        android:id="@+id/btnEstadisticas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Estadísticas"
+        android:backgroundTint="@color/green_700"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="8dp"
+        android:padding="12dp" />
+
+    <!-- Nuevo botón Configuración -->
+    <Button
+        android:id="@+id/btnConfig"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Configuración"
+        android:backgroundTint="@color/green_700"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="16dp"
+        android:padding="12dp" />
+
+    <!-- Área de estadísticas semanales -->
     <LinearLayout
+        android:id="@+id/layoutEstadisticas"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
-
-        <!-- Usuario -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:paddingBottom="16dp">
-
-            <ImageView
-                android:id="@+id/imgUsuario"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:src="@drawable/ic_user"
-                android:contentDescription="Imagen de usuario"
-                android:background="@drawable/circle_background"
-                android:padding="4dp"/>
-
-            <TextView
-                android:id="@+id/txtNombreUsuario"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Nombre de usuario"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="#1E88E5"
-                android:paddingStart="16dp"/>
-        </LinearLayout>
-
-        <!-- Distancia semanal -->
-        <TextView
-            android:id="@+id/txtDistanciaSemana"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Distancia recorrida esta semana: 0 km"
-            android:textSize="16sp"
-            android:textColor="#212121"
-            android:paddingBottom="16dp"/>
-
-        <!-- Estadísticas semanales -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Estadísticas semanales"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            android:textColor="#1E88E5"
-            android:paddingBottom="8dp"/>
-
-        <LinearLayout
-            android:id="@+id/layoutEstadisticas"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="#FFFFFF"
-            android:padding="8dp"
-            android:layout_marginBottom="24dp"
-            android:elevation="2dp">
-            <!-- Aquí se agregarán dinámicamente las estadísticas -->
-        </LinearLayout>
-
-        <!-- Primera fila de botones -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_marginBottom="16dp"
-            android:weightSum="3">
-
-            <Button
-                android:id="@+id/btnPerfil"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:text="Perfil"
-                android:background="#1E88E5"
-                android:textColor="#FFFFFF"/>
-
-            <Button
-                android:id="@+id/btnRanking"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:text="Ranking"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:background="#1E88E5"
-                android:textColor="#FFFFFF"/>
-
-            <Button
-                android:id="@+id/btnAmigos"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:text="Amigos"
-                android:background="#1E88E5"
-                android:textColor="#FFFFFF"/>
-        </LinearLayout>
-
-        <!-- Segunda fila de botones -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:weightSum="2">
-
-            <Button
-                android:id="@+id/btnContadorPasos"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:text="Contador de pasos"
-                android:background="#FFEB3B"
-                android:textColor="#212121"/>
-
-            <Button
-                android:id="@+id/btnEstadisticas"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:text="Estadísticas"
-                android:layout_marginStart="8dp"
-                android:background="#FFEB3B"
-                android:textColor="#212121"/>
-        </LinearLayout>
-
+        android:layout_marginTop="24dp">
+        <!-- Se llenará dinámicamente desde HomeActivity.java -->
     </LinearLayout>
-</ScrollView>
+
+</LinearLayout>

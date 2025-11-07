@@ -12,27 +12,25 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WalkGo"
         tools:targetApi="31">
-
+        <activity
+            android:name=".LogoutActivity"
+            android:exported="false" />
         <!-- Pantalla principal (Login) -->
         <activity
             android:name=".activity_login"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-        <!-- Pantalla principal de la app -->
+        </activity> <!-- Pantalla principal de la app -->
         <activity
             android:name=".HomeActivity"
-            android:exported="true" />
-
-        <!-- Pantalla de configuración -->
+            android:exported="true" /> <!-- Pantalla de configuración -->
         <activity
             android:name=".SettingsActivity"
             android:exported="true" />
-
     </application>
 
 </manifest>

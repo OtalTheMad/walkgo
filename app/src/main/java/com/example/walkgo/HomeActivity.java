@@ -34,6 +34,7 @@ public class HomeActivity extends AppCompatActivity {
         Button btnContador = findViewById(R.id.btnContadorPasos);
         Button btnEstadisticas = findViewById(R.id.btnEstadisticas);
         Button btnConfig = findViewById(R.id.btnConfig); // Botón Configuración
+        Button btnLogout = findViewById(R.id.btnLogout); // Botón Cerrar Sesión
 
         // Mostrar datos de ejemplo
         txtNombreUsuario.setText("¡Hola, Juan!");
@@ -60,6 +61,12 @@ public class HomeActivity extends AppCompatActivity {
         // Navegación al SettingsActivity
         btnConfig.setOnClickListener(v -> {
             Intent intent = new Intent(HomeActivity.this, SettingsActivity.class);
+            startActivity(intent);
+        });
+
+        // Navegación al LogoutActivity
+        btnLogout.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, LogoutActivity.class);
             startActivity(intent);
         });
 

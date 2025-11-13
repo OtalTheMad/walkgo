@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F5F5"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
+
+        <!-- Foto de perfil circular -->
+        <ImageView
+            android:id="@+id/imgPerfil"
+            android:layout_width="140dp"
+            android:layout_height="140dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:contentDescription="Foto de perfil"
+            android:src="@drawable/perfil"
+            android:scaleType="centerCrop"
+            android:background="@drawable/circle_outline"
+            android:clipToOutline="true"
+            android:outlineProvider="background" />
+
+        <!-- Nombre del usuario -->
+        <TextView
+            android:id="@+id/tvNombre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nombre Amigo"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:textColor="#212121"
+            android:layout_marginBottom="4dp" />
+
+        <!-- Nombre de usuario -->
+        <TextView
+            android:id="@+id/tvUsuario"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="usuario"
+            android:textSize="16sp"
+            android:textColor="#757575"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Kilómetros recorridos -->
+        <TextView
+            android:id="@+id/tvKm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kilómetros recorridos: 0 km"
+            android:textSize="16sp"
+            android:textColor="#212121"
+            android:layout_marginBottom="24dp" />
+
+        <!-- Botón de acción -->
+        <Button
+            android:id="@+id/btnAccion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Agregar amigo"
+            android:paddingHorizontal="24dp"
+            android:paddingVertical="12dp"
+            android:textColor="@android:color/white"
+            android:textAllCaps="false"
+            android:backgroundTint="@color/green_700" />
+
+    </LinearLayout>
+</ScrollView>

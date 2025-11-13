@@ -54,7 +54,7 @@ public class HomeActivity extends AppCompatActivity {
         // Navegación a otras actividades (descomentar cuando existan)
         // btnPerfil.setOnClickListener(v -> startActivity(new Intent(this, PerfilActivity.class)));
         // btnRanking.setOnClickListener(v -> startActivity(new Intent(this, RankingActivity.class)));
-        // btnAmigos.setOnClickListener(v -> startActivity(new Intent(this, AmigosActivity.class)));
+           btnAmigos.setOnClickListener(v -> startActivity(new Intent(this, AmigosActivity.class)));
         // btnContador.setOnClickListener(v -> startActivity(new Intent(this, ContadorPasosActivity.class)));
         // btnEstadisticas.setOnClickListener(v -> startActivity(new Intent(this, EstadisticasActivity.class)));
 

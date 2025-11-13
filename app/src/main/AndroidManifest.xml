@@ -13,9 +13,14 @@
         android:theme="@style/Theme.WalkGo"
         tools:targetApi="31">
         <activity
-            android:name=".LogoutActivity"
+            android:name=".PerfilActivity"
             android:exported="false" />
-        <!-- Pantalla principal (Login) -->
+        <activity
+            android:name=".AmigosActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LogoutActivity"
+            android:exported="false" /> <!-- Pantalla principal (Login) -->
         <activity
             android:name=".activity_login"
             android:exported="true">

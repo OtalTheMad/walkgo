@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F0F4F8"
+    tools:context=".EstadisticaActivity">
+
+    <!-- Barra de Pestañas para Filtrado de Período -->
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout_period"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        app:tabIndicatorColor="?attr/colorPrimary"
+        app:tabSelectedTextColor="@color/design_default_color_primary"
+        app:tabTextColor="#757575"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Semana" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mes" />
+
+        <com.google.android.material.tabs.TabItem
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Total" />
+    </com.google.android.material.tabs.TabLayout>
+
+    <!-- Contenido Principal Desplazable -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/tabLayout_period"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Card para el Gráfico Interactivo de Progreso -->
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Progreso de Kilómetros"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="#333333"/>
+
+                    <!-- MPAndroidChart: Gráfico de Líneas/Barras -->
+                    <com.github.mikephil.charting.charts.BarChart
+                        android:id="@+id/chart_progress"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="8dp"/>
+
+                    <!-- Mensaje de no datos (inicialmente invisible) -->
+                    <TextView
+                        android:id="@+id/tv_no_data"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:text="Aún no hay estadísticas disponibles para este período."
+                        android:textColor="#757575"
+                        android:visibility="gone"
+                        android:textSize="16sp"/>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <!-- Grid de Indicadores Clave de Rendimiento (KPIs) -->
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="2"
+                android:rowCount="3"
+                android:columnOrderPreserved="false"
+                android:useDefaultMargins="true">
+
+                <!-- KPI 1: Kilómetros recorridos -->
+                <androidx.cardview.widget.CardView
+                    style="@style/KpiCardStyle">
+                    <LinearLayout
+                        style="@style/KpiContentStyle">
+                        <TextView style="@style/KpiValueStyle" android:id="@+id/tv_total_km" tools:text="12.5 km"/>
+                        <TextView style="@style/KpiLabelStyle" android:text="Kilómetros Recorridos"/>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- KPI 2: Tiempo activo -->
+                <androidx.cardview.widget.CardView
+                    style="@style/KpiCardStyle">
+                    <LinearLayout
+                        style="@style/KpiContentStyle">
+                        <TextView style="@style/KpiValueStyle" android:id="@+id/tv_active_time" tools:text="3h 24m"/>
+                        <TextView style="@style/KpiLabelStyle" android:text="Tiempo Activo"/>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- KPI 3: Promedio diario -->
+                <androidx.cardview.widget.CardView
+                    style="@style/KpiCardStyle">
+                    <LinearLayout
+                        style="@style/KpiContentStyle">
+                        <TextView style="@style/KpiValueStyle" android:id="@+id/tv_daily_average" tools:text="1.8 km/día"/>
+                        <TextView style="@style/KpiLabelStyle" android:text="Promedio Diario"/>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- KPI 4: Mejores marcas -->
+                <androidx.cardview.widget.CardView
+                    style="@style/KpiCardStyle">
+                    <LinearLayout
+                        style="@style/KpiContentStyle">
+                        <TextView style="@style/KpiValueStyle" android:id="@+id/tv_best_mark" tools:text="5.1 km"/>
+                        <TextView style="@style/KpiLabelStyle" android:text="Mejor Marca"/>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- KPI 5: Comparativa semanal (ocupando 2 columnas) -->
+                <androidx.cardview.widget.CardView
+                    android:layout_columnSpan="2"
+                    style="@style/KpiCardStyle"
+                    android:layout_width="match_parent">
+                    <LinearLayout
+                        style="@style/KpiContentStyle"
+                        android:paddingTop="20dp"
+                        android:paddingBottom="20dp">
+
+                        <TextView style="@style/KpiValueStyle"
+                            android:id="@+id/tv_comparative_change"
+                            tools:text="+12.5%"
+                            android:textSize="36sp"
+                            android:textColor="#4CAF50"/>
+                        <TextView style="@style/KpiLabelStyle"
+                            android:text="Comparativa Semanal (vs. Semana Ant.)"
+                            android:textSize="16sp"/>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+            </GridLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">WalkGo</string>
+
+    <string-array name="ranking_filters">
+        <item>Mis Amigos</item>
+        <item>Mi País</item>
+    </string-array>
 </resources>

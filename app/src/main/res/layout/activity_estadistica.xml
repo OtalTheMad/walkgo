@@ -99,55 +99,93 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:columnCount="2"
-                android:rowCount="3"
                 android:columnOrderPreserved="false"
                 android:useDefaultMargins="true">
 
-                <!-- KPI 1: Kilómetros recorridos -->
+                <!-- KPI 1: Kilómetros recorridos (usando atributos explícitos) -->
                 <androidx.cardview.widget.CardView
-                    style="@style/KpiCardStyle">
-                    <LinearLayout
-                        style="@style/KpiContentStyle">
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="4dp"
+                    android:clickable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp">
+
+                    <LinearLayout style="@style/KpiContentStyle">
                         <TextView style="@style/KpiValueStyle" android:id="@+id/tv_total_km" tools:text="12.5 km"/>
                         <TextView style="@style/KpiLabelStyle" android:text="Kilómetros Recorridos"/>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
-                <!-- KPI 2: Tiempo activo -->
+                <!-- KPI 2: Tiempo activo (usando atributos explícitos) -->
                 <androidx.cardview.widget.CardView
-                    style="@style/KpiCardStyle">
-                    <LinearLayout
-                        style="@style/KpiContentStyle">
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="4dp"
+                    android:clickable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:layout_marginBottom="8dp">
+
+                    <LinearLayout style="@style/KpiContentStyle">
                         <TextView style="@style/KpiValueStyle" android:id="@+id/tv_active_time" tools:text="3h 24m"/>
                         <TextView style="@style/KpiLabelStyle" android:text="Tiempo Activo"/>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
-                <!-- KPI 3: Promedio diario -->
+                <!-- KPI 3: Promedio diario (usando atributos explícitos) -->
                 <androidx.cardview.widget.CardView
-                    style="@style/KpiCardStyle">
-                    <LinearLayout
-                        style="@style/KpiContentStyle">
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="4dp"
+                    android:clickable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginEnd="8dp">
+
+                    <LinearLayout style="@style/KpiContentStyle">
                         <TextView style="@style/KpiValueStyle" android:id="@+id/tv_daily_average" tools:text="1.8 km/día"/>
                         <TextView style="@style/KpiLabelStyle" android:text="Promedio Diario"/>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
-                <!-- KPI 4: Mejores marcas -->
+                <!-- KPI 4: Mejores marcas (usando atributos explícitos) -->
                 <androidx.cardview.widget.CardView
-                    style="@style/KpiCardStyle">
-                    <LinearLayout
-                        style="@style/KpiContentStyle">
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_rowWeight="1"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="4dp"
+                    android:clickable="true"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:layout_marginBottom="8dp">
+
+                    <LinearLayout style="@style/KpiContentStyle">
                         <TextView style="@style/KpiValueStyle" android:id="@+id/tv_best_mark" tools:text="5.1 km"/>
                         <TextView style="@style/KpiLabelStyle" android:text="Mejor Marca"/>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
-                <!-- KPI 5: Comparativa semanal (ocupando 2 columnas) -->
+                <!-- KPI 5: Comparativa semanal (ocupando 2 columnas - usando atributos explícitos) -->
                 <androidx.cardview.widget.CardView
                     android:layout_columnSpan="2"
-                    style="@style/KpiCardStyle"
-                    android:layout_width="match_parent">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="4dp"
+                    android:clickable="true"
+                    android:foreground="?android:attr/selectableItemBackground">
+
                     <LinearLayout
                         style="@style/KpiContentStyle"
                         android:paddingTop="20dp"

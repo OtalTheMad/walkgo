@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Layout simple para mostrar a un amigo en una lista. -->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp">
+
+    <!-- Imagen de perfil del amigo -->
+    <ImageView
+        android:id="@+id/img_friend_avatar"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_default_avatar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Nombre del amigo -->
+    <TextView
+        android:id="@+id/tv_friend_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textStyle="bold"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@id/tv_friend_kilometers"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/img_friend_avatar"
+        app:layout_constraintTop_toTopOf="@id/img_friend_avatar"
+        tools:text="Nombre del Amigo" />
+
+
+    <TextView
+        android:id="@+id/tv_friend_kilometers"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@id/img_friend_avatar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/img_friend_avatar"
+        app:layout_constraintTop_toBottomOf="@id/tv_friend_name"
+        tools:text="150.3 km este mes" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_light_gray"
+    android:background="@color/light_gray"
     tools:context=".PerfilActivity">
 
     <!-- AppBar (Puedes reemplazar esto con un Toolbar si tu tema lo requiere) -->
@@ -239,7 +239,7 @@
                 android:text="Cambiar Contraseña"
                 android:visibility="visible"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                app:icon="@drawable/ic_lock"
+                app:icon="@drawable/ic_lockpass"
                 android:layout_marginBottom="24dp"/>
 
             <!-- SECCIÓN 4: LISTA DE AMIGOS -->

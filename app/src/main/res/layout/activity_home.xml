@@ -1,128 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/green_50">
+    android:orientation="vertical"
+    android:background="#F5F5F5"
+    android:padding="24dp"
+    tools:context=".HomeActivity">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <!-- Barra azul superior -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="#1976D2"
+        android:gravity="center_vertical"
+        android:paddingStart="20dp"
+        android:text="🏃‍♂️ WalkGo"
+        android:textColor="@android:color/white"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <!-- Saludo y distancia -->
+    <TextView
+        android:id="@+id/txtNombreUsuario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="¡Hola, Juan!"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="#212121"
+        android:layout_marginTop="16dp" />
+
+    <TextView
+        android:id="@+id/txtDistanciaSemana"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Distancia recorrida esta semana: 0 km"
+        android:textSize="16sp"
+        android:textColor="#212121"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Botones principales -->
+    <Button
+        android:id="@+id/btnPerfil"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
+        android:text="Perfil"
+        android:backgroundTint="@color/green_700"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="8dp"
+        android:padding="12dp" />
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/homeToolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:title="Inicio"
-            android:background="@color/green_600"
-            android:titleTextColor="@color/white" />
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <androidx.core.widget.NestedScrollView
+    <Button
+        android:id="@+id/btnRanking"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:padding="20dp">
+        android:layout_height="wrap_content"
+        android:text="Ranking"
+        android:backgroundTint="@color/green_700"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="8dp"
+        android:padding="12dp" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:gravity="center_horizontal">
+    <Button
+        android:id="@+id/btnAmigos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Amigos"
+        android:backgroundTint="@color/green_700"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="8dp"
+        android:padding="12dp" />
 
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                app:cardCornerRadius="16dp"
-                app:cardUseCompatPadding="true"
-                app:strokeColor="@color/green_200"
-                app:strokeWidth="1dp">
+    <Button
+        android:id="@+id/btnContadorPasos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Contador de pasos"
+        android:backgroundTint="@color/green_700"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="8dp"
+        android:padding="12dp" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
+    <Button
+        android:id="@+id/btnEstadisticas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Estadísticas"
+        android:backgroundTint="@color/green_700"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="8dp"
+        android:padding="12dp" />
 
-                    <TextView
-                        android:id="@+id/tvWelcome"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Bienvenido"
-                        android:textSize="22sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/green_800" />
+    <!-- Nuevo botón Configuración -->
+    <Button
+        android:id="@+id/btnConfig"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Configuración"
+        android:backgroundTint="@color/green_700"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="16dp"
+        android:padding="12dp" />
+    <Button
+        android:id="@+id/btnLogout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Cerrar Sesión"
+        android:backgroundTint="#1976D2"
+        android:textColor="@android:color/white"
+        android:padding="12dp"
+        android:layout_marginTop="20dp"/>
 
-                    <TextView
-                        android:id="@+id/tvSubtitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="Usuario"
-                        android:textColor="@color/green_700" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+    <!-- Área de estadísticas semanales -->
+    <LinearLayout
+        android:id="@+id/layoutEstadisticas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="24dp">
+        <!-- Se llenará dinámicamente desde HomeActivity.java -->
+    </LinearLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:weightSum="2">
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnAccion1"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:text="Acción 1"
-                    android:textAllCaps="false"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
-                    android:background="@drawable/btn_primary" />
-
-                <Space
-                    android:layout_width="12dp"
-                    android:layout_height="wrap_content" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnAccion2"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:text="Acción 2"
-                    android:textAllCaps="false"
-                    android:textStyle="bold"
-                    android:textColor="@color/white"
-                    android:background="@drawable/btn_primary" />
-            </LinearLayout>
-
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:cardCornerRadius="16dp"
-                app:cardUseCompatPadding="true"
-                app:strokeColor="@color/green_200"
-                app:strokeWidth="1dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
-
-                    <TextView
-                        android:id="@+id/tvHint"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Hola Usuario"
-                        android:textColor="@color/green_700" />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-        </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</LinearLayout>

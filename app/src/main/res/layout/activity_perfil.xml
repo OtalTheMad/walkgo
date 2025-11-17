@@ -7,7 +7,7 @@
     android:background="@color/light_gray"
     tools:context=".PerfilActivity">
 
-    <!-- AppBar (Puedes reemplazar esto con un Toolbar si tu tema lo requiere) -->
+
     <TextView
         android:id="@+id/tv_toolbar_title"
         android:layout_width="0dp"
@@ -23,7 +23,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- Botón de Edición/Guardar (Inicialmente visible para el perfil propio) -->
+
     <ImageView
         android:id="@+id/btn_edit_profile"
         android:layout_width="48dp"
@@ -39,7 +39,7 @@
         app:layout_constraintTop_toTopOf="@id/tv_toolbar_title"
         app:layout_constraintBottom_toBottomOf="@id/tv_toolbar_title"/>
 
-    <!-- Botón de Agregar Amigo (Inicialmente visible para perfiles ajenos, usamos un icono de Android genérico) -->
+
     <ImageView
         android:id="@+id/btn_add_friend"
         android:layout_width="48dp"
@@ -56,7 +56,7 @@
         app:layout_constraintTop_toTopOf="@id/tv_toolbar_title"
         app:layout_constraintBottom_toBottomOf="@id/tv_toolbar_title"/>
 
-    <!-- Contenido Principal Desplazable -->
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -71,7 +71,7 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- SECCIÓN 1: CABECERA Y AVATAR -->
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -79,7 +79,7 @@
                 android:gravity="center_horizontal"
                 android:paddingBottom="24dp">
 
-                <!-- Imagen de Perfil Circular -->
+
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/iv_profile_photo"
                     android:layout_width="120dp"
@@ -90,7 +90,7 @@
                     android:elevation="8dp"
                     android:layout_marginBottom="16dp"/>
 
-                <!-- Nombre de Usuario Grande -->
+
                 <TextView
                     android:id="@+id/tv_username_display"
                     android:layout_width="wrap_content"
@@ -100,7 +100,7 @@
                     android:textStyle="bold"
                     android:textColor="#333333"/>
 
-                <!-- Nombre Real -->
+
                 <TextView
                     android:id="@+id/tv_name_display"
                     android:layout_width="wrap_content"
@@ -111,7 +111,7 @@
 
             </LinearLayout>
 
-            <!-- SECCIÓN 2: ESTADÍSTICAS RÁPIDAS (KPIs) -->
+
             <TextView
                 style="@style/SectionHeaderStyle"
                 android:text="Rendimiento Rápido" />
@@ -123,7 +123,7 @@
                 android:columnOrderPreserved="false"
                 android:useDefaultMargins="true">
 
-                <!-- KPI: Kilómetros Semanales -->
+
                 <androidx.cardview.widget.CardView
                     style="@style/KpiCardStyle">
                     <LinearLayout
@@ -133,7 +133,7 @@
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
-                <!-- KPI: Kilómetros Totales -->
+
                 <androidx.cardview.widget.CardView
                     style="@style/KpiCardStyle">
                     <LinearLayout
@@ -143,7 +143,7 @@
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
-                <!-- KPI: Amigos -->
+
                 <androidx.cardview.widget.CardView
                     style="@style/KpiCardStyle">
                     <LinearLayout
@@ -153,7 +153,7 @@
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
-                <!-- KPI: Edad (Dato de la BD 'fecha_nac') -->
+
                 <androidx.cardview.widget.CardView
                     style="@style/KpiCardStyle">
                     <LinearLayout
@@ -165,14 +165,14 @@
 
             </GridLayout>
 
-            <!-- SECCIÓN 3: INFORMACIÓN PERSONAL (EDITABLE) -->
+
             <TextView
                 android:id="@+id/tv_personal_info_header"
                 style="@style/SectionHeaderStyle"
                 android:text="Información Personal"
                 android:layout_marginTop="16dp"/>
 
-            <!-- Campo de Nombre Editable -->
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_name"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -191,7 +191,7 @@
                     tools:text="Juan Pérez"/>
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Campo de Nombre de Usuario Editable (Con validación simulada) -->
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_username"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -231,7 +231,7 @@
                     tools:text="Corredor aficionado, disfruto de las mañanas frescas para sumar kilómetros en la montaña."/>
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Botón para Cambiar Contraseña (Solo en perfil propio) -->
+
             <Button
                 android:id="@+id/btn_change_password"
                 android:layout_width="match_parent"
@@ -242,12 +242,12 @@
                 app:icon="@drawable/ic_lockpass"
                 android:layout_marginBottom="24dp"/>
 
-            <!-- SECCIÓN 4: LISTA DE AMIGOS -->
+
             <TextView
                 style="@style/SectionHeaderStyle"
                 android:text="Mis Amigos"/>
 
-            <!-- RecyclerView simulado para la lista de amigos -->
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_friends_list"
                 android:layout_width="match_parent"

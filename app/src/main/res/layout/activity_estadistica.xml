@@ -176,7 +176,7 @@
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
-                <!-- KPI 5: Comparativa semanal (ocupando 2 columnas - usando atributos explícitos) -->
+
                 <androidx.cardview.widget.CardView
                     android:layout_columnSpan="2"
                     android:layout_width="match_parent"

@@ -1,83 +1,77 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/green_50"
+    android:background="@color/grey_50"
     tools:context=".RankingActivity">
 
-    <!-- Barra de Herramientas -->
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbarRanking"
+    <!-- Top AppBar (Toolbar) -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@color/green_600"
-        android:title="Clasificación de Corredores"
-        android:titleTextColor="@color/white"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <!-- Selector de Ranking (Global / Amigos) -->
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbarRanking"
+            style="@style/Widget.Material3.Toolbar.Surface"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:title="@string/ranking"
+            app:navigationIcon="@drawable/ic_arrow_back" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- Toggle Group for Filtering (Global/Friends) -->
     <com.google.android.material.button.MaterialButtonToggleGroup
         android:id="@+id/toggleGroupRanking"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
+        android:padding="2dp"
+        app:checkedButton="@id/btnRankingGlobal"
         app:selectionRequired="true"
         app:singleSelection="true"
-        app:checkedButton="@id/btnRankingGlobal"
-        app:layout_constraintTop_toBottomOf="@id/toolbarRanking"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/appBarLayout">
 
-        <com.google.android.material.button.MaterialButton
+        <Button
             android:id="@+id/btnRankingGlobal"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="wrap_content"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Global"
-            android:textColor="@color/green_700"
-            app:strokeColor="@color/green_700" />
+            android:text="@string/global"
+            android:textAllCaps="true" />
 
-        <com.google.android.material.button.MaterialButton
+        <Button
             android:id="@+id/btnRankingAmigos"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="wrap_content"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Mis Amigos"
-            android:textColor="@color/green_700"
-            app:strokeColor="@color/green_700" />
+            android:text="@string/friends"
+            android:textAllCaps="true" />
 
     </com.google.android.material.button.MaterialButtonToggleGroup>
 
-    <!-- Línea divisoria para estética -->
-    <View
-        android:id="@+id/divider"
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:background="@color/green_300"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@id/toggleGroupRanking"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <!-- RecyclerView para la Lista de Ranking -->
+    <!-- RecyclerView for Ranking List -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewRanking"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:paddingTop="8dp"
+        android:layout_marginTop="8dp"
+        android:paddingBottom="16dp"
         android:clipToPadding="false"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintTop_toBottomOf="@id/divider"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toggleGroupRanking"
         tools:listitem="@layout/item_ranking" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

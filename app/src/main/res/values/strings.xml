@@ -5,4 +5,10 @@
         <item>Mis Amigos</item>
         <item>Mi País</item>
     </string-array>
+
+    <string name="ranking">Ranking</string>
+    <string name="global">GLOBAL</string>
+    <string name="friends">AMIGOSs</string>
+    <string name="profile_picture">Foto de perfil</string>
+    <string name="add_friend">Agregar amigo</string>
 </resources>

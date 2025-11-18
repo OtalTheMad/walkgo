@@ -29,67 +29,47 @@ public class AmigosAdapter extends RecyclerView.Adapter<AmigosAdapter.AmigoViewH
     private Context context;
     private List<Amigo> amigos;
 
-    public AmigosAdapter(Context context, List<Amigo> amigos) {
-        this.context = context;
-        this.amigos = amigos;
+    public AmigosAdapter(Context _context, List<Amigo> _amigos) {
+        this.context = _context;
+        this.amigos = _amigos;
     }
 
     @NonNull
     @Override
     public AmigoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_amigo, parent, false);
-        return new AmigoViewHolder(view);
+        View _view = LayoutInflater.from(context).inflate(R.layout.item_amigo, parent, false);
+        return new AmigoViewHolder(_view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull AmigoViewHolder holder, int position) {
-        Amigo amigo = amigos.get(position);
+        Amigo _amigo = amigos.get(position);
 
-        holder.tvEstado.setText(amigo.getEstado());
-        holder.tvNombre.setText("Usuario " + amigo.getIdUsuarioAmigo());
-        holder.tvUsuario.setText("ID: " + amigo.getIdUsuarioAmigo());
+        holder.tvEstado.setText(_amigo.getEstado());
+        holder.tvNombre.setText("Usuario " + _amigo.getIdUsuarioAmigo());
+        holder.tvUsuario.setText("ID: " + _amigo.getIdUsuarioAmigo());
 
-        switch (amigo.getEstado()) {
+        holder.layoutSolicitud.setVisibility(View.GONE);
+        holder.btnAccion.setVisibility(View.VISIBLE);
+        holder.btnAccion.setEnabled(true);
+
+        String _estado = _amigo.getEstado();
+
+        switch (_estado) {
 
             case "activo":
-                holder.btnAccion.setVisibility(View.VISIBLE);
-                holder.btnAccion.setText("Eliminar amigo");
-                holder.layoutSolicitud.setVisibility(View.GONE);
-
+                holder.btnAccion.setText("Dejar de seguir");
                 holder.btnAccion.setOnClickListener(v -> {
-                    UpdateEstado(amigo, "no_amigo", position);
+                    UpdateEstado(_amigo, "no_amigo", position);
                 });
                 break;
 
             case "no_amigo":
-                holder.btnAccion.setVisibility(View.VISIBLE);
-                holder.btnAccion.setText("Agregar amigo");
-                holder.layoutSolicitud.setVisibility(View.GONE);
-
+            default:
+                holder.btnAccion.setText("Seguir");
                 holder.btnAccion.setOnClickListener(v -> {
-                    CreateSolicitud(amigo, position);
+                    CreateSolicitud(_amigo, position);
                 });
-                break;
-
-            case "solicitud_enviada":
-                holder.btnAccion.setVisibility(View.VISIBLE);
-                holder.btnAccion.setText("Solicitud enviada");
-                holder.btnAccion.setEnabled(false);
-                holder.layoutSolicitud.setVisibility(View.GONE);
-                break;
-
-            case "solicitud_recibida":
-                holder.btnAccion.setVisibility(View.GONE);
-                holder.layoutSolicitud.setVisibility(View.VISIBLE);
-
-                holder.btnAceptar.setOnClickListener(v ->
-                        UpdateEstado(amigo, "activo", position)
-                );
-
-                holder.btnRechazar.setOnClickListener(v ->
-                        UpdateEstado(amigo, "no_amigo", position)
-                );
-
                 break;
         }
     }
@@ -99,46 +79,73 @@ public class AmigosAdapter extends RecyclerView.Adapter<AmigosAdapter.AmigoViewH
         return amigos.size();
     }
 
-    private void CreateSolicitud(Amigo amigo, int position) {
+    private Integer GetLoggedUserId() {
+        SharedPreferences _prefs = context.getSharedPreferences("WALKGO_PREFS", Context.MODE_PRIVATE);
+        int _id = _prefs.getInt("user_id", -1);
+        return _id <= 0 ? null : _id;
+    }
 
-        SharedPreferences prefs = context.getSharedPreferences("WALKGO_PREFS", Context.MODE_PRIVATE);
-        Integer myId = prefs.getInt("user_id", -1);
+    private void CreateSolicitud(Amigo _amigo, int _position) {
 
-        AmigosAPI api = RetrofitClient.GetInstance().create(AmigosAPI.class);
+        //Integer _idUsuarioLogueado = GetLoggedUserId();
+        Integer _idUsuarioLogueado = 9;
 
-        ApiCreateAmigo req = new ApiCreateAmigo(myId, amigo.getIdUsuarioAmigo());
+        if (_idUsuarioLogueado == null) {
+            Toast.makeText(context, "Usuario no logueado", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-        api.CreateAmigo(req).enqueue(new Callback<>() {
+        AmigosAPI _api = RetrofitClient.GetInstance().create(AmigosAPI.class);
+
+        ApiCreateAmigo _req = new ApiCreateAmigo(
+                _idUsuarioLogueado,
+                _amigo.getIdUsuarioAmigo()
+        );
+
+        _api.CreateAmigo(_req).enqueue(new Callback<>() {
             @Override
             public void onResponse(Call call, Response response) {
-                amigo.setEstado("solicitud_enviada");
-                notifyItemChanged(position);
-                Toast.makeText(context, "Solicitud enviada", Toast.LENGTH_SHORT).show();
+                _amigo.setEstado("activo");
+                notifyItemChanged(_position);
+                Toast.makeText(context, "Ahora sigues a este usuario", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onFailure(Call call, Throwable t) {
-                Toast.makeText(context, "Error enviando solicitud", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Error al seguir usuario", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void UpdateEstado(Amigo amigo, String nuevoEstado, int position) {
+    private void UpdateEstado(Amigo _amigo, String _nuevoEstado, int _position) {
 
-        AmigosAPI api = RetrofitClient.GetInstance().create(AmigosAPI.class);
+        //Integer _idUsuarioLogueado = GetLoggedUserId();
+        Integer _idUsuarioLogueado = 9;
 
-        ApiUpdateAmigo req = new ApiUpdateAmigo(
-                amigo.getIdUsuario(),
-                amigo.getIdUsuarioAmigo(),
-                nuevoEstado
+        if (_idUsuarioLogueado == null) {
+            Toast.makeText(context, "Usuario no logueado", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        int _idUsuarioAmigo = _amigo.getIdUsuarioAmigo();
+
+        AmigosAPI _api = RetrofitClient.GetInstance().create(AmigosAPI.class);
+
+        ApiUpdateAmigo _req = new ApiUpdateAmigo(
+                _idUsuarioLogueado,
+                _idUsuarioAmigo,
+                _nuevoEstado
         );
 
-        api.UpdateAmigo(amigo.getIdAmigo(), req).enqueue(new Callback<>() {
+        _api.UpdateAmigo(_amigo.getIdAmigo(), _req).enqueue(new Callback<>() {
             @Override
             public void onResponse(Call call, Response response) {
-                amigo.setEstado(nuevoEstado);
-                notifyItemChanged(position);
-                Toast.makeText(context, "Estado actualizado", Toast.LENGTH_SHORT).show();
+                _amigo.setEstado(_nuevoEstado);
+                notifyItemChanged(_position);
+                String _msg = "activo".equals(_nuevoEstado)
+                        ? "Ahora sigues a este usuario"
+                        : "Has dejado de seguir a este usuario";
+                Toast.makeText(context, _msg, Toast.LENGTH_SHORT).show();
             }
 
             @Override

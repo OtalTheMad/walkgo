@@ -31,12 +31,10 @@ public class activity_login extends AppCompatActivity {
             return insets;
         });
 
-        // Referencias con los IDs correctos de tu XML
         etEmail = findViewById(R.id.etEmail);
         etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);
 
-        // Listener del botón Iniciar sesión
         btnLogin.setOnClickListener(v -> {
             String correo = etEmail.getText().toString().trim();
             String password = etPassword.getText().toString().trim();

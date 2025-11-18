@@ -12,21 +12,10 @@
         android:background="#1976D2"
         android:gravity="center_vertical"
         android:paddingStart="20dp"
-        android:text="👥 Amigos"
+        android:text="👥 Social"
         android:textColor="@android:color/white"
         android:textSize="22sp"
         android:textStyle="bold"/>
-
-    <Button
-        android:id="@+id/btnAgregarAmigo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Enviar solicitud de amistad"
-        android:backgroundTint="@color/green_700"
-        android:textColor="@android:color/white"
-        android:padding="12dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="12dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvAmigos"

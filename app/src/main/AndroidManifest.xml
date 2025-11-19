@@ -17,7 +17,7 @@
             android:name=".PerfilActivity"
             android:exported="false" />
         <activity
-            android:name=".AmigosActivity"
+            android:name=".SeguidoresActivity"
             android:exported="false" />
         <activity
             android:name=".LogoutActivity"

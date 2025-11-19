@@ -10,10 +10,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.ViewCompat; // 🚨 Necesario para EdgeToEdge
-import androidx.core.view.WindowInsetsCompat; // 🚨 Necesario para EdgeToEdge
-import androidx.core.graphics.Insets; // 🚨 Necesario para EdgeToEdge
-import androidx.core.view.EdgeToEdge; // 🚨 Necesario para EdgeToEdge
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
+import androidx.core.graphics.Insets;
+import androidx.core.view.EdgeToEdge; // Aquí es donde se necesita la dependencia activity-ktx
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.example.walkgo.network.ApiService;
@@ -80,7 +80,10 @@ public class LoginActivity extends AppCompatActivity {
     private void attemptLogin() {
         String email = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
-        if (email.isEmpty() || password.isEmpty()) return;
+        if (email.isEmpty() || password.isEmpty()) {
+            Toast.makeText(LoginActivity.this, "Ingresa email y contraseña.", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         showLoading(true);
 
@@ -94,7 +97,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (response.isSuccessful() && response.body() != null) {
                     Usuario user = response.body();
 
-                    // Supone que la respuesta del API incluye el ID y el Token
+                    // Asegúrate de que tu objeto Usuario tiene métodos getId() y getToken()
                     String userId = user.getId();
                     String authToken = user.getToken();
 
@@ -104,16 +107,19 @@ public class LoginActivity extends AppCompatActivity {
                         editor.putString("auth_token", authToken);
                         editor.apply();
                         goToMainActivity();
+                    } else {
+                        Toast.makeText(LoginActivity.this, "Respuesta incompleta del servidor.", Toast.LENGTH_LONG).show();
                     }
                 } else {
-                    Toast.makeText(LoginActivity.this, "Credenciales inválidas.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoginActivity.this, "Credenciales inválidas. Código: " + response.code(), Toast.LENGTH_LONG).show();
                 }
             }
 
             @Override
             public void onFailure(Call<Usuario> call, Throwable t) {
                 showLoading(false);
-                Toast.makeText(LoginActivity.this, "Fallo de conexión al VPS.", Toast.LENGTH_LONG).show();
+                Toast.makeText(LoginActivity.this, "Fallo de conexión: " + t.getMessage(), Toast.LENGTH_LONG).show();
+                t.printStackTrace(); // Imprime la traza para depuración
             }
         });
     }

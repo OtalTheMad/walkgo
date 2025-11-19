@@ -1,70 +1,17 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. Puede que tu tema sea diferente. -->
-    <style name="Theme.WalkGo" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-        <!-- Define aquí tus colores primarios, secundarios, etc. -->
-        <color name="purple_200">#FFBB86FC</color>
-        <color name="green_700">#FF6200EE</color>
-        <color name="green_800">#FF3700B3</color>
-        <color name="teal_200">#FF03DAC5</color>
-        <color name="teal_700">#FF018786</color>
-        <color name="black">#FF000000</color>
-        <color name="white">#FFFFFFFF</color>
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
 
-        <!-- Este es el color gris que usamos para el fondo de la vista de estadísticas -->
-        <color name="background_light_gray">#F0F4F8</color>
-        <!-- ... otros atributos de tema ... -->
-    </style>
+    <style name="Theme.WalkGo" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Definiciones del tema principal para el modo Light/Día -->
+        <item name="colorPrimary">@color/green_700</item>
+        <item name="colorPrimaryVariant">@color/green_800</item>
+        <item name="colorOnPrimary">@color/white</item>
 
-    <!-- ********************************************** -->
-    <!-- ESTILOS KPI (Indicadores Clave de Rendimiento) -->
-    <!-- ********************************************** -->
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorOnSecondary">@color/black</item>
 
-    <!-- Estilo para la tarjeta contenedora (CardView) -->
-    <style name="KpiCardStyle" parent="CardView">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="cardCornerRadius">12dp</item>
-        <item name="cardElevation">4dp</item>
-        <item name="android:layout_columnWeight">1</item>
-        <item name="android:layout_rowWeight">1</item>
-    </style>
-
-    <!-- Estilo para el LinearLayout interno (Contenido) -->
-    <style name="KpiContentStyle">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:orientation">vertical</item>
-        <item name="android:gravity">center</item>
-        <item name="android:padding">16dp</item>
-    </style>
-
-    <!-- Estilo para el valor numérico grande (ej: "12.5 km") -->
-    <style name="KpiValueStyle" parent="TextAppearance.AppCompat.Large">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">28sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textColor">?attr/colorPrimary</item> <!-- Usa el color principal del tema -->
-    </style>
-
-    <!-- Estilo para la etiqueta descriptiva (ej: "Kilómetros Recorridos") -->
-    <style name="KpiLabelStyle" parent="TextAppearance.AppCompat.Small">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">12sp</item>
-        <item name="android:textColor">@android:color/darker_gray</item>
-        <item name="android:gravity">center</item>
-    </style>
-
-    <style name="SectionHeaderStyle">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">16sp</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/black</item>
-        <item name="android:layout_marginTop">16dp</item>
-        <item name="android:paddingStart">16dp</item>
-        <item name="android:paddingEnd">16dp</item>
+        <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
     </style>
 
 </resources>

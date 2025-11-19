@@ -31,7 +31,6 @@ android {
 }
 
 dependencies {
-    implementation libs.appcompat
     implementation libs.material
     implementation libs.activity
     implementation libs.constraintlayout
@@ -42,6 +41,16 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
+    implementation 'androidx.core:core-ktx:1.12.0'
+    implementation(libs.androidx.core.ktx) // Esta línea es la que tenías, pero forzamos la versión arriba.
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.activity)
+    implementation(libs.androidx.constraintlayout)
+
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
+
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core

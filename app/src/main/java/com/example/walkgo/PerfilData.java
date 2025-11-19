@@ -20,10 +20,10 @@ public class PerfilData {
     private boolean isOwnProfile;
 
     // Constructor vacío (Necesario para deserialización de JSON/API)
-    public ProfileData() {}
+    public PerfilData() {}
 
     // Constructor completo para simulación o inicialización
-    public ProfileData(String name, String username, String country, String dateOfBirth, String biography,
+    public PerfilData(String name, String username, String country, String dateOfBirth, String biography,
                        String profilePhotoUrl, double weeklyKilometers, double totalKilometers,
                        int friendsCount, boolean isOwnProfile) {
         this.name = name;

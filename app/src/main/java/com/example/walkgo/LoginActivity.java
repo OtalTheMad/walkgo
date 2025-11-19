@@ -9,11 +9,11 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.core.graphics.Insets;
-import androidx.core.view.EdgeToEdge; // Aquí es donde se necesita la dependencia activity-ktx
+import androidx.core.view.*; // Aquí es donde se necesita la dependencia activity-ktx
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.example.walkgo.network.ApiService;

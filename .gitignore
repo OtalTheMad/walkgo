@@ -1,1 +1,16 @@
-local.properties
+/build
+misc.xml
+LICENSE
+gradlew
+gradlew.bat
+app/androidTest
+app/test
+.github
+.idea/assetWizardSettings.xml
+.idea/deviceManager.xml
+.idea/workspace.xml
+.idea/misc.xml
+idea/assetWizardSettings.xml
+idea/deviceManager.xml
+idea/workspace.xml
+idea/misc.xml

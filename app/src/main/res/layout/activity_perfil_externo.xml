@@ -30,7 +30,7 @@
             android:gravity="center_horizontal"
             android:orientation="vertical"
             android:paddingTop="24dp"
-            android:paddingBottom="24dp">
+            android:paddingBottom="16dp">
 
             <ImageView
                 android:id="@+id/imgFotoPerfil"
@@ -42,6 +42,17 @@
                 android:src="@mipmap/ic_launcher_round" />
 
         </LinearLayout>
+
+        <Button
+            android:id="@+id/btnSeguir"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="Seguir"
+            android:textAllCaps="false"
+            android:backgroundTint="@color/green_700"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
 
         <LinearLayout
             android:id="@+id/bloqueUsuario"
@@ -104,7 +115,6 @@
             android:id="@+id/bloqueDatosSecundarios"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
             android:orientation="horizontal"
             android:background="#F5F5F5"
             android:padding="16dp"

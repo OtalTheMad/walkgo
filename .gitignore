@@ -1,1 +1,75 @@
+# Gradle
+.gradle/
+build/
+**/build/
+
+# Local configuration
 local.properties
+gradle.properties
+
+# Gradle Wrapper
+gradle/wrapper/gradle-wrapper.properties
+gradle/wrapper/gradle-wrapper.jar
+
+# Android Studio / IntelliJ
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+
+# Logs
+*.log
+
+# Android specific
+captures/
+.externalNativeBuild/
+.cxx/
+*.apk
+*.ap_
+*.aab
+*.dex
+*.class
+
+# Keystores
+*.jks
+*.keystore
+
+# NDK
+obj/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Cache
+.cache/
+*.cache
+
+# Generated files / local build
+generated/
+navigation.json
+output.json
+
+# Jetpack Compose (if present)
+compose-metrics/
+compose-reports/
+
+# Kotlin
+*.kotlin_module
+
+# Temporary files
+*.tmp
+*.temp
+
+# Crashlytics / Firebase (if used)
+crashlytics.properties
+crashlytics-build.properties
+fabric.properties
+
+# Android Studio profiler / misc
+*.hprof
+
+# Git merge artifacts
+*.orig
+*.rej

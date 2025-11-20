@@ -62,10 +62,8 @@ public class HomeActivity extends AppCompatActivity {
         // btnEstadisticas.setOnClickListener(v -> startActivity(new Intent(this, EstadisticasActivity.class)));
 
         // Navegación al SettingsActivity
-        btnConfig.setOnClickListener(v -> {
-            Intent intent = new Intent(HomeActivity.this, SettingsActivity.class);
-            startActivity(intent);
-        });
+        btnConfig.setOnClickListener(v -> startActivity(new Intent(this, SettingsActivity.class)));
+        //
 
         // Navegación al LogoutActivity
         btnLogout.setOnClickListener(v -> {

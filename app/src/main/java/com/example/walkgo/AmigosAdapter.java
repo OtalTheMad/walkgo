@@ -1,6 +1,7 @@
 package com.example.walkgo;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.api.walkgo.AmigosAPI;
+import com.api.walkgo.PerfilActivity;
 import com.api.walkgo.RetrofitClient;
 import com.api.walkgo.UsuarioService;
 import com.api.walkgo.models.ApiCreateAmigo;
@@ -38,6 +40,7 @@ public class AmigosAdapter extends RecyclerView.Adapter<AmigosAdapter.AmigoViewH
     public AmigosAdapter(Context _context, List<Amigo> _amigos) {
         this.context = _context;
         this.amigos = _amigos;
+        CargarNombresUsuarios();
     }
 
     @NonNull
@@ -49,16 +52,16 @@ public class AmigosAdapter extends RecyclerView.Adapter<AmigosAdapter.AmigoViewH
 
     @Override
     public void onBindViewHolder(@NonNull AmigoViewHolder holder, int position) {
+
         Amigo _amigo = amigos.get(position);
 
         int _idUsuarioAmigo = _amigo.getIdUsuarioAmigo();
 
-        String _nombreCache = nombresCache.get(_idUsuarioAmigo);
-        if (_nombreCache != null) {
-            holder.tvNombre.setText(_nombreCache);
-        } else {
+        String _nombre = nombresCache.get(_idUsuarioAmigo);
+        if (_nombre == null || _nombre.isEmpty()) {
             holder.tvNombre.setText("Usuario " + _idUsuarioAmigo);
-            CargarNombreUsuario(_idUsuarioAmigo, holder);
+        } else {
+            holder.tvNombre.setText(_nombre);
         }
 
         holder.layoutSolicitud.setVisibility(View.GONE);
@@ -72,11 +75,11 @@ public class AmigosAdapter extends RecyclerView.Adapter<AmigosAdapter.AmigoViewH
             case "siguiendo":
                 holder.btnAccion.setText("Dejar de seguir");
                 holder.btnAccion.setOnClickListener(v -> {
-                    UpdateEstado(_amigo, "no_siguiendo", position);
+                    UpdateEstado(_amigo, "no_seguido", position);
                 });
                 break;
 
-            case "no_siguiendo":
+            case "no_seguido":
             default:
                 holder.btnAccion.setText("Seguir");
                 holder.btnAccion.setOnClickListener(v -> {
@@ -84,6 +87,10 @@ public class AmigosAdapter extends RecyclerView.Adapter<AmigosAdapter.AmigoViewH
                 });
                 break;
         }
+
+        holder.itemView.setOnClickListener(v -> {
+            AbrirPerfilUsuario(_idUsuarioAmigo);
+        });
     }
 
     @Override
@@ -91,34 +98,25 @@ public class AmigosAdapter extends RecyclerView.Adapter<AmigosAdapter.AmigoViewH
         return amigos.size();
     }
 
-    private void CargarNombreUsuario(int _idUsuarioAmigo, AmigoViewHolder _holder) {
+    private void CargarNombresUsuarios() {
         Retrofit _retrofit = RetrofitClient.GetInstance();
         UsuarioService _service = _retrofit.create(UsuarioService.class);
-        Call<Usuario> _call = _service.GetUsuario(_idUsuarioAmigo);
-        _call.enqueue(new Callback<Usuario>() {
+        Call<List<Usuario>> _call = _service.GetAllUsuarios();
+        _call.enqueue(new Callback<List<Usuario>>() {
             @Override
-            public void onResponse(Call<Usuario> call, Response<Usuario> response) {
+            public void onResponse(Call<List<Usuario>> call, Response<List<Usuario>> response) {
                 if (!response.isSuccessful() || response.body() == null) {
                     return;
                 }
-                Usuario _usuario = response.body();
-                String _nombre = _usuario.GetUsuario();
-                if (_nombre == null || _nombre.isEmpty()) {
-                    _nombre = "Usuario " + _idUsuarioAmigo;
+                List<Usuario> _usuarios = response.body();
+                for (Usuario _usuario : _usuarios) {
+                    nombresCache.put(_usuario.GetId(), _usuario.GetUsuario());
                 }
-                nombresCache.put(_idUsuarioAmigo, _nombre);
-                int _adapterPos = _holder.getAdapterPosition();
-                if (_adapterPos == RecyclerView.NO_POSITION) {
-                    return;
-                }
-                Amigo _amigoActual = amigos.get(_adapterPos);
-                if (_amigoActual.getIdUsuarioAmigo() == _idUsuarioAmigo) {
-                    _holder.tvNombre.setText(_nombre);
-                }
+                notifyDataSetChanged();
             }
 
             @Override
-            public void onFailure(Call<Usuario> call, Throwable t) {
+            public void onFailure(Call<List<Usuario>> call, Throwable t) {
             }
         });
     }
@@ -149,7 +147,7 @@ public class AmigosAdapter extends RecyclerView.Adapter<AmigosAdapter.AmigoViewH
         _api.CreateAmigo(_req).enqueue(new Callback<ApiCreateAmigo>() {
             @Override
             public void onResponse(Call<ApiCreateAmigo> call, Response<ApiCreateAmigo> response) {
-                _amigo.setEstado("siguiendo");
+                _amigo.setEstado("seguido");
                 notifyItemChanged(_position);
                 Toast.makeText(context, "Ahora sigues a este usuario", Toast.LENGTH_SHORT).show();
             }
@@ -186,7 +184,7 @@ public class AmigosAdapter extends RecyclerView.Adapter<AmigosAdapter.AmigoViewH
             public void onResponse(Call<ApiUpdateAmigo> call, Response<ApiUpdateAmigo> response) {
                 _amigo.setEstado(_nuevoEstado);
                 notifyItemChanged(_position);
-                String _msg = "siguiendo".equals(_nuevoEstado)
+                String _msg = "seguido".equals(_nuevoEstado)
                         ? "Ahora sigues a este usuario"
                         : "Has dejado de seguir a este usuario";
                 Toast.makeText(context, _msg, Toast.LENGTH_SHORT).show();
@@ -199,8 +197,14 @@ public class AmigosAdapter extends RecyclerView.Adapter<AmigosAdapter.AmigoViewH
         });
     }
 
+    private void AbrirPerfilUsuario(int _idUsuarioAmigo) {
+        Intent _intent = new Intent(context, PerfilActivity.class);
+        _intent.putExtra("id_usuario_perfil", _idUsuarioAmigo);
+        context.startActivity(_intent);
+    }
+
     public static class AmigoViewHolder extends RecyclerView.ViewHolder {
-        TextView tvNombre, tvUsuario, tvEstado;
+        TextView tvNombre;
         Button btnAccion, btnAceptar, btnRechazar;
         LinearLayout layoutSolicitud;
 
@@ -208,8 +212,6 @@ public class AmigosAdapter extends RecyclerView.Adapter<AmigosAdapter.AmigoViewH
             super(itemView);
 
             tvNombre = itemView.findViewById(R.id.tvNombreAmigo);
-            tvUsuario = itemView.findViewById(R.id.tvUsuarioAmigo);
-            tvEstado = itemView.findViewById(R.id.tvEstadoAmigo);
 
             btnAccion = itemView.findViewById(R.id.btnAccionAmigo);
 

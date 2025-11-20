@@ -81,14 +81,13 @@ public class AmigosAdapter extends RecyclerView.Adapter<AmigosAdapter.AmigoViewH
 
     private Integer GetLoggedUserId() {
         SharedPreferences _prefs = context.getSharedPreferences("WALKGO_PREFS", Context.MODE_PRIVATE);
-        int _id = _prefs.getInt("user_id", -1);
+        int _id = _prefs.getInt("id_usuario", -1);
         return _id <= 0 ? null : _id;
     }
 
     private void CreateSolicitud(Amigo _amigo, int _position) {
 
-        //Integer _idUsuarioLogueado = GetLoggedUserId();
-        Integer _idUsuarioLogueado = 9;
+        Integer _idUsuarioLogueado = GetLoggedUserId();
 
         if (_idUsuarioLogueado == null) {
             Toast.makeText(context, "Usuario no logueado", Toast.LENGTH_SHORT).show();
@@ -119,8 +118,7 @@ public class AmigosAdapter extends RecyclerView.Adapter<AmigosAdapter.AmigoViewH
 
     private void UpdateEstado(Amigo _amigo, String _nuevoEstado, int _position) {
 
-        //Integer _idUsuarioLogueado = GetLoggedUserId();
-        Integer _idUsuarioLogueado = 9;
+        Integer _idUsuarioLogueado = GetLoggedUserId();
 
         if (_idUsuarioLogueado == null) {
             Toast.makeText(context, "Usuario no logueado", Toast.LENGTH_SHORT).show();

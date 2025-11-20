@@ -13,6 +13,8 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.api.walkgo.LoginActivity;
+
 public class LogoutActivity extends AppCompatActivity {
 
     private static final long TIEMPO_INACTIVIDAD = 10 * 60 * 1000; // 10 minutos
@@ -61,7 +63,7 @@ public class LogoutActivity extends AppCompatActivity {
 
     private void cerrarSesion() {
         Toast.makeText(this, "Sesión cerrada", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(LogoutActivity.this, activity_login.class);
+        Intent intent = new Intent(LogoutActivity.this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();

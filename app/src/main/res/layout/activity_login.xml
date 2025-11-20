@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/main"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:gravity="center"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="32dp"
-    android:background="#F5F5F5"
-    android:gravity="center">
+    android:background="#FFFFFF">
 
-    <!-- Logo o imagen de la app -->
     <ImageView
         android:id="@+id/imgLogo"
         android:layout_width="120dp"
@@ -17,36 +15,36 @@
         android:contentDescription="Logo WalkGo"
         android:layout_marginBottom="32dp"/>
 
-    <!-- EditText para correo -->
-    <EditText
-        android:id="@+id/etEmail"
-        android:layout_width="match_parent"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Correo electrónico"
-        android:inputType="textEmailAddress"
-        android:padding="12dp"
-        android:background="@drawable/edittext_background"
-        android:layout_marginBottom="16dp"/>
+        android:text="WalkGo - Login"
+        android:textColor="#1976D2"
+        android:textStyle="bold"
+        android:textSize="22sp"
+        android:layout_marginBottom="24dp" />
 
-    <!-- EditText para contraseña -->
     <EditText
-        android:id="@+id/etPassword"
+        android:id="@+id/editUsername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Contraseña"
+        android:hint="Usuario"
+        android:layout_marginBottom="12dp" />
+
+    <EditText
+        android:id="@+id/editPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Clave"
         android:inputType="textPassword"
-        android:padding="12dp"
-        android:background="@drawable/edittext_background"
-        android:layout_marginBottom="24dp"/>
+        android:layout_marginBottom="16dp" />
 
-    <!-- Botón iniciar sesión -->
     <Button
         android:id="@+id/btnLogin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Iniciar sesión"
-        android:textColor="#FFFFFF"
-        android:background="#1E88E5"
-        android:padding="12dp"/>
-
+        android:textAllCaps="false"
+        android:backgroundTint="@color/green_700"
+        android:textColor="@android:color/white" />
 </LinearLayout>

@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.api.walkgo.AmigosAPI;
 import com.api.walkgo.RetrofitClient;
 import com.api.walkgo.models.ApiAmigo;
+import com.api.walkgo.models.Amigo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,14 +27,7 @@ public class SeguidoresActivity extends AppCompatActivity {
 
     private List<Amigo> listaAmigos = new ArrayList<>();
 
-    private Amigo Convert(ApiAmigo api) {
-        return new Amigo(
-                api.idAmigo,
-                api.idUsuario,
-                api.idUsuarioAmigo,
-                api.estado
-        );
-    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,12 +83,7 @@ public class SeguidoresActivity extends AppCompatActivity {
                     return;
                 }
 
-                List<ApiAmigo> apiList = response.body();
                 listaAmigos.clear();
-
-                for (ApiAmigo a : apiList) {
-                    listaAmigos.add(Convert(a));
-                }
 
                 amigosAdapter.notifyDataSetChanged();
             }

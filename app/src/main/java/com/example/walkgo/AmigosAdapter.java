@@ -21,6 +21,7 @@ import com.api.walkgo.UsuarioService;
 import com.api.walkgo.models.ApiCreateAmigo;
 import com.api.walkgo.models.ApiUpdateAmigo;
 import com.api.walkgo.models.Usuario;
+import com.api.walkgo.models.Amigo;
 
 import java.util.HashMap;
 import java.util.List;
@@ -55,7 +56,7 @@ public class AmigosAdapter extends RecyclerView.Adapter<AmigosAdapter.AmigoViewH
 
         Amigo _amigo = amigos.get(position);
 
-        int _idUsuarioAmigo = _amigo.getIdUsuarioAmigo();
+        int _idUsuarioAmigo = _amigo.GetIdUsuarioAmigo();
 
         String _nombre = nombresCache.get(_idUsuarioAmigo);
         if (_nombre == null || _nombre.isEmpty()) {
@@ -68,7 +69,7 @@ public class AmigosAdapter extends RecyclerView.Adapter<AmigosAdapter.AmigoViewH
         holder.btnAccion.setVisibility(View.VISIBLE);
         holder.btnAccion.setEnabled(true);
 
-        String _estado = _amigo.getEstado();
+        String _estado = _amigo.GetEstado();
 
         switch (_estado) {
 
@@ -141,13 +142,13 @@ public class AmigosAdapter extends RecyclerView.Adapter<AmigosAdapter.AmigoViewH
 
         ApiCreateAmigo _req = new ApiCreateAmigo(
                 _idUsuarioLogueado,
-                _amigo.getIdUsuarioAmigo()
+                _amigo.GetIdUsuarioAmigo()
         );
 
         _api.CreateAmigo(_req).enqueue(new Callback<ApiCreateAmigo>() {
             @Override
             public void onResponse(Call<ApiCreateAmigo> call, Response<ApiCreateAmigo> response) {
-                _amigo.setEstado("siguiendo");
+                _amigo.SetEstado("siguiendo");
                 notifyItemChanged(_position);
                 Toast.makeText(context, "Ahora sigues a este usuario", Toast.LENGTH_SHORT).show();
             }
@@ -168,7 +169,7 @@ public class AmigosAdapter extends RecyclerView.Adapter<AmigosAdapter.AmigoViewH
             return;
         }
 
-        int _idUsuarioAmigo = _amigo.getIdUsuarioAmigo();
+        int _idUsuarioAmigo = _amigo.GetIdUsuarioAmigo();
 
         Retrofit _retrofit = RetrofitClient.GetInstance();
         AmigosAPI _api = _retrofit.create(AmigosAPI.class);
@@ -179,10 +180,10 @@ public class AmigosAdapter extends RecyclerView.Adapter<AmigosAdapter.AmigoViewH
                 _nuevoEstado
         );
 
-        _api.UpdateAmigo(_amigo.getIdAmigo(), _req).enqueue(new Callback<ApiUpdateAmigo>() {
+        _api.UpdateAmigo(_amigo.GetIdUsuarioAmigo(), _req).enqueue(new Callback<ApiUpdateAmigo>() {
             @Override
             public void onResponse(Call<ApiUpdateAmigo> call, Response<ApiUpdateAmigo> response) {
-                _amigo.setEstado(_nuevoEstado);
+                _amigo.SetEstado(_nuevoEstado);
                 notifyItemChanged(_position);
                 String _msg = "siguiendo".equals(_nuevoEstado)
                         ? "Ahora sigues a este usuario"

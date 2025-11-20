@@ -4,13 +4,13 @@ import com.google.gson.annotations.SerializedName;
 
 public class Amigo {
 
-    @SerializedName(value = "id", alternate = {"idAmigo", "id_amigo"})
+    @SerializedName(value = "id", alternate = {"idSeg", "id_seg"})
     private int id;
 
     @SerializedName(value = "idUsuario", alternate = {"id_usuario"})
     private int idUsuario;
 
-    @SerializedName(value = "idUsuarioAmigo", alternate = {"id_usuario_amigo"})
+    @SerializedName(value = "idSeguido", alternate = {"id_seguido"})
     private int idUsuarioAmigo;
 
     @SerializedName("estado")

@@ -33,9 +33,9 @@ import retrofit2.Retrofit;
 
 public class AmigosAdapter extends RecyclerView.Adapter<AmigosAdapter.AmigoViewHolder> {
 
-    private Context context;
-    private List<Amigo> amigos;
-    private Map<Integer, String> nombresCache = new HashMap<>();
+    private final Context context;
+    private final List<Amigo> amigos;
+    private final Map<Integer, String> nombresCache = new HashMap<>();
 
     public AmigosAdapter(Context _context, List<Amigo> _amigos) {
         this.context = _context;
@@ -147,7 +147,7 @@ public class AmigosAdapter extends RecyclerView.Adapter<AmigosAdapter.AmigoViewH
         _api.CreateAmigo(_req).enqueue(new Callback<ApiCreateAmigo>() {
             @Override
             public void onResponse(Call<ApiCreateAmigo> call, Response<ApiCreateAmigo> response) {
-                _amigo.setEstado("seguido");
+                _amigo.setEstado("siguiendo");
                 notifyItemChanged(_position);
                 Toast.makeText(context, "Ahora sigues a este usuario", Toast.LENGTH_SHORT).show();
             }
@@ -184,7 +184,7 @@ public class AmigosAdapter extends RecyclerView.Adapter<AmigosAdapter.AmigoViewH
             public void onResponse(Call<ApiUpdateAmigo> call, Response<ApiUpdateAmigo> response) {
                 _amigo.setEstado(_nuevoEstado);
                 notifyItemChanged(_position);
-                String _msg = "seguido".equals(_nuevoEstado)
+                String _msg = "siguiendo".equals(_nuevoEstado)
                         ? "Ahora sigues a este usuario"
                         : "Has dejado de seguir a este usuario";
                 Toast.makeText(context, _msg, Toast.LENGTH_SHORT).show();
@@ -212,9 +212,7 @@ public class AmigosAdapter extends RecyclerView.Adapter<AmigosAdapter.AmigoViewH
             super(itemView);
 
             tvNombre = itemView.findViewById(R.id.tvNombreAmigo);
-
             btnAccion = itemView.findViewById(R.id.btnAccionAmigo);
-
             layoutSolicitud = itemView.findViewById(R.id.layoutSolicitud);
             btnAceptar = itemView.findViewById(R.id.btnAceptar);
             btnRechazar = itemView.findViewById(R.id.btnRechazar);

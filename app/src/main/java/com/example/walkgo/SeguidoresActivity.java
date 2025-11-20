@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.api.walkgo.AmigosAPI;
-import com.api.walkgo.AmigosService;
 import com.api.walkgo.RetrofitClient;
 import com.api.walkgo.models.ApiAmigo;
 
@@ -53,8 +52,6 @@ public class SeguidoresActivity extends AppCompatActivity {
             Toast.makeText(this, "No hay token activo. Inicia sesión.", Toast.LENGTH_LONG).show();
             return;
         }
-
-        AmigosService.SetToken(token);
 
         Integer idUsuario = GetLoggedUserId();
 

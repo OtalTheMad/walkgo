@@ -12,13 +12,16 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.api.walkgo.models.Amigo;
-import com.api.walkgo.models.Usuario;
+import com.api.walkgo.models.ApiAmigo;
+import com.api.walkgo.models.ApiCreateAmigo;
+import com.api.walkgo.models.ApiUpdateAmigo;
 import com.api.walkgo.models.Estadistica;
 import com.api.walkgo.models.Perfil;
+import com.api.walkgo.models.Usuario;
 import com.example.walkgo.R;
 
 import java.util.Base64;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -41,6 +44,8 @@ public class PerfilActivity extends AppCompatActivity {
     private boolean esPropio;
     private boolean siguiendo;
 
+    private ApiAmigo amigoPerfil;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +59,9 @@ public class PerfilActivity extends AppCompatActivity {
         RetrofitClient.Init(getApplicationContext());
         CargarPerfil();
         CargarEstadisticas();
+        if (!esPropio) {
+            CargarRelacionSeguir();
+        }
     }
 
     private void InicializarIds() {
@@ -82,6 +90,8 @@ public class PerfilActivity extends AppCompatActivity {
             siguiendo = false;
             btnSeguir.setText("Seguir");
             btnSeguir.setOnClickListener(v -> ToggleSeguir());
+        } else {
+            btnSeguir = null;
         }
     }
 
@@ -127,6 +137,14 @@ public class PerfilActivity extends AppCompatActivity {
                 txtBiografia.setText(_perfil.GetBiografia() != null ? _perfil.GetBiografia() : "");
                 txtPais.setText(_perfil.GetPais() != null ? _perfil.GetPais() : "");
                 txtFechaNac.setText(_perfil.GetFechaNac() != null ? _perfil.GetFechaNac() : "");
+                String _fotoBase64 = _perfil.GetFoto();
+                if (_fotoBase64 != null && !_fotoBase64.isEmpty()) {
+                    try {
+                        byte[] _bytes = Base64.getDecoder().decode(_fotoBase64);
+                        imgFotoPerfil.setImageBitmap(BitmapFactory.decodeByteArray(_bytes, 0, _bytes.length));
+                    } catch (Exception e) {
+                    }
+                }
             }
 
             @Override
@@ -135,7 +153,6 @@ public class PerfilActivity extends AppCompatActivity {
             }
         });
     }
-
 
     private void CargarEstadisticas() {
         Retrofit _retrofit = RetrofitClient.GetInstance();
@@ -166,54 +183,124 @@ public class PerfilActivity extends AppCompatActivity {
         });
     }
 
+    private void CargarRelacionSeguir() {
+        if (btnSeguir == null) {
+            return;
+        }
+        if (loggedUserId <= 0 || perfilUserId <= 0) {
+            siguiendo = false;
+            ActualizarTextoBotonSeguir();
+            return;
+        }
+        Retrofit _retrofit = RetrofitClient.GetInstance();
+        AmigosAPI _api = _retrofit.create(AmigosAPI.class);
+        Call<List<ApiAmigo>> _call = _api.GetAmigosByUsuario(loggedUserId);
+        _call.enqueue(new Callback<List<ApiAmigo>>() {
+            @Override
+            public void onResponse(Call<List<ApiAmigo>> call, Response<List<ApiAmigo>> response) {
+                if (!response.isSuccessful() || response.body() == null) {
+                    amigoPerfil = null;
+                    siguiendo = false;
+                    ActualizarTextoBotonSeguir();
+                    return;
+                }
+                List<ApiAmigo> _lista = response.body();
+                ApiAmigo _encontrado = null;
+                for (ApiAmigo _a : _lista) {
+                    if (_a.idUsuarioAmigo != null && _a.idUsuarioAmigo == perfilUserId) {
+                        _encontrado = _a;
+                        break;
+                    }
+                }
+                amigoPerfil = _encontrado;
+                siguiendo = amigoPerfil != null && "siguiendo".equals(amigoPerfil.estado);
+                ActualizarTextoBotonSeguir();
+            }
+
+            @Override
+            public void onFailure(Call<List<ApiAmigo>> call, Throwable t) {
+                amigoPerfil = null;
+                siguiendo = false;
+                ActualizarTextoBotonSeguir();
+            }
+        });
+    }
+
+    private void ActualizarTextoBotonSeguir() {
+        if (btnSeguir == null) {
+            return;
+        }
+        if (siguiendo) {
+            btnSeguir.setText("Siguiendo");
+        } else {
+            btnSeguir.setText("Seguir");
+        }
+    }
+
     private void ToggleSeguir() {
         if (btnSeguir == null) {
             return;
         }
+        if (loggedUserId <= 0 || perfilUserId <= 0) {
+            Toast.makeText(PerfilActivity.this, "Usuario no válido", Toast.LENGTH_SHORT).show();
+            return;
+        }
         btnSeguir.setEnabled(false);
         Retrofit _retrofit = RetrofitClient.GetInstance();
-        AmigoService _service = _retrofit.create(AmigoService.class);
-        Amigo _amigo = new Amigo();
-        _amigo.SetIdUsuario(loggedUserId);
-        _amigo.SetIdUsuarioAmigo(perfilUserId);
+        AmigosAPI _api = _retrofit.create(AmigosAPI.class);
         if (!siguiendo) {
-            _amigo.SetEstado("activo");
-            Call<Amigo> _call = _service.CrearRelacion(_amigo);
-            _call.enqueue(new Callback<Amigo>() {
+            ApiCreateAmigo _req = new ApiCreateAmigo(
+                    loggedUserId,
+                    perfilUserId
+            );
+            Call<ApiCreateAmigo> _call = _api.CreateAmigo(_req);
+            _call.enqueue(new Callback<ApiCreateAmigo>() {
                 @Override
-                public void onResponse(Call<Amigo> call, Response<Amigo> response) {
+                public void onResponse(Call<ApiCreateAmigo> call, Response<ApiCreateAmigo> response) {
                     btnSeguir.setEnabled(true);
                     if (!response.isSuccessful()) {
                         Toast.makeText(PerfilActivity.this, "No se pudo seguir", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    siguiendo = true;
-                    btnSeguir.setText("Siguiendo");
+                    CargarRelacionSeguir();
                 }
 
                 @Override
-                public void onFailure(Call<Amigo> call, Throwable t) {
+                public void onFailure(Call<ApiCreateAmigo> call, Throwable t) {
                     btnSeguir.setEnabled(true);
                     Toast.makeText(PerfilActivity.this, "Error de red", Toast.LENGTH_SHORT).show();
                 }
             });
         } else {
-            _amigo.SetEstado("no_amigo");
-            Call<Amigo> _call = _service.ActualizarRelacion(_amigo);
-            _call.enqueue(new Callback<Amigo>() {
+            if (amigoPerfil == null || amigoPerfil.idAmigo == null) {
+                btnSeguir.setEnabled(true);
+                Toast.makeText(PerfilActivity.this, "Relación no encontrada", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            String _nuevoEstado = "no_seguido";
+            ApiUpdateAmigo _req = new ApiUpdateAmigo(
+                    loggedUserId,
+                    perfilUserId,
+                    _nuevoEstado
+            );
+            Call<ApiUpdateAmigo> _call = _api.UpdateAmigo(amigoPerfil.idAmigo, _req);
+            _call.enqueue(new Callback<ApiUpdateAmigo>() {
                 @Override
-                public void onResponse(Call<Amigo> call, Response<Amigo> response) {
+                public void onResponse(Call<ApiUpdateAmigo> call, Response<ApiUpdateAmigo> response) {
                     btnSeguir.setEnabled(true);
                     if (!response.isSuccessful()) {
                         Toast.makeText(PerfilActivity.this, "No se pudo dejar de seguir", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     siguiendo = false;
-                    btnSeguir.setText("Seguir");
+                    if (amigoPerfil != null) {
+                        amigoPerfil.estado = _nuevoEstado;
+                    }
+                    ActualizarTextoBotonSeguir();
                 }
 
                 @Override
-                public void onFailure(Call<Amigo> call, Throwable t) {
+                public void onFailure(Call<ApiUpdateAmigo> call, Throwable t) {
                     btnSeguir.setEnabled(true);
                     Toast.makeText(PerfilActivity.this, "Error de red", Toast.LENGTH_SHORT).show();
                 }

@@ -10,8 +10,9 @@ import android.widget.Toast;
 
 import com.api.walkgo.AmigosAPI;
 import com.api.walkgo.RetrofitClient;
-import com.api.walkgo.models.ApiAmigo;
 import com.api.walkgo.models.Amigo;
+import com.api.walkgo.models.ApiAmigo;
+import com.example.walkgo.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class SeguidoresActivity extends AppCompatActivity {
 
@@ -27,7 +29,8 @@ public class SeguidoresActivity extends AppCompatActivity {
 
     private List<Amigo> listaAmigos = new ArrayList<>();
 
-
+    private Integer idUsuarioActual;
+    private boolean puedeCargar = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,55 +38,83 @@ public class SeguidoresActivity extends AppCompatActivity {
         setContentView(R.layout.activity_amigos);
 
         rvAmigos = findViewById(R.id.rvAmigos);
-
         rvAmigos.setLayoutManager(new LinearLayoutManager(this));
+
         amigosAdapter = new AmigosAdapter(this, listaAmigos);
         rvAmigos.setAdapter(amigosAdapter);
 
-        String token = GetToken();
+        String _token = GetToken();
 
-        if (token == null) {
+        if (_token == null) {
             Toast.makeText(this, "No hay token activo. Inicia sesión.", Toast.LENGTH_LONG).show();
             return;
         }
 
-        Integer idUsuario = GetLoggedUserId();
+        Integer _idUsuario = GetLoggedUserId();
 
-        if (idUsuario == null) {
+        if (_idUsuario == null) {
             Toast.makeText(this, "ID de usuario no encontrado.", Toast.LENGTH_LONG).show();
             return;
         }
 
-        CargarAmigos(idUsuario);
+        idUsuarioActual = _idUsuario;
+        puedeCargar = true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (puedeCargar && idUsuarioActual != null) {
+            CargarAmigos(idUsuarioActual);
+        }
     }
 
     private String GetToken() {
-        SharedPreferences prefs = getSharedPreferences("WALKGO_PREFS", MODE_PRIVATE);
-        return prefs.getString("jwt_token", null);
+        SharedPreferences _prefs = getSharedPreferences("WALKGO_PREFS", MODE_PRIVATE);
+        return _prefs.getString("jwt_token", null);
     }
 
     private Integer GetLoggedUserId() {
-        SharedPreferences prefs = getSharedPreferences("WALKGO_PREFS", MODE_PRIVATE);
-        int id = prefs.getInt("id_usuario", -1);
-        return id == -1 ? null : id;
+        SharedPreferences _prefs = getSharedPreferences("WALKGO_PREFS", MODE_PRIVATE);
+        int _id = _prefs.getInt("id_usuario", -1);
+        return _id == -1 ? null : _id;
     }
 
-    private void CargarAmigos(Integer idUsuario) {
+    private void CargarAmigos(Integer _idUsuario) {
 
         RetrofitClient.Init(this);
 
-        AmigosAPI api = RetrofitClient.GetInstance().create(AmigosAPI.class);
+        Retrofit _retrofit = RetrofitClient.GetInstance();
+        AmigosAPI _api = _retrofit.create(AmigosAPI.class);
 
-        api.GetAmigosByUsuario(idUsuario).enqueue(new Callback<List<ApiAmigo>>() {
+        _api.GetAmigosByUsuario(_idUsuario).enqueue(new Callback<List<ApiAmigo>>() {
             @Override
             public void onResponse(Call<List<ApiAmigo>> call, Response<List<ApiAmigo>> response) {
 
-                if (!response.isSuccessful()) {
+                if (!response.isSuccessful() || response.body() == null) {
                     Toast.makeText(SeguidoresActivity.this, "Error: " + response.code(), Toast.LENGTH_SHORT).show();
                     return;
                 }
 
+                List<ApiAmigo> _apiLista = response.body();
+
                 listaAmigos.clear();
+
+                for (ApiAmigo _apiAmigo : _apiLista) {
+                    Amigo _amigo = new Amigo();
+                    if (_apiAmigo.idUsuario != null) {
+                        _amigo.SetIdUsuario(_apiAmigo.idUsuario);
+                    }
+                    if (_apiAmigo.idUsuarioAmigo != null) {
+                        _amigo.SetIdUsuarioAmigo(_apiAmigo.idUsuarioAmigo);
+                    }
+                    if (_apiAmigo.estado != null) {
+                        _amigo.SetEstado(_apiAmigo.estado);
+                    } else {
+                        _amigo.SetEstado("no_seguido");
+                    }
+                    listaAmigos.add(_amigo);
+                }
 
                 amigosAdapter.notifyDataSetChanged();
             }

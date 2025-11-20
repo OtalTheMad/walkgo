@@ -15,8 +15,8 @@ public interface AmigosAPI {
     Call<List<ApiAmigo>> GetAmigosByUsuario(@Path("idUsuario") Integer idUsuario);
 
     @POST("api/amigos")
-    Call<ApiAmigo> CreateAmigo(@Body ApiCreateAmigo request);
+    Call<ApiCreateAmigo> CreateAmigo(@Body ApiCreateAmigo request);
 
     @PUT("api/amigos/{id}")
-    Call<ApiAmigo> UpdateAmigo(@Path("id") Integer id, @Body ApiUpdateAmigo request);
+    Call<ApiUpdateAmigo> UpdateAmigo(@Path("id") Integer id, @Body ApiUpdateAmigo request);
 }

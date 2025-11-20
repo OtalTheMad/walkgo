@@ -9,6 +9,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.api.walkgo.LoginActivity;
+import com.api.walkgo.PerfilActivity;
+
 public class HomeActivity extends AppCompatActivity {
 
     private static final long TIEMPO_INACTIVIDAD = 10 * 60 * 1000; // 10 minutos
@@ -52,17 +55,15 @@ public class HomeActivity extends AppCompatActivity {
         }
 
         // Navegación a otras actividades (descomentar cuando existan)
-        // btnPerfil.setOnClickListener(v -> startActivity(new Intent(this, PerfilActivity.class)));
+        btnPerfil.setOnClickListener(v -> startActivity(new Intent(this, PerfilActivity.class)));
         // btnRanking.setOnClickListener(v -> startActivity(new Intent(this, RankingActivity.class)));
            btnAmigos.setOnClickListener(v -> startActivity(new Intent(this, SeguidoresActivity.class)));
         // btnContador.setOnClickListener(v -> startActivity(new Intent(this, ContadorPasosActivity.class)));
         // btnEstadisticas.setOnClickListener(v -> startActivity(new Intent(this, EstadisticasActivity.class)));
 
         // Navegación al SettingsActivity
-        btnConfig.setOnClickListener(v -> {
-            Intent intent = new Intent(HomeActivity.this, SettingsActivity.class);
-            startActivity(intent);
-        });
+        btnConfig.setOnClickListener(v -> startActivity(new Intent(this, SettingsActivity.class)));
+        //
 
         // Navegación al LogoutActivity
         btnLogout.setOnClickListener(v -> {
@@ -89,7 +90,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private void cerrarSesion() {
         Toast.makeText(this, "Sesión cerrada por inactividad", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(this, activity_login.class);
+        Intent intent = new Intent(this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }

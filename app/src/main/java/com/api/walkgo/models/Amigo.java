@@ -1,0 +1,46 @@
+package com.api.walkgo.models;
+
+import com.google.gson.annotations.SerializedName;
+
+public class Amigo {
+
+    @SerializedName(value = "id", alternate = {"idSeg", "id_seg"})
+    private int id;
+
+    @SerializedName(value = "idUsuario", alternate = {"id_usuario"})
+    private int idUsuario;
+
+    @SerializedName(value = "idSeguido", alternate = {"id_seguido"})
+    private int idUsuarioAmigo;
+
+    @SerializedName("estado")
+    private String estado;
+
+    public int GetId() {
+        return id;
+    }
+
+    public int GetIdUsuario() {
+        return idUsuario;
+    }
+
+    public void SetIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
+    public int GetIdUsuarioAmigo() {
+        return idUsuarioAmigo;
+    }
+
+    public void SetIdUsuarioAmigo(int idUsuarioAmigo) {
+        this.idUsuarioAmigo = idUsuarioAmigo;
+    }
+
+    public String GetEstado() {
+        return estado;
+    }
+
+    public void SetEstado(String estado) {
+        this.estado = estado;
+    }
+}

@@ -31,11 +31,13 @@
             <!-- Título -->
             <TextView
                 android:id="@+id/tvTitulo"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
                 android:text="Preferencias de la aplicación"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="#212121"
-                android:layout_marginBottom="20dp" />
+                android:layout_marginBottom="20dp"/>
 
             <!-- Switch: Activar notificaciones -->
             <Switch

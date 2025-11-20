@@ -14,7 +14,7 @@
         android:theme="@style/Theme.WalkGo"
         tools:targetApi="31">
         <activity
-            android:name=".PerfilActivity"
+            android:name="com.api.walkgo.PerfilActivity"
             android:exported="false" />
         <activity
             android:name=".SeguidoresActivity"
@@ -23,7 +23,7 @@
             android:name=".LogoutActivity"
             android:exported="false" /> <!-- Pantalla principal (Login) -->
         <activity
-            android:name=".activity_login"
+            android:name="com.api.walkgo.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

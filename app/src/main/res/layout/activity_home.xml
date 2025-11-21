@@ -1,125 +1,265 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#F5F5F5"
-    android:padding="24dp"
     tools:context=".HomeActivity">
 
-    <!-- Barra azul superior -->
-    <TextView
+    <RelativeLayout
+        android:id="@+id/layoutHeader"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="72dp"
         android:background="#1976D2"
-        android:gravity="center_vertical"
         android:paddingStart="20dp"
-        android:text="🏃‍♂️ WalkGo"
-        android:textColor="@android:color/white"
-        android:textSize="22sp"
-        android:textStyle="bold" />
+        android:paddingEnd="16dp"
+        android:gravity="center_vertical">
 
-    <!-- Saludo y distancia -->
-    <TextView
-        android:id="@+id/txtNombreUsuario"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="¡Hola, Juan!"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:textColor="#212121"
-        android:layout_marginTop="16dp" />
+        <TextView
+            android:id="@+id/txtTituloApp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="WalkGo"
+            android:textColor="@android:color/white"
+            android:textSize="22sp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/txtDistanciaSemana"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Distancia recorrida esta semana: 0 km"
-        android:textSize="16sp"
-        android:textColor="#212121"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="16dp" />
+        <Button
+            android:id="@+id/btnLogout"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="15dp"
+            android:backgroundTint="@android:color/holo_red_dark"
+            android:src="@drawable/ic_launcher_foreground"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white" />
+    </RelativeLayout>
 
-    <!-- Botones principales -->
-    <Button
-        android:id="@+id/btnPerfil"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Perfil"
-        android:backgroundTint="@color/green_700"
-        android:textColor="@android:color/white"
-        android:layout_marginTop="8dp"
-        android:padding="12dp" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
 
-    <Button
-        android:id="@+id/btnRanking"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Ranking"
-        android:backgroundTint="@color/green_700"
-        android:textColor="@android:color/white"
-        android:layout_marginTop="8dp"
-        android:padding="12dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
 
-    <Button
-        android:id="@+id/btnAmigos"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Social"
-        android:backgroundTint="@color/green_700"
-        android:textColor="@android:color/white"
-        android:layout_marginTop="8dp"
-        android:padding="12dp" />
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="12dp"
+                card_view:cardCornerRadius="16dp"
+                card_view:cardElevation="4dp"
+                android:foreground="?android:attr/selectableItemBackground">
 
-    <Button
-        android:id="@+id/btnContadorPasos"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Contador de pasos"
-        android:backgroundTint="@color/green_700"
-        android:textColor="@android:color/white"
-        android:layout_marginTop="8dp"
-        android:padding="12dp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-    <Button
-        android:id="@+id/btnEstadisticas"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Estadísticas"
-        android:backgroundTint="@color/green_700"
-        android:textColor="@android:color/white"
-        android:layout_marginTop="8dp"
-        android:padding="12dp" />
+                    <TextView
+                        android:id="@+id/txtNombreUsuario"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="¡Hola!"
+                        android:textSize="22sp"
+                        android:textStyle="bold"
+                        android:textColor="#212121" />
 
-    <!-- Nuevo botón Configuración -->
-    <Button
-        android:id="@+id/btnConfig"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Configuración"
-        android:backgroundTint="@color/green_700"
-        android:textColor="@android:color/white"
-        android:layout_marginTop="16dp"
-        android:padding="12dp" />
-    <Button
-        android:id="@+id/btnLogout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Cerrar Sesión"
-        android:backgroundTint="#1976D2"
-        android:textColor="@android:color/white"
-        android:padding="12dp"
-        android:layout_marginTop="20dp"/>
+                    <TextView
+                        android:id="@+id/txtMotd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="¿Con qué empezamos hoy?"
+                        android:textSize="16sp"
+                        android:textColor="#424242"
+                        android:layout_marginTop="4dp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
 
-    <!-- Área de estadísticas semanales -->
-    <LinearLayout
-        android:id="@+id/layoutEstadisticas"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="24dp">
-        <!-- Se llenará dinámicamente desde HomeActivity.java -->
-    </LinearLayout>
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                card_view:cardCornerRadius="16dp"
+                card_view:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Resumen de tu actividad"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="#212121"
+                        android:layout_marginBottom="8dp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:paddingEnd="8dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Total km"
+                                android:textSize="14sp"
+                                android:textColor="#757575" />
+
+                            <TextView
+                                android:id="@+id/txtTotalKmGlobalHome"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0.00"
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+                                android:textColor="#1976D2"
+                                android:layout_marginTop="4dp" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:paddingStart="8dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Total pasos"
+                                android:textSize="14sp"
+                                android:textColor="#757575" />
+
+                            <TextView
+                                android:id="@+id/txtTotalPasosGlobalHome"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="0"
+                                android:textSize="20sp"
+                                android:textStyle="bold"
+                                android:textColor="#1976D2"
+                                android:layout_marginTop="4dp" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/layoutEstadisticas"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginTop="12dp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Acciones rápidas"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="#212121"
+                android:layout_marginBottom="8dp" />
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:columnCount="2"
+                android:rowCount="3">
+
+                <Button
+                    android:id="@+id/btnPerfil"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="6dp"
+                    android:minHeight="80dp"
+                    android:text="Perfil"
+                    android:backgroundTint="@color/green_700"
+                    android:textColor="@android:color/white"
+                    android:textAllCaps="false" />
+
+                <Button
+                    android:id="@+id/btnRanking"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="6dp"
+                    android:minHeight="80dp"
+                    android:text="Ranking"
+                    android:backgroundTint="@color/green_700"
+                    android:textColor="@android:color/white"
+                    android:textAllCaps="false" />
+
+                <Button
+                    android:id="@+id/btnAmigos"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="6dp"
+                    android:minHeight="80dp"
+                    android:text="Social"
+                    android:backgroundTint="@color/green_700"
+                    android:textColor="@android:color/white"
+                    android:textAllCaps="false" />
+
+                <Button
+                    android:id="@+id/btnContadorPasos"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="6dp"
+                    android:minHeight="80dp"
+                    android:text="Contador de pasos"
+                    android:backgroundTint="@color/green_700"
+                    android:textColor="@android:color/white"
+                    android:textAllCaps="false" />
+
+                <Button
+                    android:id="@+id/btnEstadisticas"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="6dp"
+                    android:minHeight="80dp"
+                    android:text="Estadísticas"
+                    android:backgroundTint="@color/green_700"
+                    android:textColor="@android:color/white"
+                    android:textAllCaps="false" />
+
+                <Button
+                    android:id="@+id/btnConfig"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="6dp"
+                    android:minHeight="80dp"
+                    android:text="Configuración"
+                    android:backgroundTint="@color/green_700"
+                    android:textColor="@android:color/white"
+                    android:textAllCaps="false" />
+            </GridLayout>
+
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

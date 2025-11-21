@@ -28,7 +28,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private static final long TIEMPO_INACTIVIDAD = 10 * 60 * 1000;
 
-    private Handler handler = new Handler();
+    private final Handler handler = new Handler();
     private Runnable cerrarSesionRunnable;
 
     private TextView txtNombreUsuario;
@@ -57,6 +57,7 @@ public class HomeActivity extends AppCompatActivity {
         _btnPerfil.setOnClickListener(v -> startActivity(new Intent(this, PerfilActivity.class)));
         _btnAmigos.setOnClickListener(v -> startActivity(new Intent(this, SeguidoresActivity.class)));
         _btnContador.setOnClickListener(v -> startActivity(new Intent(this, RecorridoActivity.class)));
+        _btnEstadisticas.setOnClickListener(v -> startActivity(new Intent(this, EstadisticasActivity.class)));
         _btnConfig.setOnClickListener(v -> startActivity(new Intent(this, SettingsActivity.class)));
         _btnLogout.setOnClickListener(v -> {
             Intent _intent = new Intent(HomeActivity.this, LogoutActivity.class);

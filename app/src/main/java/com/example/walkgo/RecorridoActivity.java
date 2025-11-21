@@ -1,0 +1,290 @@
+package com.example.walkgo;
+
+import android.Manifest;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.os.Bundle;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
+import com.api.walkgo.RecorridoAPI;
+import com.api.walkgo.RetrofitClient;
+import com.api.walkgo.models.ApiFinalizarRecorridoRequest;
+import com.api.walkgo.models.Usuario;
+import com.example.walkgo.R;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+
+import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+
+public class RecorridoActivity extends AppCompatActivity implements OnMapReadyCallback {
+
+    private static final int REQUEST_LOCATION_PERMISSION = 1001;
+
+    private GoogleMap map;
+    private TextView txtDistanciaSesion;
+    private Button btnIniciar;
+    private Button btnDetener;
+    private Button btnGuardar;
+
+    private FusedLocationProviderClient fusedLocationClient;
+    private LocationCallback locationCallback;
+    private boolean recorridoActivo;
+    private Location ultimaLocation;
+    private double distanciaMetros;
+
+    private Integer idUsuarioActual;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_recorrido);
+
+        txtDistanciaSesion = findViewById(R.id.txtDistanciaSesion);
+        btnIniciar = findViewById(R.id.btnIniciarRecorrido);
+        btnDetener = findViewById(R.id.btnDetenerRecorrido);
+        btnGuardar = findViewById(R.id.btnGuardarRecorrido);
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+
+        idUsuarioActual = GetLoggedUserId();
+
+        if (idUsuarioActual == null) {
+            Toast.makeText(this, "Usuario no logueado", Toast.LENGTH_LONG).show();
+            finish();
+            return;
+        }
+
+        RetrofitClient.Init(getApplicationContext());
+
+        SupportMapFragment _mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.mapRecorrido);
+        if (_mapFragment != null) {
+            _mapFragment.getMapAsync(this);
+        }
+
+        btnIniciar.setOnClickListener(v -> IniciarRecorrido());
+        btnDetener.setOnClickListener(v -> DetenerRecorrido());
+        btnGuardar.setOnClickListener(v -> GuardarRecorrido());
+    }
+
+    private Integer GetLoggedUserId() {
+        SharedPreferences _prefs = getSharedPreferences("WALKGO_PREFS", Context.MODE_PRIVATE);
+        int _id = _prefs.getInt("id_usuario", -1);
+        return _id <= 0 ? null : _id;
+    }
+
+    @Override
+    public void onMapReady(@NonNull GoogleMap googleMap) {
+        map = googleMap;
+        VerificarPermisosUbicacion();
+    }
+
+    private void VerificarPermisosUbicacion() {
+        boolean _fine = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED;
+        boolean _coarse = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED;
+
+        if (_fine && _coarse) {
+            HabilitarUbicacionMapa();
+        } else {
+            ActivityCompat.requestPermissions(
+                    this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
+                    REQUEST_LOCATION_PERMISSION
+            );
+        }
+    }
+
+    private void HabilitarUbicacionMapa() {
+        if (map == null) {
+            return;
+        }
+        boolean _fine = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED;
+        boolean _coarse = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED;
+        if (!_fine && !_coarse) {
+            return;
+        }
+        map.setMyLocationEnabled(true);
+        fusedLocationClient.getLastLocation().addOnSuccessListener(location -> {
+            if (location != null) {
+                LatLng _pos = new LatLng(location.getLatitude(), location.getLongitude());
+                map.moveCamera(CameraUpdateFactory.newLatLngZoom(_pos, 16f));
+            }
+        });
+    }
+
+    private void IniciarRecorrido() {
+        if (recorridoActivo) {
+            return;
+        }
+        distanciaMetros = 0.0;
+        ultimaLocation = null;
+        ActualizarTextoDistancia();
+        IniciarActualizacionesUbicacion();
+        recorridoActivo = true;
+        Toast.makeText(this, "Recorrido iniciado", Toast.LENGTH_SHORT).show();
+    }
+
+    private void DetenerRecorrido() {
+        if (!recorridoActivo) {
+            return;
+        }
+        DetenerActualizacionesUbicacion();
+        recorridoActivo = false;
+        Toast.makeText(this, "Recorrido detenido", Toast.LENGTH_SHORT).show();
+    }
+
+    private void GuardarRecorrido() {
+        if (recorridoActivo) {
+            Toast.makeText(this, "Detén el recorrido antes de guardar", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        double _distKm = distanciaMetros / 1000.0;
+        if (_distKm <= 0.0) {
+            Toast.makeText(this, "No hay distancia recorrida", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        int _pasosEstimados = (int) Math.round(_distKm * 1300.0);
+
+        Retrofit _retrofit = RetrofitClient.GetInstance();
+        RecorridoAPI _api = _retrofit.create(RecorridoAPI.class);
+
+        ApiFinalizarRecorridoRequest _req = new ApiFinalizarRecorridoRequest(
+                _distKm,
+                _pasosEstimados
+        );
+
+        _api.FinalizarRecorrido(idUsuarioActual, _req).enqueue(new Callback<Usuario>() {
+            @Override
+            public void onResponse(Call<Usuario> call, Response<Usuario> response) {
+                if (!response.isSuccessful() || response.body() == null) {
+                    Toast.makeText(RecorridoActivity.this, "Error guardando recorrido", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Toast.makeText(RecorridoActivity.this, "Recorrido guardado", Toast.LENGTH_SHORT).show();
+                distanciaMetros = 0.0;
+                ultimaLocation = null;
+                ActualizarTextoDistancia();
+            }
+
+            @Override
+            public void onFailure(Call<Usuario> call, Throwable t) {
+                Toast.makeText(RecorridoActivity.this, "Error de red", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void IniciarActualizacionesUbicacion() {
+        LocationRequest _request = LocationRequest.create();
+        _request.setInterval(3000);
+        _request.setFastestInterval(2000);
+        _request.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+        locationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(@NonNull LocationResult locationResult) {
+                Location _location = locationResult.getLastLocation();
+                if (_location == null) {
+                    return;
+                }
+                ProcesarNuevaUbicacion(_location);
+            }
+        };
+
+        boolean _fine = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED;
+        boolean _coarse = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED;
+        if (!_fine && !_coarse) {
+            return;
+        }
+
+        fusedLocationClient.requestLocationUpdates(_request, locationCallback, getMainLooper());
+    }
+
+    private void DetenerActualizacionesUbicacion() {
+        if (locationCallback != null) {
+            fusedLocationClient.removeLocationUpdates(locationCallback);
+        }
+    }
+
+    private void ProcesarNuevaUbicacion(Location _nueva) {
+        if (ultimaLocation != null) {
+            float[] _result = new float[1];
+            Location.distanceBetween(
+                    ultimaLocation.getLatitude(),
+                    ultimaLocation.getLongitude(),
+                    _nueva.getLatitude(),
+                    _nueva.getLongitude(),
+                    _result
+            );
+            float _delta = _result[0];
+            if (_delta > 0) {
+                distanciaMetros += _delta;
+                ActualizarTextoDistancia();
+            }
+        }
+        ultimaLocation = _nueva;
+        if (map != null) {
+            LatLng _pos = new LatLng(_nueva.getLatitude(), _nueva.getLongitude());
+            map.animateCamera(CameraUpdateFactory.newLatLng(_pos));
+        }
+    }
+
+    private void ActualizarTextoDistancia() {
+        double _km = distanciaMetros / 1000.0;
+        String _texto = String.format(Locale.getDefault(), "Distancia: %.2f km", _km);
+        txtDistanciaSesion.setText(_texto);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_LOCATION_PERMISSION) {
+            boolean _otorgado = false;
+            for (int _res : grantResults) {
+                if (_res == PackageManager.PERMISSION_GRANTED) {
+                    _otorgado = true;
+                    break;
+                }
+            }
+            if (_otorgado) {
+                HabilitarUbicacionMapa();
+            } else {
+                Toast.makeText(this, "Permiso de ubicación requerido", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        DetenerActualizacionesUbicacion();
+    }
+}

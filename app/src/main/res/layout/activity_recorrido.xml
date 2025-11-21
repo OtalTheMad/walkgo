@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#F5F5F5">
+
+    <TextView
+        android:id="@+id/txtTituloRecorrido"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="#1976D2"
+        android:gravity="center_vertical"
+        android:paddingStart="20dp"
+        android:text="Nuevo recorrido"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txtDistanciaSesion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Distancia: 0.00 km"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:gravity="center_horizontal"
+        android:padding="12dp"
+        android:textColor="#212121" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <Button
+            android:id="@+id/btnIniciarRecorrido"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Iniciar"
+            android:backgroundTint="@color/green_700"
+            android:textColor="@android:color/white"
+            android:textAllCaps="false"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="8dp"
+            android:layout_marginEnd="8dp" />
+
+        <Button
+            android:id="@+id/btnDetenerRecorrido"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Detener"
+            android:backgroundTint="@android:color/holo_red_dark"
+            android:textColor="@android:color/white"
+            android:textAllCaps="false"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="8dp"
+            android:layout_marginEnd="8dp" />
+
+        <Button
+            android:id="@+id/btnGuardarRecorrido"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Guardar"
+            android:backgroundTint="#1976D2"
+            android:textColor="@android:color/white"
+            android:textAllCaps="false"
+            android:paddingHorizontal="20dp"
+            android:paddingVertical="8dp" />
+    </LinearLayout>
+
+    <fragment
+        android:id="@+id/mapRecorrido"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+</LinearLayout>

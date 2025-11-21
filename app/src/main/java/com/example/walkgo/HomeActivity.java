@@ -59,6 +59,7 @@ public class HomeActivity extends AppCompatActivity {
         _btnContador.setOnClickListener(v -> startActivity(new Intent(this, RecorridoActivity.class)));
         _btnEstadisticas.setOnClickListener(v -> startActivity(new Intent(this, EstadisticasActivity.class)));
         _btnConfig.setOnClickListener(v -> startActivity(new Intent(this, SettingsActivity.class)));
+        _btnRanking.setOnClickListener(v -> startActivity(new Intent(this, RankingActivity.class)));
         _btnLogout.setOnClickListener(v -> {
             Intent _intent = new Intent(HomeActivity.this, LogoutActivity.class);
             startActivity(_intent);

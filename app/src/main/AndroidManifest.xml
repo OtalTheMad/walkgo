@@ -37,6 +37,10 @@
             android:exported="false" />
 
         <activity
+            android:name=".EstadisticasActivity"
+            android:exported="false" />
+
+        <activity
             android:name="com.api.walkgo.LoginActivity"
             android:exported="true">
             <intent-filter>

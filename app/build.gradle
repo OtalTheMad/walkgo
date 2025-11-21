@@ -37,6 +37,7 @@ dependencies {
     implementation libs.constraintlayout
     implementation libs.play.services.maps
     implementation libs.play.services.location
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core

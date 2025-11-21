@@ -22,6 +22,7 @@ import com.example.walkgo.R;
 
 import java.util.Base64;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,6 +38,8 @@ public class PerfilActivity extends AppCompatActivity {
     private TextView txtBiografia;
     private TextView txtKmRecorrido;
     private TextView txtCaloriasQuemadas;
+    private TextView txtTotalKmGlobal;
+    private TextView txtTotalPasosGlobal;
     private Button btnSeguir;
 
     private int loggedUserId;
@@ -59,6 +62,7 @@ public class PerfilActivity extends AppCompatActivity {
         RetrofitClient.Init(getApplicationContext());
         CargarPerfil();
         CargarEstadisticas();
+        CargarResumenGlobal(perfilUserId);
         if (!esPropio) {
             CargarRelacionSeguir();
         }
@@ -85,6 +89,8 @@ public class PerfilActivity extends AppCompatActivity {
         txtBiografia = findViewById(R.id.txtBiografia);
         txtKmRecorrido = findViewById(R.id.txtKmRecorrido);
         txtCaloriasQuemadas = findViewById(R.id.txtCaloriasQuemadas);
+        txtTotalKmGlobal = findViewById(R.id.txtTotalKmGlobal);
+        txtTotalPasosGlobal = findViewById(R.id.txtTotalPasosGlobal);
         if (!esPropio) {
             btnSeguir = findViewById(R.id.btnSeguir);
             siguiendo = false;
@@ -225,6 +231,52 @@ public class PerfilActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void CargarResumenGlobal(int idUsuario) {
+        Retrofit _retrofit = RetrofitClient.GetInstance();
+        UsuarioService _service = _retrofit.create(UsuarioService.class);
+        Call<Usuario> _call = _service.GetUsuario(idUsuario);
+        _call.enqueue(new Callback<Usuario>() {
+            @Override
+            public void onResponse(Call<Usuario> call, Response<Usuario> response) {
+                if (!response.isSuccessful() || response.body() == null) {
+                    if (txtTotalKmGlobal != null) {
+                        txtTotalKmGlobal.setText("Total km: 0");
+                    }
+                    if (txtTotalPasosGlobal != null) {
+                        txtTotalPasosGlobal.setText("Total pasos: 0");
+                    }
+                    return;
+                }
+                Usuario _usuario = response.body();
+                Double _totalKm = _usuario.GetTotalDistanciaKm();
+                if (_totalKm == null) {
+                    _totalKm = 0.0;
+                }
+                Integer _totalPasos = _usuario.GetTotalPasos();
+                if (_totalPasos == null) {
+                    _totalPasos = 0;
+                }
+                if (txtTotalKmGlobal != null) {
+                    txtTotalKmGlobal.setText("Total km: " + String.format(Locale.getDefault(), "%.2f", _totalKm));
+                }
+                if (txtTotalPasosGlobal != null) {
+                    txtTotalPasosGlobal.setText("Total pasos: " + _totalPasos);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Usuario> call, Throwable t) {
+                if (txtTotalKmGlobal != null) {
+                    txtTotalKmGlobal.setText("Total km: 0");
+                }
+                if (txtTotalPasosGlobal != null) {
+                    txtTotalPasosGlobal.setText("Total pasos: 0");
+                }
+            }
+        });
+    }
+
 
     private void ActualizarTextoBotonSeguir() {
         if (btnSeguir == null) {

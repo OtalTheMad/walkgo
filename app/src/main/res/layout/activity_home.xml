@@ -33,7 +33,7 @@
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="15dp"
             android:backgroundTint="@android:color/holo_red_dark"
-            android:src="@drawable/ic_launcher_foreground"
+            android:drawableTop="@drawable/baseline_exit_to_app_24"
             android:textAllCaps="false"
             android:textColor="@android:color/white" />
     </RelativeLayout>

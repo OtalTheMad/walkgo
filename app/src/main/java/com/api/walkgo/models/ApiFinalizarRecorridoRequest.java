@@ -1,12 +1,25 @@
 package com.api.walkgo.models;
 
+import com.google.gson.annotations.SerializedName;
+
 public class ApiFinalizarRecorridoRequest {
 
-    public Double distanciaSesionKm;
-    public Integer pasosSesion;
+    @SerializedName("distanciaSesionKm")
+    private Double distanciaSesionKm;
 
-    public ApiFinalizarRecorridoRequest(Double distanciaSesionKm, Integer pasosSesion) {
-        this.distanciaSesionKm = distanciaSesionKm;
-        this.pasosSesion = pasosSesion;
+    @SerializedName("pasosSesion")
+    private Integer pasosSesion;
+
+    public ApiFinalizarRecorridoRequest(Double _distanciaSesionKm, Integer _pasosSesion) {
+        this.distanciaSesionKm = _distanciaSesionKm;
+        this.pasosSesion = _pasosSesion;
+    }
+
+    public Double GetDistanciaSesionKm() {
+        return distanciaSesionKm;
+    }
+
+    public Integer GetPasosSesion() {
+        return pasosSesion;
     }
 }

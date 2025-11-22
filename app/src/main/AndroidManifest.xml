@@ -41,6 +41,10 @@
             android:exported="false" />
 
         <activity
+            android:name=".RankingActivity"
+            android:exported="false" />
+
+        <activity
             android:name="com.api.walkgo.LoginActivity"
             android:exported="true">
             <intent-filter>

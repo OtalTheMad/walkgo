@@ -11,20 +11,17 @@ import androidx.appcompat.app.AppCompatDelegate;
 
 public class SettingsActivity extends AppCompatActivity {
 
-    private Switch switchNotificaciones, switchTemaOscuro;
-    private Button btnVolver;
+    private Switch switchTemaOscuro;
     private SharedPreferences prefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Inicializar SharedPreferences
         prefs = getSharedPreferences("config", MODE_PRIVATE);
 
-        // Aplicar tema guardado
-        boolean temaOscuro = prefs.getBoolean("tema_oscuro", false);
-        if (temaOscuro) {
+        boolean _temaOscuro = prefs.getBoolean("tema_oscuro", false);
+        if (_temaOscuro) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
@@ -34,26 +31,13 @@ public class SettingsActivity extends AppCompatActivity {
 
         switchTemaOscuro = findViewById(R.id.switchTemaOscuro);
 
-        switchNotificaciones.setChecked(prefs.getBoolean("notificaciones", true));
-        switchTemaOscuro.setChecked(temaOscuro);
+        switchTemaOscuro.setChecked(_temaOscuro);
 
-        switchNotificaciones.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putBoolean("notificaciones", isChecked);
-            editor.apply();
-
-            if (isChecked) {
-                Toast.makeText(this, "Notificaciones activadas", Toast.LENGTH_SHORT).show();
-
-            } else {
-                Toast.makeText(this, "Notificaciones desactivadas", Toast.LENGTH_SHORT).show();
-            }
-        });
 
         switchTemaOscuro.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putBoolean("tema_oscuro", isChecked);
-            editor.apply();
+            SharedPreferences.Editor _editor = prefs.edit();
+            _editor.putBoolean("tema_oscuro", isChecked);
+            _editor.apply();
 
             if (isChecked) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
@@ -61,7 +45,5 @@ public class SettingsActivity extends AppCompatActivity {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
             }
         });
-
-        btnVolver.setOnClickListener(v -> finish());
     }
 }

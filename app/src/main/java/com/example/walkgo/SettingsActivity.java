@@ -32,32 +32,24 @@ public class SettingsActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_settings);
 
-        // Referencias
-        switchNotificaciones = findViewById(R.id.switchNotificaciones);
         switchTemaOscuro = findViewById(R.id.switchTemaOscuro);
-        btnVolver = findViewById(R.id.btnVolver);
 
-        // Cargar preferencias guardadas
         switchNotificaciones.setChecked(prefs.getBoolean("notificaciones", true));
         switchTemaOscuro.setChecked(temaOscuro);
 
-        // Guardar cambios automáticamente al cambiar el switch de notificaciones
         switchNotificaciones.setOnCheckedChangeListener((buttonView, isChecked) -> {
             SharedPreferences.Editor editor = prefs.edit();
             editor.putBoolean("notificaciones", isChecked);
             editor.apply();
 
-            // Simular activación/desactivación de notificaciones
             if (isChecked) {
                 Toast.makeText(this, "Notificaciones activadas", Toast.LENGTH_SHORT).show();
-                // Aquí podrías iniciar alarmas, recordatorios o FCM
+
             } else {
                 Toast.makeText(this, "Notificaciones desactivadas", Toast.LENGTH_SHORT).show();
-                // Aquí cancelar alarmas o notificaciones programadas
             }
         });
 
-        // Aplicar tema oscuro automáticamente al cambiar switch
         switchTemaOscuro.setOnCheckedChangeListener((buttonView, isChecked) -> {
             SharedPreferences.Editor editor = prefs.edit();
             editor.putBoolean("tema_oscuro", isChecked);
@@ -70,7 +62,6 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-        // Volver al Home
         btnVolver.setOnClickListener(v -> finish());
     }
 }

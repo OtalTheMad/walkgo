@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/walkgo_background"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp"
+        android:gravity="center_horizontal">
+
+        <ImageView
+            android:id="@+id/imgLogoRegister"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:src="@drawable/ic_launcher_foreground"
+            android:contentDescription="Logo WalkGo"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="12dp" />
+
+        <TextView
+            android:id="@+id/txtRegisterAppName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="WalkGo"
+            android:textColor="@color/walkgo_on_background"
+            android:textStyle="bold"
+            android:textSize="24sp"
+            android:layout_marginBottom="4dp" />
+
+        <TextView
+            android:id="@+id/txtRegisterSubtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Crear cuenta"
+            android:textColor="@color/walkgo_on_background"
+            android:textSize="16sp"
+            android:layout_marginBottom="20dp" />
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            card_view:cardCornerRadius="@dimen/home_card_corner_radius"
+            card_view:cardElevation="@dimen/home_card_elevation"
+            card_view:cardBackgroundColor="@color/walkgo_surface">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:id="@+id/txtRegisterTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Datos de tu cuenta"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/walkgo_on_surface"
+                    android:layout_marginBottom="20dp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nombre de usuario"
+                    android:textSize="16sp"
+                    android:textColor="@color/walkgo_on_surface"
+                    android:layout_marginBottom="4dp" />
+
+                <EditText
+                    android:id="@+id/idUsuario"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Nombre de usuario"
+                    android:layout_marginBottom="16dp"
+                    android:padding="12dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/walkgo_on_surface"
+                    android:textColorHint="@color/walkgo_on_surface" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Contraseña"
+                    android:textSize="16sp"
+                    android:textColor="@color/walkgo_on_surface"
+                    android:layout_marginBottom="4dp" />
+
+                <EditText
+                    android:id="@+id/idClave"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Contraseña"
+                    android:inputType="textPassword"
+                    android:layout_marginBottom="16dp"
+                    android:padding="12dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/walkgo_on_surface"
+                    android:textColorHint="@color/walkgo_on_surface" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Repite contraseña"
+                    android:textSize="16sp"
+                    android:textColor="@color/walkgo_on_surface"
+                    android:layout_marginBottom="4dp" />
+
+                <EditText
+                    android:id="@+id/idRepiteClave"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Repite contraseña"
+                    android:inputType="textPassword"
+                    android:layout_marginBottom="24dp"
+                    android:padding="12dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/walkgo_on_surface"
+                    android:textColorHint="@color/walkgo_on_surface" />
+
+                <Button
+                    android:id="@+id/btnRegistrar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="52dp"
+                    android:text="Registrar"
+                    android:textAllCaps="false"
+                    android:textSize="16sp"
+                    android:textColor="@color/walkgo_on_primary"
+                    android:backgroundTint="@color/walkgo_primary" />
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+</ScrollView>

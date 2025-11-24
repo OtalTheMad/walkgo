@@ -49,15 +49,24 @@ public class EstadisticasActivity extends AppCompatActivity {
 
         Integer _idUsuario = GetLoggedUserId();
         if (_idUsuario == null) {
-            Toast.makeText(this, "ID de usuario no encontrado", Toast.LENGTH_SHORT).show();
-            txtTotalKmStats.setText("0.00");
-            txtTotalPasosStats.setText("0");
-            ConfigurarGraficoVacio();
+            IrALogin();
             return;
         }
 
         CargarResumenGlobal(_idUsuario);
         CargarRecorridosSemana(_idUsuario);
+    }
+
+    private void IrALogin() {
+        SharedPreferences _prefs = getSharedPreferences("WALKGO_PREFS", MODE_PRIVATE);
+        SharedPreferences.Editor _editor = _prefs.edit();
+        _editor.clear();
+        _editor.apply();
+
+        android.content.Intent _intent = new android.content.Intent(this, com.api.walkgo.LoginActivity.class);
+        _intent.addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK | android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(_intent);
+        finish();
     }
 
     private Integer GetLoggedUserId() {

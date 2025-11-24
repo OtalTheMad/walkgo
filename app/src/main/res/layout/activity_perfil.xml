@@ -10,17 +10,35 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/txtTituloPerfil"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="72dp"
             android:background="?attr/colorPrimary"
-            android:gravity="center_vertical"
             android:paddingStart="20dp"
-            android:text="Perfil"
-            android:textColor="?attr/colorOnPrimary"
-            android:textSize="22sp"
-            android:textStyle="bold" />
+            android:paddingEnd="16dp">
+
+            <TextView
+                android:id="@+id/txtTituloPerfil"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Perfil"
+                android:textColor="?attr/colorOnPrimary"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnEditarPerfil"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:backgroundTint="@color/walkgo_secondary"
+                android:drawableTop="@drawable/baseline_edit_24"
+                android:text=""
+                android:textAllCaps="false"
+                android:textColor="@android:color/white" />
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -52,7 +70,7 @@
                         android:layout_marginBottom="8dp"
                         android:contentDescription="Foto de perfil"
                         android:scaleType="centerCrop"
-                        android:src="@mipmap/ic_launcher_round" />
+                        android:src="@mipmap/walkgo_logo_1_round" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 

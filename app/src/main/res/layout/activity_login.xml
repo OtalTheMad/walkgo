@@ -12,7 +12,7 @@
         android:id="@+id/imgLogo"
         android:layout_width="96dp"
         android:layout_height="96dp"
-        android:src="@drawable/ic_launcher_foreground"
+        android:src="@mipmap/walkgo_logo_day"
         android:contentDescription="Logo WalkGo"
         android:layout_marginBottom="16dp" />
 
@@ -61,7 +61,7 @@
                 android:id="@+id/editPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Clave"
+                android:hint="Contraseña"
                 android:inputType="textPassword"
                 android:layout_marginBottom="12dp"
                 android:padding="10dp"

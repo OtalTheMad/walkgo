@@ -13,9 +13,15 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface RecorridoAPI {
+
     @POST("api/usuarios/{id}/recorridos/finalizar")
-    Call<Usuario> FinalizarRecorrido(@Path("id") Integer idUsuario, @Body ApiFinalizarRecorridoRequest request);
+    Call<Usuario> FinalizarRecorrido(
+            @Path("id") int idUsuario,
+            @Body ApiFinalizarRecorridoRequest request
+    );
 
     @GET("api/usuarios/{id}/recorridos/semana")
-    Call<List<Recorrido>> GetRecorridosSemana(@Path("id") Integer idUsuario);
+    Call<List<Recorrido>> GetRecorridosSemana(
+            @Path("id") int idUsuario
+    );
 }

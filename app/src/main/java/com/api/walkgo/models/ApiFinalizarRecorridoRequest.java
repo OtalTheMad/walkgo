@@ -10,16 +10,24 @@ public class ApiFinalizarRecorridoRequest {
     @SerializedName("pasosSesion")
     private Integer pasosSesion;
 
-    public ApiFinalizarRecorridoRequest(Double _distanciaSesionKm, Integer _pasosSesion) {
-        this.distanciaSesionKm = _distanciaSesionKm;
-        this.pasosSesion = _pasosSesion;
+    public ApiFinalizarRecorridoRequest(Double distanciaSesionKm, Integer pasosSesion) {
+        this.distanciaSesionKm = distanciaSesionKm;
+        this.pasosSesion = pasosSesion;
     }
 
     public Double GetDistanciaSesionKm() {
         return distanciaSesionKm;
     }
 
+    public void SetDistanciaSesionKm(Double distanciaSesionKm) {
+        this.distanciaSesionKm = distanciaSesionKm;
+    }
+
     public Integer GetPasosSesion() {
         return pasosSesion;
+    }
+
+    public void SetPasosSesion(Integer pasosSesion) {
+        this.pasosSesion = pasosSesion;
     }
 }

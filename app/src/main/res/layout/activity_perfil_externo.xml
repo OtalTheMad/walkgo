@@ -52,7 +52,7 @@
                         android:layout_marginBottom="8dp"
                         android:contentDescription="Foto de perfil"
                         android:scaleType="centerCrop"
-                        android:src="@mipmap/ic_launcher_round" />
+                        android:src="@mipmap/walkgo_logo_1_round" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 

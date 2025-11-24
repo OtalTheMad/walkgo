@@ -53,10 +53,6 @@ public class PerfilActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         InicializarIds();
-        if (loggedUserId <= 0) {
-            IrALogin();
-            return;
-        }
         if (esPropio) {
             setContentView(R.layout.activity_perfil);
         } else {
@@ -64,10 +60,12 @@ public class PerfilActivity extends AppCompatActivity {
         }
         InicializarVistas();
         RetrofitClient.Init(getApplicationContext());
+    }
 
-        CargarPerfilDesdeCache();
-        CargarPerfilDesdeApi();
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        CargarPerfil();
         CargarEstadisticas();
         CargarResumenGlobal(perfilUserId);
         if (!esPropio) {
@@ -76,7 +74,7 @@ public class PerfilActivity extends AppCompatActivity {
     }
 
     private void InicializarIds() {
-        SharedPreferences _prefs = GetPrefs();
+        SharedPreferences _prefs = getSharedPreferences("WALKGO_PREFS", Context.MODE_PRIVATE);
         loggedUserId = _prefs.getInt("id_usuario", -1);
         Intent _intent = getIntent();
         int _perfilIdIntent = _intent.getIntExtra("id_usuario_perfil", -1);
@@ -86,10 +84,6 @@ public class PerfilActivity extends AppCompatActivity {
             perfilUserId = _perfilIdIntent;
         }
         esPropio = loggedUserId == perfilUserId;
-    }
-
-    private SharedPreferences GetPrefs() {
-        return getSharedPreferences("WALKGO_PREFS", Context.MODE_PRIVATE);
     }
 
     private void InicializarVistas() {
@@ -105,13 +99,40 @@ public class PerfilActivity extends AppCompatActivity {
         if (!esPropio) {
             btnSeguir = findViewById(R.id.btnSeguir);
             siguiendo = false;
+            btnSeguir.setText("Seguir");
             btnSeguir.setOnClickListener(v -> ToggleSeguir());
         } else {
             btnSeguir = null;
         }
     }
 
-    private void CargarPerfilDesdeApi() {
+    private void CargarNombreUsuario(int idUsuario) {
+        Retrofit _retrofit = RetrofitClient.GetInstance();
+        UsuarioService _service = _retrofit.create(UsuarioService.class);
+        Call<Usuario> _call = _service.GetUsuario(idUsuario);
+        _call.enqueue(new Callback<Usuario>() {
+            @Override
+            public void onResponse(Call<Usuario> call, Response<Usuario> response) {
+                if (!response.isSuccessful() || response.body() == null) {
+                    txtNombreUsuario.setText("Usuario " + idUsuario);
+                    return;
+                }
+                Usuario _usuario = response.body();
+                String _nombre = _usuario.GetUsuario();
+                if (_nombre == null || _nombre.isEmpty()) {
+                    _nombre = "Usuario " + idUsuario;
+                }
+                txtNombreUsuario.setText(_nombre);
+            }
+
+            @Override
+            public void onFailure(Call<Usuario> call, Throwable t) {
+                txtNombreUsuario.setText("Usuario " + idUsuario);
+            }
+        });
+    }
+
+    private void CargarPerfil() {
         Retrofit _retrofit = RetrofitClient.GetInstance();
         PerfilService _service = _retrofit.create(PerfilService.class);
         Call<Perfil> _call = _service.GetPerfil(perfilUserId);
@@ -123,8 +144,18 @@ public class PerfilActivity extends AppCompatActivity {
                     return;
                 }
                 Perfil _perfil = response.body();
-                MostrarPerfil(_perfil);
-                GuardarPerfilEnCache(_perfil);
+                CargarNombreUsuario(_perfil.GetIdUsuario());
+                txtBiografia.setText(_perfil.GetBiografia() != null ? _perfil.GetBiografia() : "");
+                txtPais.setText(_perfil.GetPais() != null ? _perfil.GetPais() : "");
+                txtFechaNac.setText(_perfil.GetFechaNac() != null ? _perfil.GetFechaNac() : "");
+                String _fotoBase64 = _perfil.GetFoto();
+                if (_fotoBase64 != null && !_fotoBase64.isEmpty()) {
+                    try {
+                        byte[] _bytes = Base64.getDecoder().decode(_fotoBase64);
+                        imgFotoPerfil.setImageBitmap(BitmapFactory.decodeByteArray(_bytes, 0, _bytes.length));
+                    } catch (Exception e) {
+                    }
+                }
             }
 
             @Override
@@ -132,119 +163,6 @@ public class PerfilActivity extends AppCompatActivity {
                 Toast.makeText(PerfilActivity.this, "Error de red", Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    private void MostrarPerfil(Perfil perfil) {
-        if (perfil == null) {
-            return;
-        }
-        CargarNombreUsuario(perfil.GetIdUsuario());
-        String _bio = perfil.GetBiografia() != null ? perfil.GetBiografia() : "";
-        String _pais = perfil.GetPais() != null ? perfil.GetPais() : "";
-        String _fecha = perfil.GetFechaNac() != null ? perfil.GetFechaNac() : "";
-        txtBiografia.setText(_bio);
-        txtPais.setText(_pais);
-        txtFechaNac.setText(_fecha);
-        String _fotoBase64 = perfil.GetFoto();
-        if (_fotoBase64 != null && !_fotoBase64.isEmpty()) {
-            try {
-                byte[] _bytes = Base64.getDecoder().decode(_fotoBase64);
-                imgFotoPerfil.setImageBitmap(BitmapFactory.decodeByteArray(_bytes, 0, _bytes.length));
-            } catch (Exception e) {
-            }
-        }
-    }
-
-    private void CargarPerfilDesdeCache() {
-        SharedPreferences _prefs = GetPrefs();
-        String _prefix = "perfil_" + perfilUserId + "_";
-        String _bio = _prefs.getString(_prefix + "biografia", null);
-        String _pais = _prefs.getString(_prefix + "pais", null);
-        String _fecha = _prefs.getString(_prefix + "fechaNac", null);
-        String _fotoBase64 = _prefs.getString(_prefix + "foto", null);
-        String _nombre = _prefs.getString(_prefix + "nombre", null);
-
-        if (_nombre != null && txtNombreUsuario != null) {
-            txtNombreUsuario.setText(_nombre);
-        }
-        if (_bio != null && txtBiografia != null) {
-            txtBiografia.setText(_bio);
-        }
-        if (_pais != null && txtPais != null) {
-            txtPais.setText(_pais);
-        }
-        if (_fecha != null && txtFechaNac != null) {
-            txtFechaNac.setText(_fecha);
-        }
-        if (_fotoBase64 != null && !_fotoBase64.isEmpty() && imgFotoPerfil != null) {
-            try {
-                byte[] _bytes = Base64.getDecoder().decode(_fotoBase64);
-                imgFotoPerfil.setImageBitmap(BitmapFactory.decodeByteArray(_bytes, 0, _bytes.length));
-            } catch (Exception e) {
-            }
-        }
-    }
-
-    private void GuardarPerfilEnCache(Perfil perfil) {
-        if (perfil == null) {
-            return;
-        }
-        SharedPreferences _prefs = GetPrefs();
-        SharedPreferences.Editor _editor = _prefs.edit();
-        String _prefix = "perfil_" + perfilUserId + "_";
-        String _bio = perfil.GetBiografia() != null ? perfil.GetBiografia() : "";
-        String _pais = perfil.GetPais() != null ? perfil.GetPais() : "";
-        String _fecha = perfil.GetFechaNac() != null ? perfil.GetFechaNac() : "";
-        String _foto = perfil.GetFoto() != null ? perfil.GetFoto() : "";
-        _editor.putString(_prefix + "biografia", _bio);
-        _editor.putString(_prefix + "pais", _pais);
-        _editor.putString(_prefix + "fechaNac", _fecha);
-        _editor.putString(_prefix + "foto", _foto);
-        _editor.apply();
-        CargarNombreUsuarioYGuardarCache(perfil.GetIdUsuario());
-    }
-
-    private void CargarNombreUsuarioYGuardarCache(int idUsuario) {
-        Retrofit _retrofit = RetrofitClient.GetInstance();
-        UsuarioService _service = _retrofit.create(UsuarioService.class);
-        Call<Usuario> _call = _service.GetUsuario(idUsuario);
-        _call.enqueue(new Callback<Usuario>() {
-            @Override
-            public void onResponse(Call<Usuario> call, Response<Usuario> response) {
-                if (!response.isSuccessful() || response.body() == null) {
-                    String _fallback = "Usuario " + idUsuario;
-                    txtNombreUsuario.setText(_fallback);
-                    GuardarNombreCache(_fallback);
-                    return;
-                }
-                Usuario _usuario = response.body();
-                String _nombre = _usuario.GetUsuario();
-                if (_nombre == null || _nombre.isEmpty()) {
-                    _nombre = "Usuario " + idUsuario;
-                }
-                txtNombreUsuario.setText(_nombre);
-                GuardarNombreCache(_nombre);
-            }
-
-            @Override
-            public void onFailure(Call<Usuario> call, Throwable t) {
-                String _fallback = "Usuario " + idUsuario;
-                txtNombreUsuario.setText(_fallback);
-                GuardarNombreCache(_fallback);
-            }
-        });
-    }
-
-    private void GuardarNombreCache(String nombre) {
-        SharedPreferences _prefs = GetPrefs();
-        SharedPreferences.Editor _editor = _prefs.edit();
-        String _prefix = "perfil_" + perfilUserId + "_";
-        _editor.putString(_prefix + "nombre", nombre != null ? nombre : "");
-        _editor.apply();
-    }
-
-    private void CargarNombreUsuario(int idUsuario) {
-        CargarNombreUsuarioYGuardarCache(idUsuario);
     }
 
     private void CargarEstadisticas() {
@@ -260,12 +178,11 @@ public class PerfilActivity extends AppCompatActivity {
                     return;
                 }
                 Estadistica _estadistica = response.body();
-                String _km = String.valueOf(_estadistica.GetKmRecorrido());
+                txtKmRecorrido.setText(String.valueOf(_estadistica.GetKmRecorrido()));
                 String _cal = _estadistica.GetCaloriasQuemadas();
                 if (_cal == null || _cal.isEmpty()) {
                     _cal = "0";
                 }
-                txtKmRecorrido.setText(_km);
                 txtCaloriasQuemadas.setText(_cal);
             }
 
@@ -445,16 +362,5 @@ public class PerfilActivity extends AppCompatActivity {
                 }
             });
         }
-    }
-
-    private void IrALogin() {
-        SharedPreferences _prefs = GetPrefs();
-        SharedPreferences.Editor _editor = _prefs.edit();
-        _editor.clear();
-        _editor.apply();
-        Intent _intent = new Intent(this, LoginActivity.class);
-        _intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(_intent);
-        finish();
     }
 }

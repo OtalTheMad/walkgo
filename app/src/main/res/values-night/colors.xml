@@ -1,22 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="green_50">#022C22</color>
-    <color name="green_200">#34D399</color>
-    <color name="green_600">#22C55E</color>
-    <color name="green_700">#16A34A</color>
+
+    <!-- Verdes adaptados a dark -->
+    <color name="green_50">#052E16</color>
+    <color name="green_200">#6EE7B7</color>
+    <color name="green_600">#16A34A</color>
+    <color name="green_700">#15803D</color>
     <color name="green_800">#14532D</color>
-    <color name="white">#000000</color>
-    <color name="red_700">#EF5350</color>
 
-    <color name="walkgo_primary">@color/green_200</color>
-    <color name="walkgo_secondary">@color/green_700</color>
+    <color name="red_700">#F97373</color>
+    <color name="white">#F9FAFB</color>
 
-    <color name="walkgo_background">#000000</color>
-    <color name="walkgo_surface">#101010</color>
+    <color name="walkgo_primary">@color/green_700</color>
+    <color name="walkgo_secondary">@color/green_200</color>
 
-    <color name="walkgo_on_primary">#000000</color>
-    <color name="walkgo_on_background">#FFFFFF</color>
-    <color name="walkgo_on_surface">#FFFFFF</color>
+    <color name="walkgo_background">#101418</color>
+    <color name="walkgo_surface">#171C23</color>
+
+    <color name="walkgo_on_primary">#ECFDF5</color>
+    <color name="walkgo_on_background">#E5E7EB</color>
+    <color name="walkgo_on_surface">#F3F4F6</color>
 
     <color name="walkgo_error">@color/red_700</color>
+
 </resources>

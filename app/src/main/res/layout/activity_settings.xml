@@ -1,86 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5">
+    android:background="@color/walkgo_background">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- Barra azul superior igual a HomeActivity -->
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="#1976D2"
+            android:layout_height="72dp"
+            android:background="?attr/colorPrimary"
             android:gravity="center_vertical"
             android:paddingStart="20dp"
             android:text="Configuración"
-            android:textColor="@android:color/white"
+            android:textColor="?attr/colorOnPrimary"
             android:textSize="22sp"
             android:textStyle="bold" />
 
-        <!-- Contenido principal -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="24dp">
+            android:padding="16dp">
 
-            <!-- Título -->
-            <TextView
-                android:id="@+id/tvTitulo"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:text="Preferencias de la aplicación"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:textColor="#212121"
-                android:layout_marginBottom="20dp"/>
-
-            <!-- Switch: Activar notificaciones -->
-            <Switch
-                android:id="@+id/switchNotificaciones"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Activar notificaciones"
-                android:textColor="#212121"
-                android:textSize="16sp"
-                android:layout_marginBottom="15dp" />
+                card_view:cardCornerRadius="@dimen/home_card_corner_radius"
+                card_view:cardElevation="@dimen/home_card_elevation"
+                card_view:cardBackgroundColor="@color/walkgo_surface">
 
-            <!-- Switch: Modo oscuro -->
-            <Switch
-                android:id="@+id/switchTemaOscuro"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Modo oscuro"
-                android:textColor="#212121"
-                android:textSize="16sp"
-                android:layout_marginBottom="30dp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="20dp">
 
-            <!-- Botón Guardar cambios (verde como HomeActivity) -->
-            <Button
-                android:id="@+id/btnGuardar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Guardar cambios"
-                android:backgroundTint="@color/green_700"
-                android:textColor="@android:color/white"
-                android:padding="12dp"
-                android:layout_marginBottom="10dp" />
+                    <TextView
+                        android:id="@+id/tvTitulo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Preferencias de la aplicación"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/walkgo_on_surface"
+                        android:layout_marginBottom="20dp" />
 
-            <!-- Botón Volver al inicio (azul como HomeActivity) -->
-            <Button
-                android:id="@+id/btnVolver"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Volver al inicio"
-                android:backgroundTint="#1976D2"
-                android:textColor="@android:color/white"
-                android:padding="12dp" />
-
+                    <Switch
+                        android:id="@+id/switchTemaOscuro"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Modo oscuro"
+                        android:textColor="@color/walkgo_on_surface"
+                        android:textSize="16sp"
+                        android:layout_marginBottom="8dp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
         </LinearLayout>
-
     </LinearLayout>
 </ScrollView>

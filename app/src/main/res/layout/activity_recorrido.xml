@@ -1,75 +1,92 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F5F5F5">
+    android:background="@color/walkgo_background">
 
     <TextView
         android:id="@+id/txtTituloRecorrido"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="#1976D2"
+        android:layout_height="72dp"
+        android:background="?attr/colorPrimary"
         android:gravity="center_vertical"
         android:paddingStart="20dp"
         android:text="Nuevo recorrido"
-        android:textColor="@android:color/white"
+        android:textColor="?attr/colorOnPrimary"
         android:textSize="20sp"
         android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/txtDistanciaSesion"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Distancia: 0.00 km"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:gravity="center_horizontal"
-        android:padding="12dp"
-        android:textColor="#212121" />
+        android:layout_margin="16dp"
+        card_view:cardCornerRadius="@dimen/home_card_corner_radius"
+        card_view:cardElevation="@dimen/home_card_elevation"
+        card_view:cardBackgroundColor="@color/walkgo_surface">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:padding="8dp">
-
-        <Button
-            android:id="@+id/btnIniciarRecorrido"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Iniciar"
-            android:backgroundTint="@color/green_700"
-            android:textColor="@android:color/white"
-            android:textAllCaps="false"
-            android:paddingHorizontal="20dp"
-            android:paddingVertical="8dp"
-            android:layout_marginEnd="8dp" />
+            android:orientation="vertical"
+            android:padding="16dp">
 
-        <Button
-            android:id="@+id/btnDetenerRecorrido"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Detener"
-            android:backgroundTint="@android:color/holo_red_dark"
-            android:textColor="@android:color/white"
-            android:textAllCaps="false"
-            android:paddingHorizontal="20dp"
-            android:paddingVertical="8dp"
-            android:layout_marginEnd="8dp" />
+            <TextView
+                android:id="@+id/txtDistanciaSesion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Distancia: 0.00 km"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:gravity="center_horizontal"
+                android:textColor="@color/walkgo_on_surface"
+                android:paddingBottom="8dp" />
 
-        <Button
-            android:id="@+id/btnGuardarRecorrido"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Guardar"
-            android:backgroundTint="#1976D2"
-            android:textColor="@android:color/white"
-            android:textAllCaps="false"
-            android:paddingHorizontal="20dp"
-            android:paddingVertical="8dp" />
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingTop="8dp">
+
+                <Button
+                    android:id="@+id/btnIniciarRecorrido"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    android:text="Iniciar"
+                    android:backgroundTint="@color/green_700"
+                    android:textColor="@android:color/white"
+                    android:textAllCaps="false"
+                    android:paddingVertical="8dp" />
+
+                <Button
+                    android:id="@+id/btnDetenerRecorrido"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginEnd="8dp"
+                    android:text="Detener"
+                    android:backgroundTint="@android:color/holo_red_dark"
+                    android:textColor="@android:color/white"
+                    android:textAllCaps="false"
+                    android:paddingVertical="8dp" />
+
+                <Button
+                    android:id="@+id/btnGuardarRecorrido"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Guardar"
+                    android:backgroundTint="?attr/colorPrimary"
+                    android:textColor="?attr/colorOnPrimary"
+                    android:textAllCaps="false"
+                    android:paddingVertical="8dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 
     <fragment
         android:id="@+id/mapRecorrido"

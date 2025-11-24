@@ -14,13 +14,13 @@
         android:layout_height="72dp"
         android:background="?attr/colorPrimary"
         android:paddingStart="20dp"
-        android:paddingEnd="16dp"
-        android:gravity="center_vertical">
+        android:paddingEnd="16dp">
 
         <TextView
             android:id="@+id/txtTituloApp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:text="WalkGo"
             android:textColor="?attr/colorOnPrimary"
             android:textSize="22sp"
@@ -31,8 +31,11 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
             android:layout_marginEnd="15dp"
             android:backgroundTint="@color/red_700"
+            android:text=""
+            android:padding="0dp"
             android:drawableTop="@drawable/baseline_exit_to_app_24"
             android:textAllCaps="false"
             android:textColor="@android:color/white" />
@@ -54,8 +57,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="12dp"
-                card_view:cardCornerRadius="16dp"
-                card_view:cardElevation="4dp"
+                card_view:cardCornerRadius="@dimen/home_card_corner_radius"
+                card_view:cardElevation="@dimen/home_card_elevation"
                 card_view:cardBackgroundColor="@color/walkgo_surface"
                 android:foreground="?android:attr/selectableItemBackground">
 
@@ -85,15 +88,15 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                card_view:cardCornerRadius="16dp"
-                card_view:cardElevation="4dp"
-                card_view:cardBackgroundColor="@color/walkgo_surface">
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            card_view:cardCornerRadius="@dimen/home_card_corner_radius"
+            card_view:cardElevation="@dimen/home_card_elevation"
+            card_view:cardBackgroundColor="@color/walkgo_surface">
 
-                <LinearLayout
+            <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
@@ -182,84 +185,103 @@
                 android:textColor="@color/walkgo_on_background"
                 android:layout_marginBottom="8dp" />
 
-            <GridLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:columnCount="2"
-                android:rowCount="3">
+                android:orientation="vertical">
 
-                <Button
-                    android:id="@+id/btnPerfil"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="6dp"
-                    android:minHeight="80dp"
-                    android:text="Perfil"
-                    android:backgroundTint="@color/green_700"
-                    android:textColor="@android:color/white"
-                    android:textAllCaps="false" />
+                    android:orientation="horizontal">
 
-                <Button
-                    android:id="@+id/btnRanking"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="6dp"
-                    android:minHeight="80dp"
-                    android:text="Ranking"
-                    android:backgroundTint="@color/green_700"
-                    android:textColor="@android:color/white"
-                    android:textAllCaps="false" />
+                    <Button
+                        android:id="@+id/btnPerfil"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_margin="6dp"
+                        android:minHeight="80dp"
+                        android:text="Perfil"
+                        android:backgroundTint="@color/green_700"
+                        android:textColor="@android:color/white"
+                        android:textAllCaps="false" />
 
-                <Button
-                    android:id="@+id/btnAmigos"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="6dp"
-                    android:minHeight="80dp"
-                    android:text="Social"
-                    android:backgroundTint="@color/green_700"
-                    android:textColor="@android:color/white"
-                    android:textAllCaps="false" />
+                    <Button
+                        android:id="@+id/btnRanking"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_margin="6dp"
+                        android:minHeight="80dp"
+                        android:text="Ranking"
+                        android:backgroundTint="@color/green_700"
+                        android:textColor="@android:color/white"
+                        android:textAllCaps="false" />
+                </LinearLayout>
 
-                <Button
-                    android:id="@+id/btnContadorPasos"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="6dp"
-                    android:minHeight="80dp"
-                    android:text="Contador de pasos"
-                    android:backgroundTint="@color/green_700"
-                    android:textColor="@android:color/white"
-                    android:textAllCaps="false" />
+                    android:orientation="horizontal">
 
-                <Button
-                    android:id="@+id/btnEstadisticas"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="6dp"
-                    android:minHeight="80dp"
-                    android:text="Estadísticas"
-                    android:backgroundTint="@color/green_700"
-                    android:textColor="@android:color/white"
-                    android:textAllCaps="false" />
+                    <Button
+                        android:id="@+id/btnAmigos"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_margin="6dp"
+                        android:minHeight="80dp"
+                        android:text="Social"
+                        android:backgroundTint="@color/green_700"
+                        android:textColor="@android:color/white"
+                        android:textAllCaps="false" />
 
-                <Button
-                    android:id="@+id/btnConfig"
-                    android:layout_width="0dp"
+                    <Button
+                        android:id="@+id/btnContadorPasos"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_margin="6dp"
+                        android:minHeight="80dp"
+                        android:text="Recorrido"
+                        android:backgroundTint="@color/green_700"
+                        android:textColor="@android:color/white"
+                        android:textAllCaps="false" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_columnWeight="1"
-                    android:layout_margin="6dp"
-                    android:minHeight="80dp"
-                    android:text="Configuración"
-                    android:backgroundTint="@color/green_700"
-                    android:textColor="@android:color/white"
-                    android:textAllCaps="false" />
-            </GridLayout>
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btnEstadisticas"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_margin="6dp"
+                        android:minHeight="80dp"
+                        android:text="Estadísticas"
+                        android:backgroundTint="@color/green_700"
+                        android:textColor="@android:color/white"
+                        android:textAllCaps="false" />
+
+                    <Button
+                        android:id="@+id/btnConfig"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_margin="6dp"
+                        android:minHeight="80dp"
+                        android:text="Configuración"
+                        android:backgroundTint="@color/green_700"
+                        android:textColor="@android:color/white"
+                        android:textAllCaps="false" />
+                </LinearLayout>
+
+            </LinearLayout>
+
 
         </LinearLayout>
     </ScrollView>

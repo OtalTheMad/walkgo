@@ -1,50 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:padding="24dp"
-    android:gravity="center"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:gravity="center_horizontal"
+    android:background="@color/walkgo_background">
 
     <ImageView
         android:id="@+id/imgLogo"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
         android:src="@drawable/ic_launcher_foreground"
         android:contentDescription="Logo WalkGo"
-        android:layout_marginBottom="32dp"/>
+        android:layout_marginBottom="16dp" />
 
     <TextView
+        android:id="@+id/txtAppName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="WalkGo"
-        android:textColor="#1976D2"
+        android:textColor="@color/walkgo_on_background"
         android:textStyle="bold"
-        android:textSize="22sp"
+        android:textSize="24sp"
         android:layout_marginBottom="24dp" />
 
-    <EditText
-        android:id="@+id/editUsername"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Usuario"
-        android:layout_marginBottom="12dp" />
+        card_view:cardBackgroundColor="@color/walkgo_surface">
 
-    <EditText
-        android:id="@+id/editPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Clave"
-        android:inputType="textPassword"
-        android:layout_marginBottom="16dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
 
-    <Button
-        android:id="@+id/btnLogin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/green_700"
-        android:text="Iniciar sesión"
-        android:textAllCaps="false"
-        android:textColor="@android:color/white" />
+            <TextView
+                android:id="@+id/txtLoginTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Iniciar sesión"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/walkgo_on_surface"
+                android:layout_marginBottom="12dp" />
+
+            <EditText
+                android:id="@+id/editUsername"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Usuario"
+                android:layout_marginBottom="12dp"
+                android:padding="10dp"
+                android:textColor="@color/walkgo_on_surface"
+                android:textColorHint="@color/walkgo_on_surface" />
+
+            <EditText
+                android:id="@+id/editPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Clave"
+                android:inputType="textPassword"
+                android:layout_marginBottom="12dp"
+                android:padding="10dp"
+                android:textColor="@color/walkgo_on_surface"
+                android:textColorHint="@color/walkgo_on_surface" />
+
+            <Button
+                android:id="@+id/btnIrRegistro"
+                android:layout_gravity="right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minHeight="40dp"
+                android:layout_marginBottom="12dp"
+                android:text="Regístrate"
+                android:textAllCaps="false"
+                android:backgroundTint="@color/walkgo_surface"
+                android:textColor="@color/walkgo_primary" />
+
+            <Button
+                android:id="@+id/btnLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:text="Iniciar sesión"
+                android:textAllCaps="false"
+                android:textColor="?attr/colorOnPrimary"
+                android:backgroundTint="?attr/colorPrimary" />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
 </LinearLayout>

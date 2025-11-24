@@ -1,247 +1,290 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
-    tools:context="com.api.walkgo.PerfilActivity">
+    android:background="@color/walkgo_background">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/txtTituloPerfil"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#1976D2"
-            android:padding="16dp"
+            android:layout_height="72dp"
+            android:background="?attr/colorPrimary"
+            android:gravity="center_vertical"
+            android:paddingStart="20dp"
             android:text="Perfil"
-            android:textColor="@android:color/white"
+            android:textColor="?attr/colorOnPrimary"
             android:textSize="22sp"
             android:textStyle="bold" />
 
         <LinearLayout
-            android:id="@+id/bloqueFotoPerfil"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:paddingTop="24dp"
-            android:paddingBottom="16dp">
-
-            <ImageView
-                android:id="@+id/imgFotoPerfil"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_marginBottom="8dp"
-                android:contentDescription="Foto de perfil"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/ic_launcher_round" />
-
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/btnSeguir"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:text="Seguir"
-            android:textAllCaps="false"
-            android:backgroundTint="@color/green_700"
-            android:textColor="@android:color/white"
-            android:textSize="16sp" />
-
-        <LinearLayout
-            android:id="@+id/bloqueUsuario"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="#F5F5F5"
-            android:padding="16dp"
-            android:layout_marginBottom="16dp">
+            android:padding="16dp">
 
-            <TextView
-                android:id="@+id/txtEtiquetaUsuario"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Usuario"
-                android:textColor="#1976D2"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/txtNombreUsuario"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Nombre de usuario"
-                android:textColor="#000000"
+                card_view:cardCornerRadius="@dimen/home_card_corner_radius"
+                card_view:cardElevation="@dimen/home_card_elevation"
+                card_view:cardBackgroundColor="@color/walkgo_surface"
+                android:layout_marginBottom="16dp">
+
+                <LinearLayout
+                    android:id="@+id/bloqueFotoPerfil"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:paddingTop="24dp"
+                    android:paddingBottom="16dp">
+
+                    <ImageView
+                        android:id="@+id/imgFotoPerfil"
+                        android:layout_width="120dp"
+                        android:layout_height="120dp"
+                        android:layout_marginBottom="8dp"
+                        android:contentDescription="Foto de perfil"
+                        android:scaleType="centerCrop"
+                        android:src="@mipmap/ic_launcher_round" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <Button
+                android:id="@+id/btnSeguir"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:minHeight="48dp"
+                android:text="Seguir"
+                android:textAllCaps="false"
+                android:backgroundTint="?attr/colorPrimary"
+                android:textColor="?attr/colorOnPrimary"
                 android:textSize="16sp" />
-        </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/bloqueBiografia"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:background="#F5F5F5"
-            android:padding="16dp"
-            android:layout_marginBottom="16dp">
-
-            <TextView
-                android:id="@+id/txtEtiquetaBiografia"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Biografía"
-                android:textColor="#1976D2"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/txtBiografia"
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Aquí va la biografía del usuario obtenida desde la API."
-                android:textColor="#000000"
-                android:textSize="14sp"
-                android:lineSpacingExtra="2dp" />
+                card_view:cardCornerRadius="@dimen/home_card_corner_radius"
+                card_view:cardElevation="@dimen/home_card_elevation"
+                card_view:cardBackgroundColor="@color/walkgo_surface"
+                android:layout_marginBottom="16dp">
+
+                <LinearLayout
+                    android:id="@+id/bloqueUsuario"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:id="@+id/txtEtiquetaUsuario"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Usuario"
+                        android:textColor="@color/walkgo_primary"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/txtNombreUsuario"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Nombre de usuario"
+                        android:textColor="@color/walkgo_on_surface"
+                        android:textSize="16sp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                card_view:cardCornerRadius="@dimen/home_card_corner_radius"
+                card_view:cardElevation="@dimen/home_card_elevation"
+                card_view:cardBackgroundColor="@color/walkgo_surface"
+                android:layout_marginBottom="16dp">
+
+                <LinearLayout
+                    android:id="@+id/bloqueBiografia"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:id="@+id/txtEtiquetaBiografia"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Biografía"
+                        android:textColor="@color/walkgo_primary"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/txtBiografia"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text="Aquí va la biografía del usuario obtenida desde la API."
+                        android:textColor="@color/walkgo_on_surface"
+                        android:textSize="14sp"
+                        android:lineSpacingExtra="2dp" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                card_view:cardCornerRadius="@dimen/home_card_corner_radius"
+                card_view:cardElevation="@dimen/home_card_elevation"
+                card_view:cardBackgroundColor="@color/walkgo_surface"
+                android:layout_marginBottom="16dp">
+
+                <LinearLayout
+                    android:id="@+id/bloqueDatosSecundarios"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="16dp">
+
+                    <LinearLayout
+                        android:id="@+id/columnaFechaNac"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/txtEtiquetaFechaNac"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Fecha de nacimiento"
+                            android:textColor="@color/walkgo_primary"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/txtFechaNac"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="01/01/2000"
+                            android:textColor="@color/walkgo_on_surface"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="8dp"
+                        android:layout_height="0dp" />
+
+                    <LinearLayout
+                        android:id="@+id/columnaPais"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/txtEtiquetaPais"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="País"
+                            android:textColor="@color/walkgo_primary"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/txtPais"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="País del usuario"
+                            android:textColor="@color/walkgo_on_surface"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                card_view:cardCornerRadius="@dimen/home_card_corner_radius"
+                card_view:cardElevation="@dimen/home_card_elevation"
+                card_view:cardBackgroundColor="@color/walkgo_surface"
+                android:layout_marginBottom="16dp">
+
+                <LinearLayout
+                    android:id="@+id/bloqueEstadisticas"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="16dp">
+
+                    <LinearLayout
+                        android:id="@+id/columnaKmRecorrido"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/txtEtiquetaKmRecorrido"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Km recorridos"
+                            android:textColor="@color/walkgo_primary"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/txtKmRecorrido"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="0"
+                            android:textColor="@color/walkgo_on_surface"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="8dp"
+                        android:layout_height="0dp" />
+
+                    <LinearLayout
+                        android:id="@+id/columnaCaloriasQuemadas"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/txtEtiquetaCalorias"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Calorías quemadas"
+                            android:textColor="@color/walkgo_primary"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/txtCaloriasQuemadas"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="0"
+                            android:textColor="@color/walkgo_on_surface"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
         </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/bloqueDatosSecundarios"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="#F5F5F5"
-            android:padding="16dp"
-            android:layout_marginBottom="16dp">
-
-            <LinearLayout
-                android:id="@+id/columnaFechaNac"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/txtEtiquetaFechaNac"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Fecha de nacimiento"
-                    android:textColor="#1976D2"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/txtFechaNac"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="01/01/2000"
-                    android:textColor="#000000"
-                    android:textSize="14sp" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="8dp"
-                android:layout_height="0dp" />
-
-            <LinearLayout
-                android:id="@+id/columnaPais"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/txtEtiquetaPais"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="País"
-                    android:textColor="#1976D2"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/txtPais"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="País del usuario"
-                    android:textColor="#000000"
-                    android:textSize="14sp" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/bloqueEstadisticas"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:background="#F5F5F5"
-            android:padding="16dp"
-            android:layout_marginBottom="16dp">
-
-            <LinearLayout
-                android:id="@+id/columnaKmRecorrido"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/txtEtiquetaKmRecorrido"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Km recorridos"
-                    android:textColor="#1976D2"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/txtKmRecorrido"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="0"
-                    android:textColor="#000000"
-                    android:textSize="14sp" />
-            </LinearLayout>
-
-            <View
-                android:layout_width="8dp"
-                android:layout_height="0dp" />
-
-            <LinearLayout
-                android:id="@+id/columnaCaloriasQuemadas"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/txtEtiquetaCalorias"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Calorías quemadas"
-                    android:textColor="#1976D2"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/txtCaloriasQuemadas"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="0"
-                    android:textColor="#000000"
-                    android:textSize="14sp" />
-            </LinearLayout>
-        </LinearLayout>
-
     </LinearLayout>
 </ScrollView>

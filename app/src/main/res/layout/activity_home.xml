@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#F5F5F5"
+    android:background="@color/walkgo_background"
     tools:context=".HomeActivity">
 
     <RelativeLayout
         android:id="@+id/layoutHeader"
         android:layout_width="match_parent"
         android:layout_height="72dp"
-        android:background="#1976D2"
+        android:background="?attr/colorPrimary"
         android:paddingStart="20dp"
         android:paddingEnd="16dp"
         android:gravity="center_vertical">
@@ -22,7 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="WalkGo"
-            android:textColor="@android:color/white"
+            android:textColor="?attr/colorOnPrimary"
             android:textSize="22sp"
             android:textStyle="bold" />
 
@@ -32,7 +32,7 @@
             android:layout_height="40dp"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="15dp"
-            android:backgroundTint="@android:color/holo_red_dark"
+            android:backgroundTint="@color/red_700"
             android:drawableTop="@drawable/baseline_exit_to_app_24"
             android:textAllCaps="false"
             android:textColor="@android:color/white" />
@@ -56,6 +56,7 @@
                 android:layout_marginBottom="12dp"
                 card_view:cardCornerRadius="16dp"
                 card_view:cardElevation="4dp"
+                card_view:cardBackgroundColor="@color/walkgo_surface"
                 android:foreground="?android:attr/selectableItemBackground">
 
                 <LinearLayout
@@ -71,7 +72,7 @@
                         android:text="¡Hola!"
                         android:textSize="22sp"
                         android:textStyle="bold"
-                        android:textColor="#212121" />
+                        android:textColor="@color/walkgo_on_surface" />
 
                     <TextView
                         android:id="@+id/txtMotd"
@@ -79,7 +80,7 @@
                         android:layout_height="wrap_content"
                         android:text="¿Con qué empezamos hoy?"
                         android:textSize="16sp"
-                        android:textColor="#424242"
+                        android:textColor="@color/walkgo_on_surface"
                         android:layout_marginTop="4dp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -89,7 +90,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 card_view:cardCornerRadius="16dp"
-                card_view:cardElevation="4dp">
+                card_view:cardElevation="4dp"
+                card_view:cardBackgroundColor="@color/walkgo_surface">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -103,7 +105,7 @@
                         android:text="Resumen de tu actividad"
                         android:textSize="16sp"
                         android:textStyle="bold"
-                        android:textColor="#212121"
+                        android:textColor="@color/walkgo_on_surface"
                         android:layout_marginBottom="8dp" />
 
                     <LinearLayout
@@ -123,7 +125,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="Total km"
                                 android:textSize="14sp"
-                                android:textColor="#757575" />
+                                android:textColor="@color/walkgo_on_surface" />
 
                             <TextView
                                 android:id="@+id/txtTotalKmGlobalHome"
@@ -132,7 +134,7 @@
                                 android:text="0.00"
                                 android:textSize="20sp"
                                 android:textStyle="bold"
-                                android:textColor="#1976D2"
+                                android:textColor="@color/walkgo_primary"
                                 android:layout_marginTop="4dp" />
                         </LinearLayout>
 
@@ -148,7 +150,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="Total pasos"
                                 android:textSize="14sp"
-                                android:textColor="#757575" />
+                                android:textColor="@color/walkgo_on_surface" />
 
                             <TextView
                                 android:id="@+id/txtTotalPasosGlobalHome"
@@ -157,7 +159,7 @@
                                 android:text="0"
                                 android:textSize="20sp"
                                 android:textStyle="bold"
-                                android:textColor="#1976D2"
+                                android:textColor="@color/walkgo_primary"
                                 android:layout_marginTop="4dp" />
                         </LinearLayout>
                     </LinearLayout>
@@ -177,7 +179,7 @@
                 android:text="Acciones rápidas"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:textColor="#212121"
+                android:textColor="@color/walkgo_on_background"
                 android:layout_marginBottom="8dp" />
 
             <GridLayout

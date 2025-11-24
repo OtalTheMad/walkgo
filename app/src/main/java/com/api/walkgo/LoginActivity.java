@@ -60,6 +60,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 String _token = response.body().GetToken();
                 int _userId = JwtUtils.GetUserIdFromToken(_token);
+
                 if (_userId <= 0) {
                     Toast.makeText(LoginActivity.this, "Token inválido", Toast.LENGTH_SHORT).show();
                     return;

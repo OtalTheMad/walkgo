@@ -7,4 +7,16 @@
     <color name="green_800">#065F46</color>
     <color name="white">#FFFFFF</color>
     <color name="red_700">#D32F2F</color>
+
+    <color name="walkgo_primary">@color/green_600</color>
+    <color name="walkgo_secondary">@color/green_200</color>
+
+    <color name="walkgo_background">@color/white</color>
+    <color name="walkgo_surface">@color/green_50</color>
+
+    <color name="walkgo_on_primary">@color/white</color>
+    <color name="walkgo_on_background">#111111</color>
+    <color name="walkgo_on_surface">#222222</color>
+
+    <color name="walkgo_error">@color/red_700</color>
 </resources>

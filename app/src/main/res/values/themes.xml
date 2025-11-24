@@ -1,8 +1,19 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+
     <style name="Base.Theme.WalkGo" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/walkgo_primary</item>
+        <item name="colorOnPrimary">@color/walkgo_on_primary</item>
+
+        <item name="colorSecondary">@color/walkgo_secondary</item>
+
+        <item name="colorSurface">@color/walkgo_surface</item>
+        <item name="colorOnSurface">@color/walkgo_on_surface</item>
+
+        <item name="android:windowBackground">@color/walkgo_background</item>
+        <item name="android:colorBackground">@color/walkgo_background</item>
+        <item name="colorOnBackground">@color/walkgo_on_background</item>
+
+        <item name="colorError">@color/walkgo_error</item>
     </style>
 
     <style name="Theme.WalkGo" parent="Base.Theme.WalkGo" />

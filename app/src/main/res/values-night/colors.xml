@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="green_50">#022C22</color>
+    <color name="green_200">#34D399</color>
+    <color name="green_600">#22C55E</color>
+    <color name="green_700">#16A34A</color>
+    <color name="green_800">#14532D</color>
+    <color name="white">#000000</color>
+    <color name="red_700">#EF5350</color>
+
+    <color name="walkgo_primary">@color/green_200</color>
+    <color name="walkgo_secondary">@color/green_700</color>
+
+    <color name="walkgo_background">#000000</color>
+    <color name="walkgo_surface">#101010</color>
+
+    <color name="walkgo_on_primary">#000000</color>
+    <color name="walkgo_on_background">#FFFFFF</color>
+    <color name="walkgo_on_surface">#FFFFFF</color>
+
+    <color name="walkgo_error">@color/red_700</color>
+</resources>

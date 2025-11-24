@@ -14,6 +14,7 @@ import com.api.walkgo.models.LoginRequest;
 import com.api.walkgo.models.LoginResponse;
 import com.example.walkgo.HomeActivity;
 import com.example.walkgo.R;
+import com.example.walkgo.RegistroActivity;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -25,16 +26,22 @@ public class LoginActivity extends AppCompatActivity {
     private EditText editUsername;
     private EditText editPassword;
     private Button btnLogin;
+    private Button btnIrRegistro;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         editUsername = findViewById(R.id.editUsername);
         editPassword = findViewById(R.id.editPassword);
         btnLogin = findViewById(R.id.btnLogin);
+        btnIrRegistro = findViewById(R.id.btnIrRegistro);
+
         RetrofitClient.Init(getApplicationContext());
+
         btnLogin.setOnClickListener(v -> IniciarSesion());
+        btnIrRegistro.setOnClickListener(v -> IrARegistro());
     }
 
     private void IniciarSesion() {
@@ -89,5 +96,10 @@ public class LoginActivity extends AppCompatActivity {
         Intent _intent = new Intent(this, HomeActivity.class);
         startActivity(_intent);
         finish();
+    }
+
+    private void IrARegistro() {
+        Intent _intent = new Intent(this, RegistroActivity.class);
+        startActivity(_intent);
     }
 }

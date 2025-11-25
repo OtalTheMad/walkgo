@@ -96,15 +96,18 @@ public class PerfilActivity extends AppCompatActivity {
         txtCaloriasQuemadas = findViewById(R.id.txtCaloriasQuemadas);
         txtTotalKmGlobal = findViewById(R.id.txtTotalKmGlobal);
         txtTotalPasosGlobal = findViewById(R.id.txtTotalPasosGlobal);
-        if (!esPropio) {
+        if (esPropio) {
+            Button _btnEditarPerfil = findViewById(R.id.btnEditarPerfil);
+            _btnEditarPerfil.setOnClickListener(v -> IrAEditarPerfil());
+            btnSeguir = null;
+        } else {
             btnSeguir = findViewById(R.id.btnSeguir);
             siguiendo = false;
             btnSeguir.setText("Seguir");
             btnSeguir.setOnClickListener(v -> ToggleSeguir());
-        } else {
-            btnSeguir = null;
         }
     }
+
 
     private void CargarNombreUsuario(int idUsuario) {
         Retrofit _retrofit = RetrofitClient.GetInstance();
@@ -362,5 +365,9 @@ public class PerfilActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+    private void IrAEditarPerfil() {
+        Intent _intent = new Intent(this, com.example.walkgo.EditarPerfilActivity.class);
+        startActivity(_intent);
     }
 }

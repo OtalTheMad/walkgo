@@ -7,6 +7,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -58,10 +60,57 @@ public class EditarPerfilActivity extends AppCompatActivity {
 
         RetrofitClient.Init(getApplicationContext());
 
+        ConfigurarFormatoFechaNacimiento();
         CargarPerfil();
 
         btnSeleccionarFoto.setOnClickListener(v -> SeleccionarFoto());
         btnGuardarPerfil.setOnClickListener(v -> GuardarCambios());
+    }
+
+    private void ConfigurarFormatoFechaNacimiento() {
+        editFechaNacPerfil.addTextChangedListener(new TextWatcher() {
+
+            private boolean _actualizando;
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (_actualizando) {
+                    return;
+                }
+
+                String _texto = s.toString();
+
+                String _soloDigitos = _texto.replaceAll("[^0-9]", "");
+                if (_soloDigitos.length() > 8) {
+                    _soloDigitos = _soloDigitos.substring(0, 8);
+                }
+
+                StringBuilder _formateado = new StringBuilder();
+                for (int _i = 0; _i < _soloDigitos.length(); _i++) {
+                    _formateado.append(_soloDigitos.charAt(_i));
+                    if (_i == 3 || _i == 5) {
+                        if (_i < _soloDigitos.length() - 1) {
+                            _formateado.append("-");
+                        }
+                    }
+                }
+
+                String _nuevoTexto = _formateado.toString();
+
+                _actualizando = true;
+                editFechaNacPerfil.setText(_nuevoTexto);
+                editFechaNacPerfil.setSelection(editFechaNacPerfil.getText().length());
+                _actualizando = false;
+            }
+        });
     }
 
     private int GetLoggedUserId() {

@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.api.walkgo.models.RankingEntry;
+import com.example.walkgo.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,10 +39,12 @@ public class RankingAdapter extends RecyclerView.Adapter<RankingAdapter.VH> {
         RankingEntry _e = items.get(position);
 
         int _pos = _e.GetPosicion() == null ? (position + 1) : _e.GetPosicion();
+        String _usuario = _e.GetUsuario() == null ? "Usuario" : _e.GetUsuario();
         double _km = _e.GetTotalDistanciaKm() == null ? 0.0 : _e.GetTotalDistanciaKm();
 
-        holder.txtRankingPos.setText("Top " + _pos);
-        holder.txtRankingKm.setText(String.format(Locale.getDefault(), "%.2f km", _km));
+        holder.txtPosicionRanking.setText("#" + _pos);
+        holder.txtNombreRanking.setText(_usuario);
+        holder.txtDetalleRanking.setText(String.format(Locale.getDefault(), "Km totales: %.2f", _km));
     }
 
     @Override
@@ -51,13 +54,15 @@ public class RankingAdapter extends RecyclerView.Adapter<RankingAdapter.VH> {
 
     static class VH extends RecyclerView.ViewHolder {
 
-        TextView txtRankingPos;
-        TextView txtRankingKm;
+        TextView txtPosicionRanking;
+        TextView txtNombreRanking;
+        TextView txtDetalleRanking;
 
         public VH(@NonNull View itemView) {
             super(itemView);
-            txtRankingPos = itemView.findViewById(R.id.txtPosicionRanking);
-            txtRankingKm = itemView.findViewById(R.id.txtDetalleRanking);
+            txtPosicionRanking = itemView.findViewById(R.id.txtPosicionRanking);
+            txtNombreRanking = itemView.findViewById(R.id.txtNombreRanking);
+            txtDetalleRanking = itemView.findViewById(R.id.txtDetalleRanking);
         }
     }
 }

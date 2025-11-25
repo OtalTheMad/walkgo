@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.api.walkgo.RankingAPI;
 import com.api.walkgo.RetrofitClient;
 import com.api.walkgo.models.RankingEntry;
+import com.example.walkgo.R;
 
 import java.util.List;
 import java.util.Locale;
@@ -26,7 +27,6 @@ public class RankingActivity extends AppCompatActivity {
 
     private RecyclerView rvRanking;
     private TextView txtPosicionUsuario;
-    private TextView txtKmSemanaUsuario;
     private TextView txtKmTotalUsuario;
 
     private RankingAdapter adapter;
@@ -38,7 +38,6 @@ public class RankingActivity extends AppCompatActivity {
 
         rvRanking = findViewById(R.id.rvRanking);
         txtPosicionUsuario = findViewById(R.id.txtPosicionUsuario);
-        txtKmSemanaUsuario = findViewById(R.id.txtKmSemanaUsuario);
         txtKmTotalUsuario = findViewById(R.id.txtKmTotalUsuario);
 
         adapter = new RankingAdapter();
@@ -66,8 +65,7 @@ public class RankingActivity extends AppCompatActivity {
         Integer _loggedId = GetLoggedUserId();
         if (_loggedId == null) {
             txtPosicionUsuario.setText("Posición: -");
-            txtKmSemanaUsuario.setText("Km esta semana: 0");
-            txtKmTotalUsuario.setText("Km totales: 0");
+            txtKmTotalUsuario.setText("Km totales: 0.00");
             adapter.SetItems(null);
             return;
         }
@@ -82,8 +80,7 @@ public class RankingActivity extends AppCompatActivity {
                     Toast.makeText(RankingActivity.this, "No se pudo cargar el ranking", Toast.LENGTH_SHORT).show();
                     adapter.SetItems(null);
                     txtPosicionUsuario.setText("Posición: -");
-                    txtKmSemanaUsuario.setText("Km esta semana: 0");
-                    txtKmTotalUsuario.setText("Km totales: 0");
+                    txtKmTotalUsuario.setText("Km totales: 0.00");
                     return;
                 }
 
@@ -92,7 +89,7 @@ public class RankingActivity extends AppCompatActivity {
 
                 RankingEntry _mi = null;
                 for (RankingEntry _e : _list) {
-                    if (_e != null && _e.GetIdUsuario() != null && _e.GetIdUsuario() == _loggedId) {
+                    if (_e != null && _e.GetIdUsuario() != null && _e.GetIdUsuario().intValue() == _loggedId.intValue()) {
                         _mi = _e;
                         break;
                     }
@@ -100,8 +97,7 @@ public class RankingActivity extends AppCompatActivity {
 
                 if (_mi == null) {
                     txtPosicionUsuario.setText("Posición: -");
-                    txtKmSemanaUsuario.setText("Km esta semana: 0");
-                    txtKmTotalUsuario.setText("Km totales: 0");
+                    txtKmTotalUsuario.setText("Km totales: 0.00");
                     return;
                 }
 
@@ -110,8 +106,6 @@ public class RankingActivity extends AppCompatActivity {
 
                 txtPosicionUsuario.setText("Posición: " + (_pos <= 0 ? "-" : String.valueOf(_pos)));
                 txtKmTotalUsuario.setText(String.format(Locale.getDefault(), "Km totales: %.2f", _kmTotal));
-
-                txtKmSemanaUsuario.setText("Km esta semana: 0");
             }
 
             @Override

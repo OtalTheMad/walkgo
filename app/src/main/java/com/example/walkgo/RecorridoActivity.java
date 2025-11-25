@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
 import android.location.Location;
 import android.os.Bundle;
 import android.widget.Button;
@@ -19,7 +20,6 @@ import com.api.walkgo.RecorridoAPI;
 import com.api.walkgo.RetrofitClient;
 import com.api.walkgo.models.ApiFinalizarRecorridoRequest;
 import com.api.walkgo.models.Usuario;
-import com.example.walkgo.R;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -47,6 +47,11 @@ public class RecorridoActivity extends AppCompatActivity implements OnMapReadyCa
     private Button btnIniciar;
     private Button btnDetener;
     private Button btnGuardar;
+
+    private ColorStateList tintIniciar;
+    private ColorStateList tintDetener;
+    private ColorStateList tintGuardar;
+    private ColorStateList tintDisabled;
 
     private FusedLocationProviderClient fusedLocationClient;
     private LocationCallback locationCallback;
@@ -84,9 +89,52 @@ public class RecorridoActivity extends AppCompatActivity implements OnMapReadyCa
             _mapFragment.getMapAsync(this);
         }
 
+        tintIniciar = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.green_700));
+        tintDetener = ColorStateList.valueOf(ContextCompat.getColor(this, android.R.color.holo_red_dark));
+        tintGuardar = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.green_700));
+        tintDisabled = ColorStateList.valueOf(ContextCompat.getColor(this, android.R.color.darker_gray));
+
+        SetUiEstadoInicial();
+
         btnIniciar.setOnClickListener(v -> IniciarRecorrido());
         btnDetener.setOnClickListener(v -> DetenerRecorrido());
         btnGuardar.setOnClickListener(v -> GuardarRecorrido());
+    }
+
+    private int ResolveThemeColor(int _attr) {
+        android.util.TypedValue _tv = new android.util.TypedValue();
+        boolean _ok = getTheme().resolveAttribute(_attr, _tv, true);
+        if (!_ok) {
+            return ContextCompat.getColor(this, android.R.color.black);
+        }
+        if (_tv.resourceId != 0) {
+            return ContextCompat.getColor(this, _tv.resourceId);
+        }
+        return _tv.data;
+    }
+
+
+    private void SetUiEstadoInicial() {
+        recorridoActivo = false;
+        AplicarEstadoBotones();
+    }
+
+    private void AplicarEstadoBotones() {
+        boolean _puedeIniciar = !recorridoActivo;
+        boolean _puedeDetener = recorridoActivo;
+        boolean _puedeGuardar = !recorridoActivo;
+
+        SetBotonEstado(btnIniciar, _puedeIniciar, tintIniciar);
+        SetBotonEstado(btnDetener, _puedeDetener, tintDetener);
+
+        boolean _puedeGuardarFinal = _puedeGuardar && distanciaMetros > 0.0;
+        SetBotonEstado(btnGuardar, _puedeGuardarFinal, tintGuardar);
+    }
+
+    private void SetBotonEstado(Button _btn, boolean _enabled, ColorStateList _tintEnabled) {
+        _btn.setEnabled(_enabled);
+        _btn.setAlpha(_enabled ? 1.0f : 0.55f);
+        _btn.setBackgroundTintList(_enabled ? _tintEnabled : tintDisabled);
     }
 
     private Integer GetLoggedUserId() {
@@ -147,6 +195,7 @@ public class RecorridoActivity extends AppCompatActivity implements OnMapReadyCa
         ActualizarTextoDistancia();
         IniciarActualizacionesUbicacion();
         recorridoActivo = true;
+        AplicarEstadoBotones();
         Toast.makeText(this, "Recorrido iniciado", Toast.LENGTH_SHORT).show();
     }
 
@@ -156,6 +205,7 @@ public class RecorridoActivity extends AppCompatActivity implements OnMapReadyCa
         }
         DetenerActualizacionesUbicacion();
         recorridoActivo = false;
+        AplicarEstadoBotones();
         Toast.makeText(this, "Recorrido detenido", Toast.LENGTH_SHORT).show();
     }
 
@@ -167,10 +217,13 @@ public class RecorridoActivity extends AppCompatActivity implements OnMapReadyCa
         double _distKm = distanciaMetros / 1000.0;
         if (_distKm <= 0.0) {
             Toast.makeText(this, "No hay distancia recorrida", Toast.LENGTH_SHORT).show();
+            AplicarEstadoBotones();
             return;
         }
 
         int _pasosEstimados = (int) Math.round(_distKm * 1300.0);
+
+        SetBotonEstado(btnGuardar, false, tintGuardar);
 
         Retrofit _retrofit = RetrofitClient.GetInstance();
         RecorridoAPI _api = _retrofit.create(RecorridoAPI.class);
@@ -185,17 +238,20 @@ public class RecorridoActivity extends AppCompatActivity implements OnMapReadyCa
             public void onResponse(Call<Usuario> call, Response<Usuario> response) {
                 if (!response.isSuccessful() || response.body() == null) {
                     Toast.makeText(RecorridoActivity.this, "Error guardando recorrido", Toast.LENGTH_SHORT).show();
+                    AplicarEstadoBotones();
                     return;
                 }
                 Toast.makeText(RecorridoActivity.this, "Recorrido guardado", Toast.LENGTH_SHORT).show();
                 distanciaMetros = 0.0;
                 ultimaLocation = null;
                 ActualizarTextoDistancia();
+                AplicarEstadoBotones();
             }
 
             @Override
             public void onFailure(Call<Usuario> call, Throwable t) {
                 Toast.makeText(RecorridoActivity.this, "Error de red", Toast.LENGTH_SHORT).show();
+                AplicarEstadoBotones();
             }
         });
     }
@@ -248,6 +304,7 @@ public class RecorridoActivity extends AppCompatActivity implements OnMapReadyCa
             if (_delta > 0) {
                 distanciaMetros += _delta;
                 ActualizarTextoDistancia();
+                AplicarEstadoBotones();
             }
         }
         ultimaLocation = _nueva;

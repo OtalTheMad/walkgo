@@ -32,4 +32,20 @@
     <color name="ranking_bronze_bg">#3B1E12</color>
     <color name="ranking_bronze_text">#FFB37A</color>
 
+    <color name="chart_plot_background">@color/walkgo_surface</color>
+    <color name="chart_axis_text">@color/walkgo_on_surface</color>
+    <color name="chart_legend_text">@color/walkgo_on_surface</color>
+    <color name="chart_grid_line">#22343B45</color>
+    <color name="chart_axis_line">#33414A56</color>
+
+    <color name="chart_bar_fill">@color/walkgo_secondary</color>
+    <color name="chart_bar_alt">#34D399</color>
+    <color name="chart_value_text">@color/walkgo_on_surface</color>
+    <color name="chart_highlight">@color/walkgo_secondary</color>
+
+    <color name="chart_marker_bg">#1E2630</color>
+    <color name="chart_marker_title">@color/walkgo_on_surface</color>
+    <color name="chart_marker_text">@color/walkgo_on_surface</color>
+    <color name="chart_marker_value">@color/walkgo_secondary</color>
+
 </resources>

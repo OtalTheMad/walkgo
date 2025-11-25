@@ -6,6 +6,9 @@ import android.os.Handler;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+import android.content.SharedPreferences;
+import com.api.walkgo.RetrofitClient;
+
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -62,10 +65,13 @@ public class LogoutActivity extends AppCompatActivity {
     }
 
     private void cerrarSesion() {
+        getSharedPreferences("WALKGO_PREFS", MODE_PRIVATE).edit().clear().apply();
+
         Toast.makeText(this, "Sesión cerrada", Toast.LENGTH_SHORT).show();
-        Intent intent = new Intent(LogoutActivity.this, LoginActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
+        Intent _intent = new Intent(this, LoginActivity.class);
+        _intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(_intent);
         finish();
     }
+
 }

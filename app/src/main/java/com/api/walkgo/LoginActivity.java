@@ -40,6 +40,13 @@ public class LoginActivity extends AppCompatActivity {
 
         RetrofitClient.Init(getApplicationContext());
 
+        if (SessionManager.HasValidSession(this)) {
+            Intent _intent = new Intent(this, HomeActivity.class);
+            startActivity(_intent);
+            finish();
+            return;
+        }
+
         btnLogin.setOnClickListener(v -> IniciarSesion());
         btnIrRegistro.setOnClickListener(v -> IrARegistro());
     }

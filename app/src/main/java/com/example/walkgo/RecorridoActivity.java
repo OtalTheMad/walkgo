@@ -255,6 +255,7 @@ public class RecorridoActivity extends AppCompatActivity implements OnMapReadyCa
             LatLng _pos = new LatLng(_nueva.getLatitude(), _nueva.getLongitude());
             map.animateCamera(CameraUpdateFactory.newLatLng(_pos));
         }
+        com.api.walkgo.SessionManager.Touch();
     }
 
     private void ActualizarTextoDistancia() {

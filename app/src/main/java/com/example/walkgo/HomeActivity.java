@@ -24,7 +24,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends com.api.walkgo.BaseActivity {
 
     private static final long TIEMPO_INACTIVIDAD = 10 * 60 * 1000;
 

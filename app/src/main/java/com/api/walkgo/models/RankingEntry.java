@@ -1,35 +1,34 @@
 package com.api.walkgo.models;
 
+import com.google.gson.annotations.SerializedName;
+
 public class RankingEntry {
 
-    private Integer userId;
-    private String usuario;
+    @SerializedName(value = "posicion", alternate = {"position"})
     private Integer posicion;
-    private Integer rangoSemanal;
-    private Double totalDistanciaKm;
-    private String avatar;
 
-    public Integer GetUserId() {
-        return userId;
+    @SerializedName(value = "idUsuario", alternate = {"id_usuario"})
+    private Integer idUsuario;
+
+    @SerializedName(value = "usuario", alternate = {"username"})
+    private String usuario;
+
+    @SerializedName(value = "totalDistanciaKm", alternate = {"total_distancia_km"})
+    private Double totalDistanciaKm;
+
+    public Integer GetPosicion() {
+        return posicion;
+    }
+
+    public Integer GetIdUsuario() {
+        return idUsuario;
     }
 
     public String GetUsuario() {
         return usuario;
     }
 
-    public Integer GetPosicion() {
-        return posicion;
-    }
-
-    public Integer GetRangoSemanal() {
-        return rangoSemanal;
-    }
-
     public Double GetTotalDistanciaKm() {
         return totalDistanciaKm;
-    }
-
-    public String GetAvatar() {
-        return avatar;
     }
 }

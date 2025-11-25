@@ -1,20 +1,19 @@
 package com.example.walkgo;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.api.walkgo.RankingAPI;
 import com.api.walkgo.RetrofitClient;
 import com.api.walkgo.models.RankingEntry;
-import com.example.walkgo.R;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -25,71 +24,94 @@ import retrofit2.Retrofit;
 
 public class RankingActivity extends AppCompatActivity {
 
+    private RecyclerView rvRanking;
     private TextView txtPosicionUsuario;
     private TextView txtKmSemanaUsuario;
     private TextView txtKmTotalUsuario;
-    private RecyclerView rvRanking;
-    private RankingAdapter rankingAdapter;
-    private final List<RankingEntry> listaRankingTop = new ArrayList<>();
+
+    private RankingAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ranking);
-        InicializarVistas();
-        InicializarLista();
-        CargarRanking();
-    }
 
-    private void InicializarVistas() {
+        rvRanking = findViewById(R.id.rvRanking);
         txtPosicionUsuario = findViewById(R.id.txtPosicionUsuario);
         txtKmSemanaUsuario = findViewById(R.id.txtKmSemanaUsuario);
         txtKmTotalUsuario = findViewById(R.id.txtKmTotalUsuario);
-        rvRanking = findViewById(R.id.rvRanking);
+
+        adapter = new RankingAdapter();
+        rvRanking.setLayoutManager(new LinearLayoutManager(this));
+        rvRanking.setAdapter(adapter);
+
+        RetrofitClient.Init(getApplicationContext());
+        CargarRanking();
     }
 
-    private void InicializarLista() {
-        rvRanking.setLayoutManager(new LinearLayoutManager(this));
-        rankingAdapter = new RankingAdapter(this, listaRankingTop);
-        rvRanking.setAdapter(rankingAdapter);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        RetrofitClient.Init(getApplicationContext());
+        CargarRanking();
     }
 
     private Integer GetLoggedUserId() {
-        SharedPreferences _prefs = getSharedPreferences("WALKGO_PREFS", MODE_PRIVATE);
+        SharedPreferences _prefs = getSharedPreferences("WALKGO_PREFS", Context.MODE_PRIVATE);
         int _id = _prefs.getInt("id_usuario", -1);
         return _id <= 0 ? null : _id;
     }
 
     private void CargarRanking() {
-        Integer _idUsuario = GetLoggedUserId();
-        if (_idUsuario == null) {
-            Toast.makeText(this, "Usuario no válido", Toast.LENGTH_SHORT).show();
+        Integer _loggedId = GetLoggedUserId();
+        if (_loggedId == null) {
+            txtPosicionUsuario.setText("Posición: -");
+            txtKmSemanaUsuario.setText("Km esta semana: 0");
+            txtKmTotalUsuario.setText("Km totales: 0");
+            adapter.SetItems(null);
             return;
         }
-        RetrofitClient.Init(getApplicationContext());
+
         Retrofit _retrofit = RetrofitClient.GetInstance();
         RankingAPI _api = _retrofit.create(RankingAPI.class);
-        Call<List<RankingEntry>> _call = _api.GetRankingSemana();
-        _call.enqueue(new Callback<List<RankingEntry>>() {
+
+        _api.GetRanking().enqueue(new Callback<List<RankingEntry>>() {
             @Override
             public void onResponse(Call<List<RankingEntry>> call, Response<List<RankingEntry>> response) {
                 if (!response.isSuccessful() || response.body() == null) {
-                    Toast.makeText(RankingActivity.this, "Error al cargar ranking", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RankingActivity.this, "No se pudo cargar el ranking", Toast.LENGTH_SHORT).show();
+                    adapter.SetItems(null);
+                    txtPosicionUsuario.setText("Posición: -");
+                    txtKmSemanaUsuario.setText("Km esta semana: 0");
+                    txtKmTotalUsuario.setText("Km totales: 0");
                     return;
                 }
-                List<RankingEntry> _listaCompleta = response.body();
-                listaRankingTop.clear();
-                RankingEntry _usuarioActual = null;
-                for (RankingEntry _entry : _listaCompleta) {
-                    if (_entry.GetUserId() != null && _entry.GetUserId().equals(_idUsuario)) {
-                        _usuarioActual = _entry;
-                    }
-                    if (_entry.GetPosicion() != null && _entry.GetPosicion() <= 10) {
-                        listaRankingTop.add(_entry);
+
+                List<RankingEntry> _list = response.body();
+                adapter.SetItems(_list);
+
+                RankingEntry _mi = null;
+                for (RankingEntry _e : _list) {
+                    if (_e != null && _e.GetIdUsuario() != null && _e.GetIdUsuario() == _loggedId) {
+                        _mi = _e;
+                        break;
                     }
                 }
-                ActualizarResumenUsuario(_usuarioActual);
-                rankingAdapter.notifyDataSetChanged();
+
+                if (_mi == null) {
+                    txtPosicionUsuario.setText("Posición: -");
+                    txtKmSemanaUsuario.setText("Km esta semana: 0");
+                    txtKmTotalUsuario.setText("Km totales: 0");
+                    return;
+                }
+
+                int _pos = _mi.GetPosicion() == null ? 0 : _mi.GetPosicion();
+                double _kmTotal = _mi.GetTotalDistanciaKm() == null ? 0.0 : _mi.GetTotalDistanciaKm();
+
+                txtPosicionUsuario.setText("Posición: " + (_pos <= 0 ? "-" : String.valueOf(_pos)));
+                txtKmTotalUsuario.setText(String.format(Locale.getDefault(), "Km totales: %.2f", _kmTotal));
+
+                txtKmSemanaUsuario.setText("Km esta semana: 0");
             }
 
             @Override
@@ -97,29 +119,5 @@ public class RankingActivity extends AppCompatActivity {
                 Toast.makeText(RankingActivity.this, "Error de red", Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    private void ActualizarResumenUsuario(RankingEntry _usuarioActual) {
-        if (_usuarioActual == null) {
-            txtPosicionUsuario.setText("Posición: -");
-            txtKmSemanaUsuario.setText("Km esta semana: 0");
-            txtKmTotalUsuario.setText("Km totales: 0");
-            return;
-        }
-        Integer _posicion = _usuarioActual.GetPosicion();
-        Integer _rangoSemanal = _usuarioActual.GetRangoSemanal();
-        Double _totalKm = _usuarioActual.GetTotalDistanciaKm();
-        if (_posicion == null) {
-            _posicion = 0;
-        }
-        if (_rangoSemanal == null) {
-            _rangoSemanal = 0;
-        }
-        if (_totalKm == null) {
-            _totalKm = 0.0;
-        }
-        txtPosicionUsuario.setText("Posición: " + _posicion);
-        txtKmSemanaUsuario.setText("Km esta semana: " + _rangoSemanal);
-        txtKmTotalUsuario.setText("Km totales: " + String.format(Locale.getDefault(), "%.2f", _totalKm));
     }
 }

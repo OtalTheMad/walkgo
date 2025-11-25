@@ -9,6 +9,6 @@ import retrofit2.http.GET;
 
 public interface RankingAPI {
 
-    @GET("api/ranking/semana")
-    Call<List<RankingEntry>> GetRankingSemana();
+    @GET("api/ranking")
+    Call<List<RankingEntry>> GetRanking();
 }

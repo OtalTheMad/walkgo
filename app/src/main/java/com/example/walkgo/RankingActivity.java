@@ -104,7 +104,12 @@ public class RankingActivity extends AppCompatActivity {
                 int _pos = _mi.GetPosicion() == null ? 0 : _mi.GetPosicion();
                 double _kmTotal = _mi.GetTotalDistanciaKm() == null ? 0.0 : _mi.GetTotalDistanciaKm();
 
-                txtPosicionUsuario.setText("Posición: " + (_pos <= 0 ? "-" : String.valueOf(_pos)));
+                String _badge = "";
+                if (_pos == 1) _badge = "🥇 ";
+                else if (_pos == 2) _badge = "🥈 ";
+                else if (_pos == 3) _badge = "🥉 ";
+
+                txtPosicionUsuario.setText("Posición: " + (_pos <= 0 ? "-" : (_badge + "#" + _pos)));
                 txtKmTotalUsuario.setText(String.format(Locale.getDefault(), "Km totales: %.2f", _kmTotal));
             }
 

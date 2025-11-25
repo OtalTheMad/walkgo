@@ -22,4 +22,13 @@
 
     <color name="walkgo_error">@color/red_700</color>
 
+    <color name="ranking_gold_bg">#FFF3C2</color>
+    <color name="ranking_gold_text">#B8860B</color>
+
+    <color name="ranking_silver_bg">#F2F2F2</color>
+    <color name="ranking_silver_text">#8A8A8A</color>
+
+    <color name="ranking_bronze_bg">#FFE4D6</color>
+    <color name="ranking_bronze_text">#8A4B1F</color>
+
 </resources>

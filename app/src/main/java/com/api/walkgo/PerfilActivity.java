@@ -36,8 +36,6 @@ public class PerfilActivity extends AppCompatActivity {
     private TextView txtFechaNac;
     private TextView txtPais;
     private TextView txtBiografia;
-    private TextView txtKmRecorrido;
-    private TextView txtCaloriasQuemadas;
     private TextView txtTotalKmGlobal;
     private TextView txtTotalPasosGlobal;
     private Button btnSeguir;
@@ -66,7 +64,6 @@ public class PerfilActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         CargarPerfil();
-        CargarEstadisticas();
         CargarResumenGlobal(perfilUserId);
         if (!esPropio) {
             CargarRelacionSeguir();
@@ -92,8 +89,6 @@ public class PerfilActivity extends AppCompatActivity {
         txtFechaNac = findViewById(R.id.txtFechaNac);
         txtPais = findViewById(R.id.txtPais);
         txtBiografia = findViewById(R.id.txtBiografia);
-        txtKmRecorrido = findViewById(R.id.txtKmRecorrido);
-        txtCaloriasQuemadas = findViewById(R.id.txtCaloriasQuemadas);
         txtTotalKmGlobal = findViewById(R.id.txtTotalKmGlobal);
         txtTotalPasosGlobal = findViewById(R.id.txtTotalPasosGlobal);
         if (esPropio) {
@@ -164,35 +159,6 @@ public class PerfilActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<Perfil> call, Throwable t) {
                 Toast.makeText(PerfilActivity.this, "Error de red", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void CargarEstadisticas() {
-        Retrofit _retrofit = RetrofitClient.GetInstance();
-        EstadisticaService _service = _retrofit.create(EstadisticaService.class);
-        Call<Estadistica> _call = _service.GetEstadistica(perfilUserId);
-        _call.enqueue(new Callback<Estadistica>() {
-            @Override
-            public void onResponse(Call<Estadistica> call, Response<Estadistica> response) {
-                if (!response.isSuccessful() || response.body() == null) {
-                    txtKmRecorrido.setText("0");
-                    txtCaloriasQuemadas.setText("0");
-                    return;
-                }
-                Estadistica _estadistica = response.body();
-                txtKmRecorrido.setText(String.valueOf(_estadistica.GetKmRecorrido()));
-                String _cal = _estadistica.GetCaloriasQuemadas();
-                if (_cal == null || _cal.isEmpty()) {
-                    _cal = "0";
-                }
-                txtCaloriasQuemadas.setText(_cal);
-            }
-
-            @Override
-            public void onFailure(Call<Estadistica> call, Throwable t) {
-                txtKmRecorrido.setText("0");
-                txtCaloriasQuemadas.setText("0");
             }
         });
     }

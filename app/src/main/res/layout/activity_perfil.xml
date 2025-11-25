@@ -224,72 +224,7 @@
                 card_view:cardCornerRadius="@dimen/home_card_corner_radius"
                 card_view:cardElevation="@dimen/home_card_elevation"
                 card_view:cardBackgroundColor="@color/walkgo_surface"
-                android:layout_marginBottom="16dp">
-
-                <LinearLayout
-                    android:id="@+id/bloqueEstadisticas"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="16dp">
-
-                    <LinearLayout
-                        android:id="@+id/columnaKmRecorrido"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/txtEtiquetaKmRecorrido"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Km recorridos"
-                            android:textColor="@color/walkgo_primary"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/txtKmRecorrido"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:text="0"
-                            android:textColor="@color/walkgo_on_surface"
-                            android:textSize="14sp" />
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="8dp"
-                        android:layout_height="0dp" />
-
-                    <LinearLayout
-                        android:id="@+id/columnaCaloriasQuemadas"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:id="@+id/txtEtiquetaCalorias"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Calorías quemadas"
-                            android:textColor="@color/walkgo_primary"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/txtCaloriasQuemadas"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:text="0"
-                            android:textColor="@color/walkgo_on_surface"
-                            android:textSize="14sp" />
-                    </LinearLayout>
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
+                android:layout_marginBottom="16dp"/>
 
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"

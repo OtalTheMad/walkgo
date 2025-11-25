@@ -221,36 +221,27 @@
                 android:layout_marginBottom="16dp">
 
                 <LinearLayout
-                    android:id="@+id/bloqueEstadisticas"
+                    android:id="@+id/bloqueGlobal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:padding="16dp">
 
                     <LinearLayout
-                        android:id="@+id/columnaKmRecorrido"
+                        android:id="@+id/columnaKmRecorridoTotal"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/txtEtiquetaKmRecorrido"
+                            android:id="@+id/txtTotalKmGlobal"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Km recorridos"
-                            android:textColor="@color/walkgo_primary"
+                            android:text="Total km: 0"
                             android:textSize="14sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/txtKmRecorrido"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:text="0"
-                            android:textColor="@color/walkgo_on_surface"
-                            android:textSize="14sp" />
+                            android:textStyle="bold"
+                            android:textColor="@color/walkgo_primary" />
                     </LinearLayout>
 
                     <View
@@ -258,29 +249,20 @@
                         android:layout_height="0dp" />
 
                     <LinearLayout
-                        android:id="@+id/columnaCaloriasQuemadas"
+                        android:id="@+id/columnaTotalPasos"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/txtEtiquetaCalorias"
+                            android:id="@+id/txtTotalPasosGlobal"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Calorías quemadas"
-                            android:textColor="@color/walkgo_primary"
+                            android:text="Total pasos: 0"
                             android:textSize="14sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/txtCaloriasQuemadas"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="4dp"
-                            android:text="0"
-                            android:textColor="@color/walkgo_on_surface"
-                            android:textSize="14sp" />
+                            android:textStyle="bold"
+                            android:textColor="@color/walkgo_primary" />
                     </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>

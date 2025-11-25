@@ -7,6 +7,9 @@ import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.util.TypedValue;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -18,6 +21,7 @@ import androidx.core.content.ContextCompat;
 
 import com.api.walkgo.RecorridoAPI;
 import com.api.walkgo.RetrofitClient;
+import com.api.walkgo.SessionManager;
 import com.api.walkgo.models.ApiFinalizarRecorridoRequest;
 import com.api.walkgo.models.Usuario;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -42,6 +46,11 @@ public class RecorridoActivity extends AppCompatActivity implements OnMapReadyCa
 
     private static final int REQUEST_LOCATION_PERMISSION = 1001;
 
+    private static final long MOVIMIENTO_GRACE_MS = 8000L;
+    private static final long MOVIMIENTO_TIMEOUT_MS = 20000L;
+    private static final long MOVIMIENTO_CHECK_MS = 1500L;
+    private static final float MIN_DELTA_METERS = 2.0f;
+
     private GoogleMap map;
     private TextView txtDistanciaSesion;
     private Button btnIniciar;
@@ -53,11 +62,19 @@ public class RecorridoActivity extends AppCompatActivity implements OnMapReadyCa
     private ColorStateList tintGuardar;
     private ColorStateList tintDisabled;
 
+    private final Handler handler = new Handler(Looper.getMainLooper());
+    private Runnable movimientoRunnable;
+
     private FusedLocationProviderClient fusedLocationClient;
     private LocationCallback locationCallback;
     private boolean recorridoActivo;
+    private boolean recorridoPendienteGuardar;
+
     private Location ultimaLocation;
     private double distanciaMetros;
+
+    private long inicioRecorridoMs;
+    private long ultimoMovimientoMs;
 
     private Integer idUsuarioActual;
 
@@ -74,7 +91,6 @@ public class RecorridoActivity extends AppCompatActivity implements OnMapReadyCa
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
 
         idUsuarioActual = GetLoggedUserId();
-
         if (idUsuarioActual == null) {
             Toast.makeText(this, "Usuario no logueado", Toast.LENGTH_LONG).show();
             finish();
@@ -83,15 +99,14 @@ public class RecorridoActivity extends AppCompatActivity implements OnMapReadyCa
 
         RetrofitClient.Init(getApplicationContext());
 
-        SupportMapFragment _mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.mapRecorrido);
+        SupportMapFragment _mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.mapRecorrido);
         if (_mapFragment != null) {
             _mapFragment.getMapAsync(this);
         }
 
         tintIniciar = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.green_700));
         tintDetener = ColorStateList.valueOf(ContextCompat.getColor(this, android.R.color.holo_red_dark));
-        tintGuardar = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.green_700));
+        tintGuardar = ColorStateList.valueOf(ResolveColorAttr(android.R.attr.colorPrimary));
         tintDisabled = ColorStateList.valueOf(ContextCompat.getColor(this, android.R.color.darker_gray));
 
         SetUiEstadoInicial();
@@ -101,34 +116,35 @@ public class RecorridoActivity extends AppCompatActivity implements OnMapReadyCa
         btnGuardar.setOnClickListener(v -> GuardarRecorrido());
     }
 
-    private int ResolveThemeColor(int _attr) {
-        android.util.TypedValue _tv = new android.util.TypedValue();
+    private int ResolveColorAttr(int _attr) {
+        TypedValue _tv = new TypedValue();
         boolean _ok = getTheme().resolveAttribute(_attr, _tv, true);
-        if (!_ok) {
-            return ContextCompat.getColor(this, android.R.color.black);
+        if (_ok) {
+            if (_tv.resourceId != 0) {
+                return ContextCompat.getColor(this, _tv.resourceId);
+            }
+            return _tv.data;
         }
-        if (_tv.resourceId != 0) {
-            return ContextCompat.getColor(this, _tv.resourceId);
-        }
-        return _tv.data;
+        return ContextCompat.getColor(this, R.color.walkgo_primary);
     }
-
 
     private void SetUiEstadoInicial() {
         recorridoActivo = false;
+        recorridoPendienteGuardar = false;
+        distanciaMetros = 0.0;
+        ultimaLocation = null;
+        ActualizarTextoDistancia();
         AplicarEstadoBotones();
     }
 
     private void AplicarEstadoBotones() {
-        boolean _puedeIniciar = !recorridoActivo;
+        boolean _puedeIniciar = !recorridoActivo && !recorridoPendienteGuardar;
         boolean _puedeDetener = recorridoActivo;
-        boolean _puedeGuardar = !recorridoActivo;
+        boolean _puedeGuardar = !recorridoActivo && recorridoPendienteGuardar && distanciaMetros > 0.0;
 
         SetBotonEstado(btnIniciar, _puedeIniciar, tintIniciar);
         SetBotonEstado(btnDetener, _puedeDetener, tintDetener);
-
-        boolean _puedeGuardarFinal = _puedeGuardar && distanciaMetros > 0.0;
-        SetBotonEstado(btnGuardar, _puedeGuardarFinal, tintGuardar);
+        SetBotonEstado(btnGuardar, _puedeGuardar, tintGuardar);
     }
 
     private void SetBotonEstado(Button _btn, boolean _enabled, ColorStateList _tintEnabled) {
@@ -150,10 +166,8 @@ public class RecorridoActivity extends AppCompatActivity implements OnMapReadyCa
     }
 
     private void VerificarPermisosUbicacion() {
-        boolean _fine = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED;
-        boolean _coarse = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED;
+        boolean _fine = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+        boolean _coarse = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
 
         if (_fine && _coarse) {
             HabilitarUbicacionMapa();
@@ -170,10 +184,8 @@ public class RecorridoActivity extends AppCompatActivity implements OnMapReadyCa
         if (map == null) {
             return;
         }
-        boolean _fine = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED;
-        boolean _coarse = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED;
+        boolean _fine = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+        boolean _coarse = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
         if (!_fine && !_coarse) {
             return;
         }
@@ -187,15 +199,26 @@ public class RecorridoActivity extends AppCompatActivity implements OnMapReadyCa
     }
 
     private void IniciarRecorrido() {
-        if (recorridoActivo) {
+        if (recorridoActivo || recorridoPendienteGuardar) {
             return;
         }
+
         distanciaMetros = 0.0;
         ultimaLocation = null;
         ActualizarTextoDistancia();
+
+        long _now = System.currentTimeMillis();
+        inicioRecorridoMs = _now;
+        ultimoMovimientoMs = _now;
+
         IniciarActualizacionesUbicacion();
+
         recorridoActivo = true;
+        recorridoPendienteGuardar = false;
+
+        IniciarWatchdogMovimiento();
         AplicarEstadoBotones();
+
         Toast.makeText(this, "Recorrido iniciado", Toast.LENGTH_SHORT).show();
     }
 
@@ -203,10 +226,37 @@ public class RecorridoActivity extends AppCompatActivity implements OnMapReadyCa
         if (!recorridoActivo) {
             return;
         }
+
         DetenerActualizacionesUbicacion();
+        DetenerWatchdogMovimiento();
+
         recorridoActivo = false;
+
+        if (distanciaMetros <= 0.0) {
+            CancelarRecorridoSinMovimiento();
+            return;
+        }
+
+        recorridoPendienteGuardar = true;
         AplicarEstadoBotones();
+
         Toast.makeText(this, "Recorrido detenido", Toast.LENGTH_SHORT).show();
+    }
+
+    private void CancelarRecorridoSinMovimiento() {
+        DetenerActualizacionesUbicacion();
+        DetenerWatchdogMovimiento();
+
+        recorridoActivo = false;
+        recorridoPendienteGuardar = false;
+
+        distanciaMetros = 0.0;
+        ultimaLocation = null;
+
+        ActualizarTextoDistancia();
+        AplicarEstadoBotones();
+
+        Toast.makeText(this, "No hay distancia recorrida", Toast.LENGTH_SHORT).show(); SetBotonEstado(btnIniciar, true, tintIniciar);
     }
 
     private void GuardarRecorrido() {
@@ -214,10 +264,14 @@ public class RecorridoActivity extends AppCompatActivity implements OnMapReadyCa
             Toast.makeText(this, "Detén el recorrido antes de guardar", Toast.LENGTH_SHORT).show();
             return;
         }
+
+        if (!recorridoPendienteGuardar) {
+            return;
+        }
+
         double _distKm = distanciaMetros / 1000.0;
         if (_distKm <= 0.0) {
-            Toast.makeText(this, "No hay distancia recorrida", Toast.LENGTH_SHORT).show();
-            AplicarEstadoBotones();
+            CancelarRecorridoSinMovimiento();
             return;
         }
 
@@ -228,10 +282,7 @@ public class RecorridoActivity extends AppCompatActivity implements OnMapReadyCa
         Retrofit _retrofit = RetrofitClient.GetInstance();
         RecorridoAPI _api = _retrofit.create(RecorridoAPI.class);
 
-        ApiFinalizarRecorridoRequest _req = new ApiFinalizarRecorridoRequest(
-                _distKm,
-                _pasosEstimados
-        );
+        ApiFinalizarRecorridoRequest _req = new ApiFinalizarRecorridoRequest(_distKm, _pasosEstimados);
 
         _api.FinalizarRecorrido(idUsuarioActual, _req).enqueue(new Callback<Usuario>() {
             @Override
@@ -241,9 +292,13 @@ public class RecorridoActivity extends AppCompatActivity implements OnMapReadyCa
                     AplicarEstadoBotones();
                     return;
                 }
+
                 Toast.makeText(RecorridoActivity.this, "Recorrido guardado", Toast.LENGTH_SHORT).show();
+
                 distanciaMetros = 0.0;
                 ultimaLocation = null;
+                recorridoPendienteGuardar = false;
+
                 ActualizarTextoDistancia();
                 AplicarEstadoBotones();
             }
@@ -254,6 +309,39 @@ public class RecorridoActivity extends AppCompatActivity implements OnMapReadyCa
                 AplicarEstadoBotones();
             }
         });
+    }
+
+    private void IniciarWatchdogMovimiento() {
+        DetenerWatchdogMovimiento();
+
+        movimientoRunnable = new Runnable() {
+            @Override
+            public void run() {
+                if (!recorridoActivo) {
+                    return;
+                }
+
+                long _now = System.currentTimeMillis();
+                boolean _yaPasoGrace = (_now - inicioRecorridoMs) >= MOVIMIENTO_GRACE_MS;
+                boolean _sinMovimiento = (_now - ultimoMovimientoMs) >= MOVIMIENTO_TIMEOUT_MS;
+
+                if (_yaPasoGrace && _sinMovimiento && distanciaMetros <= 0.0) {
+                    CancelarRecorridoSinMovimiento();
+                    return;
+                }
+
+                handler.postDelayed(this, MOVIMIENTO_CHECK_MS);
+            }
+        };
+
+        handler.postDelayed(movimientoRunnable, MOVIMIENTO_CHECK_MS);
+    }
+
+    private void DetenerWatchdogMovimiento() {
+        if (movimientoRunnable != null) {
+            handler.removeCallbacks(movimientoRunnable);
+            movimientoRunnable = null;
+        }
     }
 
     private void IniciarActualizacionesUbicacion() {
@@ -273,10 +361,8 @@ public class RecorridoActivity extends AppCompatActivity implements OnMapReadyCa
             }
         };
 
-        boolean _fine = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED;
-        boolean _coarse = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED;
+        boolean _fine = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+        boolean _coarse = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
         if (!_fine && !_coarse) {
             return;
         }
@@ -291,6 +377,8 @@ public class RecorridoActivity extends AppCompatActivity implements OnMapReadyCa
     }
 
     private void ProcesarNuevaUbicacion(Location _nueva) {
+        SessionManager.Touch();
+
         if (ultimaLocation != null) {
             float[] _result = new float[1];
             Location.distanceBetween(
@@ -300,19 +388,22 @@ public class RecorridoActivity extends AppCompatActivity implements OnMapReadyCa
                     _nueva.getLongitude(),
                     _result
             );
+
             float _delta = _result[0];
-            if (_delta > 0) {
+            if (_delta >= MIN_DELTA_METERS) {
                 distanciaMetros += _delta;
+                ultimoMovimientoMs = System.currentTimeMillis();
                 ActualizarTextoDistancia();
                 AplicarEstadoBotones();
             }
         }
+
         ultimaLocation = _nueva;
+
         if (map != null) {
             LatLng _pos = new LatLng(_nueva.getLatitude(), _nueva.getLongitude());
             map.animateCamera(CameraUpdateFactory.newLatLng(_pos));
         }
-        com.api.walkgo.SessionManager.Touch();
     }
 
     private void ActualizarTextoDistancia() {
@@ -344,5 +435,6 @@ public class RecorridoActivity extends AppCompatActivity implements OnMapReadyCa
     protected void onDestroy() {
         super.onDestroy();
         DetenerActualizacionesUbicacion();
+        DetenerWatchdogMovimiento();
     }
 }

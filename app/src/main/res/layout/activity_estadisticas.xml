@@ -63,19 +63,36 @@
                     android:orientation="vertical"
                     android:padding="16dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Resumen global"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/walkgo_on_surface"
-                        android:layout_marginBottom="8dp" />
+                        android:orientation="horizontal"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Resumen global"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/walkgo_on_surface" />
+
+                        <TextView
+                            android:id="@+id/txtPosicionRankingStats"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Posición: -"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/walkgo_primary" />
+                    </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:layout_marginTop="10dp">
 
                         <LinearLayout
                             android:layout_width="0dp"
@@ -96,7 +113,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="0.00"
-                                android:textSize="20sp"
+                                android:textSize="24sp"
                                 android:textStyle="bold"
                                 android:textColor="@color/walkgo_primary"
                                 android:layout_marginTop="4dp" />
@@ -121,12 +138,22 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="0"
-                                android:textSize="20sp"
+                                android:textSize="24sp"
                                 android:textStyle="bold"
                                 android:textColor="@color/walkgo_primary"
                                 android:layout_marginTop="4dp" />
                         </LinearLayout>
                     </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/txtTotalRecorridosStats"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Recorridos: 0"
+                        android:textSize="14sp"
+                        android:textColor="@color/walkgo_on_surface"
+                        android:layout_marginTop="10dp" />
+
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -148,7 +175,7 @@
                         android:id="@+id/txtTituloSemana"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Recorridos de esta semana"
+                        android:text="Recorridos recientes"
                         android:textSize="16sp"
                         android:textStyle="bold"
                         android:textColor="@color/walkgo_on_surface" />
@@ -156,8 +183,8 @@
                     <com.github.mikephil.charting.charts.BarChart
                         android:id="@+id/chartRecorridosSemana"
                         android:layout_width="match_parent"
-                        android:layout_height="220dp"
-                        android:layout_marginTop="8dp" />
+                        android:layout_height="260dp"
+                        android:layout_marginTop="10dp" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 

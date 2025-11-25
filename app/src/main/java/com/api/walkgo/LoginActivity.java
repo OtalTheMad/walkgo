@@ -40,8 +40,35 @@ public class LoginActivity extends AppCompatActivity {
 
         RetrofitClient.Init(getApplicationContext());
 
+        if (HaySesionValida()) {
+            IrAHOME();
+            return;
+        }
+
         btnLogin.setOnClickListener(v -> IniciarSesion());
         btnIrRegistro.setOnClickListener(v -> IrARegistro());
+    }
+
+    private boolean HaySesionValida() {
+        SharedPreferences _prefs = getSharedPreferences("WALKGO_PREFS", Context.MODE_PRIVATE);
+        String _token = _prefs.getString("jwt_token", null);
+        int _userId = _prefs.getInt("id_usuario", -1);
+
+        if (_token == null || _token.trim().isEmpty() || _userId <= 0) {
+            return false;
+        }
+
+        if (JwtUtils.IsTokenExpired(_token)) {
+            LimpiarSesion();
+            return false;
+        }
+
+        return true;
+    }
+
+    private void LimpiarSesion() {
+        SharedPreferences _prefs = getSharedPreferences("WALKGO_PREFS", Context.MODE_PRIVATE);
+        _prefs.edit().clear().apply();
     }
 
     private void IniciarSesion() {
